@@ -14,7 +14,7 @@ import {
   clearUserData,
   getStoredUser,
   UserInfo,
-} from "../services/loginServices/LoginServices";
+} from "../services/LoginServices";
 
 WebBrowser.maybeCompleteAuthSession();
 

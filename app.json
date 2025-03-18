@@ -9,7 +9,20 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "plugins": [
+        [
+          "react-native-dotenv",
+          {
+            "envName": "APP_ENV",
+            "moduleName": "@env",
+            "path": ".env",
+            "safe": false,
+            "allowUndefined": true,
+            "verbose": false
+          }
+        ]
+      ]
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {

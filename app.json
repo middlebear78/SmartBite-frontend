@@ -12,17 +12,7 @@
       "backgroundColor": "#ffffff"
     },
     "plugins": [
-      [
-        "react-native-dotenv",
-        {
-          "envName": "APP_ENV",
-          "moduleName": "@env",
-          "path": ".env",
-          "safe": false,
-          "allowUndefined": true,
-          "verbose": false
-        }
-      ],
+      "expo-router",
       [
         "react-native-vision-camera",
         {

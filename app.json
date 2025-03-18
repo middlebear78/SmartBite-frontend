@@ -9,21 +9,29 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff",
-      "plugins": [
-        [
-          "react-native-dotenv",
-          {
-            "envName": "APP_ENV",
-            "moduleName": "@env",
-            "path": ".env",
-            "safe": false,
-            "allowUndefined": true,
-            "verbose": false
-          }
-        ]
-      ]
+      "backgroundColor": "#ffffff"
     },
+    "plugins": [
+      [
+        "react-native-dotenv",
+        {
+          "envName": "APP_ENV",
+          "moduleName": "@env",
+          "path": ".env",
+          "safe": false,
+          "allowUndefined": true,
+          "verbose": false
+        }
+      ],
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "SmartBite needs access to your Camera to analyze your food.",
+          "enableMicrophonePermission": true,
+          "microphonePermissionText": "SmartBite needs access to your Microphone."
+        }
+      ]
+    ],
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true

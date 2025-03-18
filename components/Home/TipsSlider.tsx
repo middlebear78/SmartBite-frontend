@@ -1,7 +1,7 @@
 // app/components/TipsSlider.tsx
 import React, { useState, useRef } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { colors } from "../theme/colors"; // Adjust the import path if needed
+import { Colors } from "../../constants/Colors"; // Adjust the import path if needed
 import Carousel, { Pagination } from "react-native-reanimated-carousel";
 import TipSliderItem from "./TipSliderItem";
 import Animated, { useSharedValue } from "react-native-reanimated";
@@ -84,11 +84,11 @@ const TipsSlider = () => {
         progress={progress}
         data={data}
         dotStyle={{
-          borderColor: colors.secondary,
+          borderColor: Colors.secondary,
           borderWidth: 1,
           borderRadius: 50,
         }}
-        activeDotStyle={{ backgroundColor: colors.secondary }}
+        activeDotStyle={{ backgroundColor: Colors.secondary }}
         containerStyle={{ gap: 5, marginTop: 10 }}
         onPress={onPressPagination}
       />

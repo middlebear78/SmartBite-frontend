@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import {
   updateHeightUnit,
   updateWeightUnit,
-} from "../store/questionnaireSlice";
+} from "../store/QuestionnaireSlice";
 
 type Props = {
   color: "white" | "blue";
@@ -21,19 +21,19 @@ const RoundButton = ({ color, nextScreen, text, disabled }: Props) => {
   const router = useRouter();
 
   // Define colors based on your new Colors constant
-  let backColor = Colors.light.background;
-  let textColor = Colors.light.tint;
-  let disabledColor = "#AEC4D5"; // Adjust this to match your buttonBlueDisabled color
+  let backColor = Colors.white;
+  let textColor = Colors.primary;
+  let disabledColor = Colors.buttonBlueDisabled;
 
   if (color === "white") {
-    backColor = Colors.light.background;
-    textColor = Colors.light.tint;
+    backColor = Colors.white;
+    textColor = Colors.primary;
   }
   if (color === "blue") {
-    backColor = Colors.light.tint;
-    textColor = Colors.light.background;
+    backColor = Colors.buttonBlueActive;
+    textColor = Colors.white;
     if (disabled) {
-      backColor = disabledColor;
+      backColor = Colors.buttonBlueDisabled;
     }
   }
 

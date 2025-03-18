@@ -1,4 +1,4 @@
-export const colors = {
+export const Colors = {
   // Primary colors
   primary: "#231F20",
   secondary: "#6ACFF6",

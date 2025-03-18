@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { colors } from "../constants/colors";
+import { Colors } from "../constants/Colors";
 import {
   HomeIcon,
   MyBitesIcon,
@@ -55,8 +55,8 @@ export const BottomTabNavigator = () => {
 
       <LinearGradient
         colors={[
-          colors.background.gradient.primary,
-          colors.background.gradient.secondary,
+          Colors.background.gradient.primary,
+          Colors.background.gradient.secondary,
         ]}
         start={{ x: 0, y: 1 }}
         end={{ x: 0, y: 0 }}
@@ -71,7 +71,7 @@ export const BottomTabNavigator = () => {
             style={[
               styles.tabTitle,
               {
-                color: isActive("/") ? colors.white : colors.buttonBlueDisabled,
+                color: isActive("/") ? Colors.white : Colors.buttonBlueDisabled,
               },
             ]}
           >
@@ -89,8 +89,8 @@ export const BottomTabNavigator = () => {
               styles.tabTitle,
               {
                 color: isActive("/mymeals")
-                  ? colors.white
-                  : colors.buttonBlueDisabled,
+                  ? Colors.white
+                  : Colors.buttonBlueDisabled,
               },
             ]}
           >
@@ -112,8 +112,8 @@ export const BottomTabNavigator = () => {
               styles.tabTitle,
               {
                 color: isActive("/analytics")
-                  ? colors.white
-                  : colors.buttonBlueDisabled,
+                  ? Colors.white
+                  : Colors.buttonBlueDisabled,
               },
             ]}
           >
@@ -131,8 +131,8 @@ export const BottomTabNavigator = () => {
               styles.tabTitle,
               {
                 color: isActive("/settings")
-                  ? colors.white
-                  : colors.buttonBlueDisabled,
+                  ? Colors.white
+                  : Colors.buttonBlueDisabled,
               },
             ]}
           >

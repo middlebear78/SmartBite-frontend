@@ -11,16 +11,16 @@ import {
 import commonStyles from "../../styles/commonStyles";
 import RoundButton from "../RoundButton";
 import { QuestionnaireBottomSheet } from "../BottomSheet/QuestionnaireBottomSheet";
-import { updateAnswer } from "../../store/questionnaireSlice";
+import { updateAnswer } from "../../store/QuestionnaireSlice";
 import { useDispatch } from "react-redux";
-import { Section } from "../../types/questionnaire";
-import IconAndTextItem from "./IconAndTextItem";
+import { Section } from "../../types/questionnare";
+import IconAndTextItem from "./iconAndTextItem";
 import GenderAndAge from "./GenderAndAge";
 import BodyProfile from "./BodyProfile";
 import TextButton from "../TextButton";
 import AllSet from "./AllSet";
 import StepIndicator from "./StepIndicator";
-import { LoginScreen } from "../../app/login";
+import LoginScreen from "../../app/Login";
 
 export const QuestionnaireContent = ({
   sectionIndex,

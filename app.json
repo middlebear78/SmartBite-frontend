@@ -22,15 +22,29 @@
         }
       ]
     ],
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "SmartBite needs access to your Camera to analyze your food.",
+        "NSMicrophoneUsageDescription": "SmartBite needs access to your Microphone."
+      },
+      "bundleIdentifier": "com.uri123.smart-bite"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.uri123.smartbite"
     },
     "scheme": "smartbite",
     "web": {

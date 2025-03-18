@@ -6,11 +6,16 @@ import { store } from "../store";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Stack } from "expo-router";
-import { SplashScreen } from "expo-router";
+import { Stack, SplashScreen } from "expo-router";
+import { Colors } from "../constants/Colors"; // ✅ Import Colors for debugging
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
+
+// ✅ Debug Logs
+console.log("🚀 DEBUG (RootLayout.tsx): Colors object →", Colors);
+console.log("🚀 DEBUG (RootLayout.tsx): Colors.white →", Colors?.white);
+console.log("🚀 DEBUG (RootLayout.tsx): Colors.text →", Colors?.text);
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({

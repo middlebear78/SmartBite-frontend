@@ -10,6 +10,10 @@ export interface Section {
   sectionIndex: number;
   selectedOptionId: string;
   answer: Answer[];
+  topIcon?: string;
+  title: string;
+  subtitle?: string;
+  question: any; // Update to the actual type if available
 }
 
 export interface Questionnaire {
@@ -20,15 +24,16 @@ export interface QuestionnaireState {
   questionnaire: Questionnaire;
 }
 
+// Initial state structure for Redux
 export const initialQuestionnaireState: QuestionnaireState = {
   questionnaire: {
     sections: [
-      // Initialize with your sections structure here
-      // For example:
       {
         sectionIndex: 0,
         selectedOptionId: "",
         answer: [],
+        title: "Default Title",
+        question: [],
       },
     ],
   },

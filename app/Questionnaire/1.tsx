@@ -1,17 +1,27 @@
-// app/questionnaire/1.tsx
+import React from "react";
 import { Screen } from "../../components/Screen";
 import { Colors } from "../../constants/Colors";
 import { QuestionnaireContent } from "../../components/Questionnaire/QuestionnaireContent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { Section } from "../../types/questionnare"; 
 
-export default function QuestionnaireScreen1() {
+const QuestionnaireScreen1: React.FC = () => {
   const screenNumber = 1;
 
-  const section = useSelector(
+  const section: Section | undefined = useSelector(
     (state: RootState) =>
       state.Questionnaire.questionnaire.sections[screenNumber - 1]
   );
+
+  if (!section) {
+    return (
+      <Screen
+        title="Loading..."
+        backgroundColor={Colors.background.secondary}
+      />
+    );
+  }
 
   return (
     <Screen title={section.title} backgroundColor={Colors.background.secondary}>
@@ -20,10 +30,12 @@ export default function QuestionnaireScreen1() {
         topIcon={section.topIcon}
         title={section.title}
         subtitle={section.subtitle}
-        question={section.question} // all the options of the question
-        answer={section.answer} // the answer of the question (text)
-        selectedOptionId={section.selectedOptionId} // the id of the selected option (number)
+        question={section.question}
+        answer={section.answer}
+        selectedOptionId={section.selectedOptionId}
       />
     </Screen>
   );
-}
+};
+
+export default QuestionnaireScreen1;

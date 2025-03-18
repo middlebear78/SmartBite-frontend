@@ -1,24 +1,39 @@
-// app/questionnaire/7.tsx
+import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 import { Screen } from "../../components/Screen";
 import { Colors } from "../../constants/Colors";
 import { QuestionnaireContent } from "../../components/Questionnaire/QuestionnaireContent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { Section } from "../../types/questionnare";
 
-export default function QuestionnaireScreen7() {
+const QuestionnaireScreen7: React.FC = () => {
   const screenNumber = 7;
-  const section = useSelector(
+
+  // ✅ Explicitly type the Redux state
+  const section: Section | undefined = useSelector(
     (state: RootState) =>
-      state.Questionnaire.questionnaire.sections[screenNumber - 1]
+      state.Questionnaire?.questionnaire?.sections[screenNumber - 1]
   );
+
+  // ✅ Prevent errors if section is undefined
+  if (!section) {
+    return (
+      <Screen
+        title="Loading..."
+        backgroundColor={Colors.background.secondary}
+      />
+    );
+  }
 
   return (
     <Screen title={section.title} backgroundColor={Colors.background.secondary}>
-      <Image
-        source={require("../../assets/images/holdingGlass.png")}
-        style={styles.image}
-      />
+      <View style={styles.imageContainer}>
+        <Image
+          source={require("../../assets/images/holdingGlass.png")}
+          style={styles.image}
+        />
+      </View>
       <QuestionnaireContent
         sectionIndex={screenNumber}
         topIcon={section.topIcon}
@@ -30,16 +45,19 @@ export default function QuestionnaireScreen7() {
       />
     </Screen>
   );
-}
+};
 
 const styles = StyleSheet.create({
+  imageContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
   image: {
-    ...StyleSheet.absoluteFillObject,
-    width: "100%",
-    height: "100%",
+    width: "80%",
+    height: 200,
     resizeMode: "contain",
-    top: "-25%",
-    left: 0,
-    backgroundColor: "blue",
   },
 });
+
+export default QuestionnaireScreen7;

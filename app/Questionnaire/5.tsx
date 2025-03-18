@@ -1,16 +1,29 @@
-// app/questionnaire/5.tsx
+import React from "react";
 import { Screen } from "../../components/Screen";
 import { Colors } from "../../constants/Colors";
 import { QuestionnaireContent } from "../../components/Questionnaire/QuestionnaireContent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
+import { Section } from "../../types/questionnare";
 
-export default function QuestionnaireScreen5() {
+const QuestionnaireScreen5: React.FC = () => {
   const screenNumber = 5;
-  const section = useSelector(
+
+  // ✅ Explicitly type the Redux state
+  const section: Section | undefined = useSelector(
     (state: RootState) =>
-      state.Questionnaire.questionnaire.sections[screenNumber - 1]
+      state.Questionnaire?.questionnaire?.sections[screenNumber - 1]
   );
+
+  // ✅ Prevent errors if section is undefined
+  if (!section) {
+    return (
+      <Screen
+        title="Loading..."
+        backgroundColor={Colors.background.secondary}
+      />
+    );
+  }
 
   return (
     <Screen title={section.title} backgroundColor={Colors.background.secondary}>
@@ -25,4 +38,6 @@ export default function QuestionnaireScreen5() {
       />
     </Screen>
   );
-}
+};
+
+export default QuestionnaireScreen5;

@@ -1,7 +1,8 @@
 // components/Home/DateItem.tsx
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
+
 import Gradient from "../Gradient";
 
 interface DateItemProps {
@@ -71,7 +72,7 @@ const DateItem = ({
       style={[styles.dateContainer, isLastItem && styles.lastItem]}
     >
       <Gradient
-        nonSelectedColor={colors.background.primary}
+        nonSelectedColor={Colors.background.primary}
         isSelected={isSelected}
         style={styles.gradientContainer}
       >
@@ -114,26 +115,26 @@ const styles = StyleSheet.create({
     width: 45,
     borderRadius: 25,
     borderWidth: 1,
-    borderColor: colors.secondary,
+    borderColor: Colors.secondary,
     height: 78,
   },
   todayText: {
     fontSize: 15,
     lineHeight: 20,
     fontWeight: "600",
-    color: colors.text.secondary,
+    color: Colors.text.secondary,
   },
   dayText: {
     fontSize: 18,
     lineHeight: 18,
     fontWeight: "600",
-    color: colors.secondary,
+    color: Colors.secondary,
   },
   dateText: {
     fontSize: 18,
     lineHeight: 18,
     fontWeight: "600",
-    color: colors.secondary,
+    color: Colors.secondary,
   },
   selectedText: {
     color: "#FFFFFF",

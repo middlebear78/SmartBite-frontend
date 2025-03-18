@@ -11,13 +11,18 @@ import {
 } from "react-native";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import { Screen } from "../components/Screen";
-import { colors } from "../theme/colors";
+import { Colors } from "../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { AnalyzeIcon } from "../components/Camera/CameraIcons";
 import { uploadImageForAnalysis } from "../services/imagesAnalyzeService";
 import * as FileSystem from "expo-file-system";
 
 export default function ImageApprove() {
+  console.log("DEBUG: Colors object →", Colors);
+  console.log("DEBUG: Colors.white →", Colors?.white);
+  console.log("DEBUG: Colors.background →", Colors?.background);
+  console.log("DEBUG: Colors.text →", Colors?.text);
+
   const router = useRouter();
   const params = useLocalSearchParams();
   const imagePath = params.imagePath as string;
@@ -85,7 +90,7 @@ export default function ImageApprove() {
           <TextInput
             style={styles.input}
             placeholder="Better analyze with image description"
-            placeholderTextColor={colors.text.placeholder}
+            placeholderTextColor={Colors.text.placeholder}
             value={imageDescription}
             onChangeText={updateImageDescription}
           />
@@ -97,7 +102,7 @@ export default function ImageApprove() {
               onPress={() => router.push("/scanner")}
               style={[
                 styles.button,
-                { backgroundColor: colors.background.lightGray },
+                { backgroundColor: Colors.background.lightGray },
               ]}
             >
               <Text style={[styles.buttonText, { color: "black" }]}>
@@ -112,8 +117,8 @@ export default function ImageApprove() {
                   start={{ x: 0, y: 1 }}
                   end={{ x: 0, y: 0 }}
                   colors={[
-                    colors.background.gradient.primary,
-                    colors.background.gradient.secondary,
+                    Colors.background.gradient.primary,
+                    Colors.background.gradient.secondary,
                   ]}
                 >
                   <ActivityIndicator size="small" color="white" />
@@ -126,8 +131,8 @@ export default function ImageApprove() {
                   start={{ x: 0, y: 1 }}
                   end={{ x: 0, y: 0 }}
                   colors={[
-                    colors.background.gradient.primary,
-                    colors.background.gradient.secondary,
+                    Colors.background.gradient.primary,
+                    Colors.background.gradient.secondary,
                   ]}
                 >
                   <Text style={styles.buttonText}>Analyze</Text>

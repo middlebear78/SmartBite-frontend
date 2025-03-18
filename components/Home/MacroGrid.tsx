@@ -5,8 +5,8 @@ import {
   ImageBackground,
   Dimensions,
 } from "react-native";
-import { colors } from "../../theme/colors";
-import { fonts } from "../../theme/fonts";
+import { Colors } from "../../constants/Colors";
+import { fonts } from "../../constants/fonts";
 import MacroGridItem from "./MacroGridItem";
 
 const MacroGrid = () => {
@@ -22,19 +22,19 @@ const MacroGrid = () => {
           title="Carbs"
           value="325g"
           icon="carbs"
-          backgroundColor={colors.background.lightBlue}
+          backgroundColor={Colors.background.lightBlue}
         />
         <MacroGridItem
           title="Fats"
           value="125g"
           icon="fats"
-          backgroundColor={colors.background.lightOrange}
+          backgroundColor={Colors.background.lightOrange}
         />
         <MacroGridItem
           title="Proteins"
           value="125g"
           icon="proteins"
-          backgroundColor={colors.background.lightGreen}
+          backgroundColor={Colors.background.lightGreen}
         />
       </View>
     </ImageBackground>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    color: colors.text.secondary,
+    color: Colors.text.secondary,
     fontFamily: fonts.main.bold,
   },
   backgroundPattern: {

@@ -1,6 +1,6 @@
 // components/Questionnaire/AllSet.tsx
 import { TouchableOpacity, Text, StyleSheet, View, Image } from "react-native";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 const AllSet = () => {
@@ -20,8 +20,8 @@ const AllSet = () => {
           start={{ x: 0, y: 0 }} // Start at the top
           end={{ x: 1, y: 0 }} // End at the bottom
           colors={[
-            colors.background.gradient.primary,
-            colors.background.gradient.secondary,
+            Colors.background.gradient.primary,
+            Colors.background.gradient.secondary,
           ]}
           style={[
             {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   takeSnapShotButton: {
-    shadowColor: colors.shadow.primary,
+    shadowColor: Colors.shadow.primary,
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 3,

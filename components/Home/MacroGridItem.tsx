@@ -1,7 +1,7 @@
 // components/Home/MacroGridItem.tsx
 import { View, Text, StyleSheet } from "react-native";
-import { colors } from "../../theme/colors";
-import { fonts } from "../../theme/fonts";
+import { Colors } from "../../constants/Colors";
+import { fonts } from "../../constants/fonts";
 import { CarbsIcon, FatsIcon, ProteinsIcon } from "./MacroIcons";
 
 interface MacroGridItemProps {
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   container: {
     width: 100,
     height: 160,
-    backgroundColor: colors.white,
+    backgroundColor: Colors.white,
     borderRadius: 200,
     justifyContent: "flex-start",
     alignItems: "center",
@@ -57,12 +57,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontSize: 15,
     fontFamily: fonts.main.regular,
-    color: colors.text.primary,
+    color: Colors.text.primary,
   },
   value: {
     fontSize: 15,
     fontFamily: fonts.main.bold,
-    color: colors.text.primary,
+    color: Colors.text.primary,
   },
   iconContainer: {
     position: "absolute",

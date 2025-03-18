@@ -9,8 +9,8 @@ import {
   Dimensions,
 } from "react-native";
 import Gradient from "../Gradient";
-import { colors } from "../../theme/colors";
-import { fonts } from "../../theme/fonts";
+import { Colors } from "../../constants/Colors";
+import { fonts } from "../../constants/fonts";
 
 interface SelectedDateInfoProps {
   isToday: boolean;
@@ -73,7 +73,7 @@ const SelectedDateInfo = ({ isToday, selectedDate }: SelectedDateInfoProps) => {
         ]}
       >
         <Gradient
-          nonSelectedColor={colors.background.primary}
+          nonSelectedColor={Colors.background.primary}
           isSelected={isToday}
           style={styles.gradientContainer}
         >
@@ -99,14 +99,14 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 50,
     height: 55,
-    color: colors.white,
+    color: Colors.white,
     position: "relative",
     top: -5,
   },
   smallText: {
     fontSize: 18,
     lineHeight: 20,
-    color: colors.white,
+    color: Colors.white,
     fontFamily: fonts.main.regular,
     textAlign: "center",
   },
@@ -136,13 +136,13 @@ const styles = StyleSheet.create({
   tipText: {
     fontFamily: fonts.main.extraBold,
     fontSize: 16,
-    color: colors.text.tertiary,
+    color: Colors.text.tertiary,
   },
   dataStatsText: {
     fontFamily: fonts.main.bold,
     fontSize: 16,
     lineHeight: 20,
-    color: colors.text.primary,
+    color: Colors.text.primary,
   },
 });
 

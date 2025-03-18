@@ -1,7 +1,7 @@
 // app/welcome.tsx
 import { Text, StyleSheet, Image, View, Dimensions } from "react-native";
 import { Screen } from "../components/Screen";
-import { colors } from "../theme/colors";
+import { Colors } from "../constants/Colors";
 import commonStyles from "../styles/commonStyles";
 import RoundButton from "../components/RoundButton";
 
@@ -10,7 +10,7 @@ export default function WelcomeScreen() {
     <Screen
       title="Welcome"
       showBack={false}
-      backgroundColor={colors.background.secondary}
+      backgroundColor={Colors.background.secondary}
     >
       <View style={styles.mainContainer}>
         <View style={styles.textContainer}>
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginVertical: 20,
-    color: colors.white,
+    color: Colors.white,
   },
   imageContainer: {
     ...StyleSheet.absoluteFillObject,

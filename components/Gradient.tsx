@@ -1,37 +1,33 @@
-// components/Gradient.tsx
 import React from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import { Colors } from "../constants/Colors";
-
-// Define gradient colors in constants
-const gradientColors = {
-  primary: "#52E1FF", // Adjust to match your original gradient primary color
-  secondary: "#26CDFF", // Adjust to match your original gradient secondary color
-};
+import { Colors } from "../constants/Colors"; // ✅ Ensure correct import
 
 interface GradientProps {
   isSelected: boolean;
   children: React.ReactNode;
-  style: any;
+  style?: any;
   nonSelectedColor?: string;
 }
 
-const Gradient = ({
+const Gradient: React.FC<GradientProps> = ({
   isSelected,
   children,
-  style,
-  nonSelectedColor = Colors.light.background,
-}: GradientProps) => {
+  style = {},
+  nonSelectedColor = Colors.background.lightGray, // ✅ Default color to avoid `undefined`
+}) => {
   return (
     <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 1, y: 0 }}
+      start={{ x: 0, y: 0 }} // ✅ Start at the top
+      end={{ x: 1, y: 0 }} // ✅ End at the bottom
       colors={
         isSelected
-          ? [gradientColors.primary, gradientColors.secondary]
+          ? [
+              Colors.background.gradient.primary,
+              Colors.background.gradient.secondary,
+            ]
           : [nonSelectedColor, nonSelectedColor]
       }
-      style={style}
+      style={[style]} // ✅ Ensure style is applied properly
     >
       {children}
     </LinearGradient>

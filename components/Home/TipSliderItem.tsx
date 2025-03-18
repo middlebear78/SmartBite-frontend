@@ -1,6 +1,6 @@
 // components/Home/TipSliderItem.tsx
 import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
 
 interface Tip {
   id: number;
@@ -73,14 +73,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "DeliusRegular",
     textAlign: "left",
-    color: colors.primary,
+    color: Colors.primary,
   },
   description: {
     fontSize: 13,
     lineHeight: 16,
     fontFamily: "DeliusRegular",
     textAlign: "left",
-    color: colors.primary,
+    color: Colors.primary,
   },
   image: {
     width: 100,

@@ -7,7 +7,8 @@ import {
   View,
   Animated,
 } from "react-native";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
+
 import DateItem from "./DateItem";
 
 interface DateSliderProps {
@@ -18,9 +19,10 @@ interface DateSliderProps {
 const DateSlider = ({ updateIsToday, updateSelectedDate }: DateSliderProps) => {
   const [selectedDate, setSelectedDate] = useState("");
   const [scrollViewWidth, setScrollViewWidth] = useState(0);
-  const [XItemsRef, setXItemsRef] = useState
+  const [XItemsRef, setXItemsRef] = useState<
     Array<{ index: number; pageX: number }>
   >([]);
+
   const [isFirstRender, setIsFirstRender] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
   const itemRefs = useRef<React.RefObject<View>[]>([]);
@@ -143,7 +145,7 @@ const DateSlider = ({ updateIsToday, updateSelectedDate }: DateSliderProps) => {
 
 const styles = StyleSheet.create({
   scrollViewContainer: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: Colors.background.primary,
     paddingVertical: 10,
     borderRadius: 25,
     width: "55%",

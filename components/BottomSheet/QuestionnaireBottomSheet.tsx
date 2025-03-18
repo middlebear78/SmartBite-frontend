@@ -1,7 +1,8 @@
 import { useCallback, useMemo, useRef, useEffect } from "react";
 import { View, StyleSheet, ImageBackground } from "react-native";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
+
 import { useSharedValue } from "react-native-reanimated";
 
 interface Props {
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   bottomSheetBackground: {
-    backgroundColor: colors.background.primary,
+    backgroundColor: Colors.background.primary,
     borderRadius: 24,
   },
   backgroundImage: {

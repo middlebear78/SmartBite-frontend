@@ -1,6 +1,6 @@
 // components/Questionnaire/StepIndicator.tsx
 import { View, Text, StyleSheet, Dimensions } from "react-native";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 import { useFocusEffect } from "@react-navigation/native";
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   line: {
     height: 2,
     width: "80%",
-    backgroundColor: colors.secondary,
+    backgroundColor: Colors.secondary,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",

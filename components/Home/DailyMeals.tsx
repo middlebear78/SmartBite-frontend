@@ -8,7 +8,8 @@ import {
   Dimensions,
   Platform,
 } from "react-native";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
+
 import { ArrowBottomIcon } from "./MacroIcons";
 
 const DailyMeals = () => {
@@ -48,10 +49,10 @@ export default DailyMeals;
 const styles = StyleSheet.create({
   noMealsText: {
     fontSize: 12,
-    color: colors.text.secondary,
+    color: Colors.text.secondary,
   },
   addMealButtonText: {
-    color: colors.text.secondary,
+    color: Colors.text.secondary,
     fontSize: 14,
     fontFamily: "Nunito",
     fontWeight: "700",

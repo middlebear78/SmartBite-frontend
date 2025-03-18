@@ -1,6 +1,6 @@
 // app/questionnaire/4.tsx
 import { Screen } from "../../components/Screen";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
 import { QuestionnaireContent } from "../../components/Questionnaire/QuestionnaireContent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
@@ -13,7 +13,7 @@ export default function QuestionnaireScreen4() {
   );
 
   return (
-    <Screen title={section.title} backgroundColor={colors.background.secondary}>
+    <Screen title={section.title} backgroundColor={Colors.background.secondary}>
       <QuestionnaireContent
         sectionIndex={screenNumber}
         topIcon={section.topIcon}

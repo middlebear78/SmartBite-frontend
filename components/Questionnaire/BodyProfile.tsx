@@ -1,12 +1,12 @@
 // components/Questionnaire/BodyProfile.tsx
 import { View, Text, StyleSheet } from "react-native";
-import { Section } from "../../types/questionnaire";
+import { Section } from "../../types/questionnare";
 import TextButton from "../TextButton";
 import { useDispatch } from "react-redux";
 import {
   updateHeightUnit,
   updateWeightUnit,
-} from "../../store/questionnaireSlice";
+} from "../../store/QuestionnaireSlice";
 import NumberPickerHorizontal from "../NumberPickerHorizontal";
 
 interface BodyProfileProps {

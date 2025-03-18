@@ -1,7 +1,7 @@
-import { Screen } from "../components/Screen";
-import { colors } from "../theme/colors";
-import { QuestionnaireContent } from "../components/Questionnaire/QuestionnaireContent";
-import { Section } from "../types/questionnaire";
+import { Screen } from "../../components/Screen";
+import { Colors } from "../../constants/Colors";
+import { QuestionnaireContent } from "./QuestionnaireContent";
+import { Section } from "../../types/questionnare";
 
 export const QuestionnaireScreen = ({
   sectionIndex,
@@ -17,7 +17,7 @@ export const QuestionnaireScreen = ({
       title="Welcome"
       nextScreen="Login"
       showBack={false}
-      backgroundColor={colors.background.secondary}
+      backgroundColor={Colors.background.secondary}
     >
       <QuestionnaireContent
         sectionIndex={sectionIndex}

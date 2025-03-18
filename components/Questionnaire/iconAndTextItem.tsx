@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 interface Props {
@@ -63,17 +63,17 @@ const IconAndTextItem = ({ iconName, title, selected, onPress }: Props) => {
         colors={
           selected
             ? [
-                colors.background.gradient.primary,
-                colors.background.gradient.secondary,
+                Colors.background.gradient.primary,
+                Colors.background.gradient.secondary,
               ]
-            : [colors.white, colors.white]
+            : [Colors.white, Colors.white]
         }
         style={[styles.linearGradient, styles.gradientContainer]}
       >
         <Text
           style={[
             styles.title,
-            { color: selected ? "white" : colors.text.primary },
+            { color: selected ? "white" : Colors.text.primary },
           ]}
         >
           {title}
@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     maxWidth: 250,
     height: Dimensions.get("window").height * 0.08,
     borderRadius: 20,
-    shadowColor: colors.shadow.primary,
+    shadowColor: Colors.shadow.primary,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 4,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   containerSelected: {
-    backgroundColor: colors.buttonBlueActive,
+    backgroundColor: Colors.buttonBlueActive,
   },
   additionalSelectedStyle: {
     // Add any additional styles for the selected state here

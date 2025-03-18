@@ -1,7 +1,7 @@
 // components/Questionnaire/StepIndicatorItem.tsx
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { colors } from "../../theme/colors";
+import { Colors } from "../../constants/Colors";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
 
@@ -37,18 +37,18 @@ const styles = StyleSheet.create({
     height: 18,
     width: 18,
     borderRadius: 50,
-    backgroundColor: colors.background.lightBlue,
+    backgroundColor: Colors.background.lightBlue,
   },
   activeStepIndicatorItem: {
     height: 28,
     width: 28,
     borderRadius: 50,
-    backgroundColor: colors.secondary,
+    backgroundColor: Colors.secondary,
   },
   haveAnsweredStepIndicatorItem: {
     height: 28,
     width: 28,
     borderRadius: 50,
-    backgroundColor: colors.success,
+    backgroundColor: Colors.success,
   },
 });

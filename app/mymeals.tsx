@@ -10,7 +10,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { dummyMeals } from "../data/dummyMeals";
+import { dummyMeals } from "../DummyData/DummyData";
 import { Screen } from "../components/Screen";
 import { useRouter } from "expo-router";
 

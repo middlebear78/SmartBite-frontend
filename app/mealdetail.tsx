@@ -15,7 +15,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Screen } from "../components/Screen";
 import { useLocalSearchParams } from "expo-router";
-import { dummyMeals } from "../data/dummyMeals";
+import { dummyMeals } from "../DummyData/DummyData";
 
 interface Meal {
   id: string;

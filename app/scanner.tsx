@@ -11,13 +11,13 @@ import {
   InteractionManager,
 } from "react-native";
 import { Camera, useCameraDevice } from "react-native-vision-camera";
-import RNFS from "react-native-fs";
+import * as FileSystem from "expo-file-system"; // ✅ Replaced RNFS
 import { useRouter } from "expo-router";
-import { useFocusEffect } from "@react-navigation/native";
-import { launchImageLibrary } from "react-native-image-picker";
+import { useFocusEffect } from "expo-router"; // ✅ Fixed navigation issue
+import * as ImagePicker from "expo-image-picker"; // ✅ Replaced react-native-image-picker
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { RootState } from "../store";
-import { setShowFlashIcon, setIsFlashOn } from "../store/cameraSlice";
+import { setShowFlashIcon, setIsFlashOn } from "../store/CameraSlice";
 import {
   Focus,
   ImageIcon,
@@ -39,8 +39,8 @@ export default function Scanner() {
   const device = useCameraDevice("back");
   const cameraRef = useRef<Camera>(null);
   const [cameraReady, setCameraReady] = useState(false);
-  const [isVisible, setIsVisible] = useState(false); // Keep original state
-  const [isMounted, setIsMounted] = useState(false); // Keep original state
+  const [isVisible, setIsVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const router = useRouter();
 
   const showFlashIcon = useSelector(
@@ -97,8 +97,13 @@ export default function Scanner() {
         });
 
         const fileName = photo.path.split("/").pop();
-        const destinationPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
-        await RNFS.moveFile(photo.path, destinationPath);
+        const destinationPath = `${FileSystem.documentDirectory}${fileName}`;
+
+        // ✅ Replaced RNFS.moveFile with FileSystem.moveAsync
+        await FileSystem.moveAsync({
+          from: photo.path,
+          to: destinationPath,
+        });
 
         router.push({
           pathname: "/image-approve",
@@ -115,18 +120,15 @@ export default function Scanner() {
   // Select an image from the gallery
   const handleSelectImage = useCallback(async () => {
     try {
-      const result = await launchImageLibrary({
-        mediaType: "photo",
-        selectionLimit: 1,
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        quality: 1,
       });
 
-      if (result.didCancel) return;
-      if (result.errorMessage) {
-        console.error("Image Picker Error: ", result.errorMessage);
-        return;
-      }
+      if (result.canceled) return;
 
-      if (result.assets?.length) {
+      if (result.assets.length) {
         router.push({
           pathname: "/image-approve",
           params: { imagePath: result.assets[0].uri },

@@ -14,8 +14,8 @@ import { Screen } from "../components/Screen";
 import { colors } from "../theme/colors";
 import { LinearGradient } from "expo-linear-gradient";
 import { AnalyzeIcon } from "../components/Camera/CameraIcons";
-import { uploadImageForAnalysis } from "../services/imagesAnalizeServices/imagesAnalyzeAervice";
-import RNFS from "react-native-fs";
+import { uploadImageForAnalysis } from "../services/imagesAnalyzeService";
+import * as FileSystem from "expo-file-system";
 
 export default function ImageApprove() {
   const router = useRouter();
@@ -41,12 +41,15 @@ export default function ImageApprove() {
       // ✅ Generate a unique filename (using timestamp)
       const timestamp = new Date().getTime();
       const fileName = `${timestamp}_${imagePath.split("/").pop()}`;
-      const newPath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+      const newPath = `${FileSystem.documentDirectory}${fileName}`;
 
       // ✅ Check if the file already exists before copying
-      const fileExists = await RNFS.exists(newPath);
-      if (!fileExists) {
-        await RNFS.copyFile(imagePath, newPath);
+      const fileExists = await FileSystem.getInfoAsync(newPath);
+      if (!fileExists.exists) {
+        await FileSystem.copyAsync({
+          from: imagePath,
+          to: newPath,
+        });
         console.log("✅ Image saved to:", newPath);
       } else {
         console.log("⚠️ File already exists, using existing path:", newPath);
@@ -61,7 +64,7 @@ export default function ImageApprove() {
         pathname: "/nutrition-info",
         params: {
           analysisResult: JSON.stringify(analysisResult),
-          imagePath: `file://${newPath}`,
+          imagePath: newPath,
         },
       });
     } catch (error) {
@@ -76,7 +79,7 @@ export default function ImageApprove() {
     <Screen backgroundColor="black">
       <View style={styles.container}>
         <ImageBackground
-          source={{ uri: `file://${imagePath}` }}
+          source={{ uri: imagePath }}
           style={styles.backgroundImage}
         >
           <TextInput

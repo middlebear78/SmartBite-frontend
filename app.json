@@ -20,6 +20,12 @@
           "enableMicrophonePermission": true,
           "microphonePermissionText": "SmartBite needs access to your Microphone."
         }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.250627929439-sdrh8kn6vcasqhhj09adiodfjuu0rs53"
+        }
       ]
     ],
     "assetBundlePatterns": [
@@ -27,11 +33,16 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "bundleIdentifier": "com.uri123.smart-bite",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.250627929439-sdrh8kn6vcasqhhj09adiodfjuu0rs53"
+        }
+      },
       "infoPlist": {
         "NSCameraUsageDescription": "SmartBite needs access to your Camera to analyze your food.",
         "NSMicrophoneUsageDescription": "SmartBite needs access to your Microphone."
-      },
-      "bundleIdentifier": "com.uri123.smart-bite"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -39,8 +50,6 @@
         "backgroundColor": "#ffffff"
       },
       "permissions": [
-        "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO",
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],

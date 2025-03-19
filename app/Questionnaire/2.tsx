@@ -1,21 +1,21 @@
+// app/questionnaire/2.tsx
 import React from "react";
 import { Screen } from "../../components/Screen";
 import { Colors } from "../../constants/Colors";
 import { QuestionnaireContent } from "../../components/Questionnaire/QuestionnaireContent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { Section } from "../../types/questionnare";
 
-const QuestionnaireScreen2: React.FC = () => {
+const QuestionnaireScreen2 = () => {
   const screenNumber = 2;
 
-  // ✅ Explicitly type the Redux state
-  const section: Section | undefined = useSelector(
+  const section = useSelector(
     (state: RootState) =>
-      state.Questionnaire?.questionnaire?.sections[screenNumber - 1]
+      state.Questionnaire.questionnaire.sections[screenNumber - 1]
   );
 
-  // ✅ Prevent errors if section is undefined
+  console.log("Screen 2 section data:", section);
+
   if (!section) {
     return (
       <Screen
@@ -26,7 +26,12 @@ const QuestionnaireScreen2: React.FC = () => {
   }
 
   return (
-    <Screen title={section.title} backgroundColor={Colors.background.secondary}>
+    <Screen
+      title={section.title}
+      backgroundColor={Colors.background.secondary}
+      nextScreen="/questionnaire/3"
+      showBack={true}
+    >
       <QuestionnaireContent
         sectionIndex={screenNumber}
         topIcon={section.topIcon}

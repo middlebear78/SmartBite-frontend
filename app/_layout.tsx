@@ -1,4 +1,6 @@
 import React, { useEffect } from "react";
+import { enableScreens } from "react-native-screens";
+import "react-native-gesture-handler";
 import { Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import { Provider } from "react-redux";
@@ -8,6 +10,7 @@ import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack, SplashScreen } from "expo-router";
 
+enableScreens();
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
 

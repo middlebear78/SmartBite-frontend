@@ -1,6 +1,6 @@
 // components/Questionnaire/BodyProfile.tsx
 import { View, Text, StyleSheet } from "react-native";
-import { Section } from "../../types/questionnare";
+import { Section } from "../../types/questionnaire";
 import TextButton from "../TextButton";
 import { useDispatch } from "react-redux";
 import {

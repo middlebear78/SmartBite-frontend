@@ -13,7 +13,7 @@ import RoundButton from "../RoundButton";
 import { QuestionnaireBottomSheet } from "../BottomSheet/QuestionnaireBottomSheet";
 import { updateAnswer } from "../../store/QuestionnaireSlice";
 import { useDispatch } from "react-redux";
-import { Section } from "../../types/questionnare";
+import { Section } from "../../types/questionnaire";
 import IconAndTextItem from "./iconAndTextItem";
 import GenderAndAge from "./GenderAndAge";
 import BodyProfile from "./BodyProfile";

@@ -1,7 +1,7 @@
 import { Screen } from "../../components/Screen";
 import { Colors } from "../../constants/Colors";
 import { QuestionnaireContent } from "./QuestionnaireContent";
-import { Section } from "../../types/questionnare";
+import { Section } from "../../types/questionnaire";
 
 export const QuestionnaireScreen = ({
   sectionIndex,

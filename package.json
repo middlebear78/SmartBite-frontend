@@ -50,7 +50,9 @@
     "react-native-vision-camera": "^4.6.4",
     "react-redux": "^9.2.0",
     "source-map": "^0.7.4",
-    "expo-image-picker": "~16.0.6"
+    "expo-image-picker": "~16.0.6",
+    "react-native-gesture-handler": "~2.20.2",
+    "react-native-screens": "~4.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

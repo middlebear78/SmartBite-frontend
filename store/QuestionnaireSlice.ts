@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Section, initialQuestionnaireState } from "../types/questionnare";
+import { Section, initialQuestionnaireState } from "../types/questionnaire";
 
 const questionnaireSlice = createSlice({
   name: "Questionnaire",

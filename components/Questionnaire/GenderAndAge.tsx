@@ -3,7 +3,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import TextButton from "../TextButton";
 import NumberPickerHorizontal from "../NumberPickerHorizontal";
-import { Section } from "../../types/questionnare";
+import { Section } from "../../types/questionnaire";
 
 interface GenderAndAgeProps {
   question: Section["question"];

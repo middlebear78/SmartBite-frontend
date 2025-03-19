@@ -34,8 +34,11 @@ export const TextButton = ({
         end={{ x: 1, y: 0 }}
         colors={
           isSelected
-            ? [gradientColors.primary, gradientColors.secondary]
-            : [Colors.light.background, Colors.light.background]
+            ? [
+                Colors.background.gradient.primary,
+                Colors.background.gradient.secondary,
+              ]
+            : [Colors.white, Colors.white]
         }
         style={[{ borderRadius: borderRadius ? borderRadius : 50 }]}
       >
@@ -43,7 +46,7 @@ export const TextButton = ({
           style={[
             styles.textButton,
             {
-              color: isSelected ? Colors.light.background : Colors.light.text,
+              color: isSelected ? Colors.white : Colors.black,
               width: width ? width : 80,
               paddingTop: paddingTop ? paddingTop : 5,
               paddingBottom: paddingBottom ? paddingBottom : 6,

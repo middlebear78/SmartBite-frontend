@@ -1,10 +1,10 @@
 import { StyleSheet } from "react-native";
-import { colors } from "../constants/Colors";
+import { Colors } from "../constants/Colors";
 const commonStyles = StyleSheet.create({
   whiteTitle: {
     fontSize: 30, // Adjust the size as needed
     fontFamily: "Nunito",
-    color: colors.white,
+    color: Colors.white,
     textAlign: "center",
   },
   whiteText: {
@@ -12,11 +12,11 @@ const commonStyles = StyleSheet.create({
     lineHeight: 20,
     marginBottom: 10,
     fontFamily: "Nunito",
-    color: colors.white,
+    color: Colors.white,
     textAlign: "center",
   },
   buttonText: {
-    backgroundColor: colors.primary,
+    backgroundColor: Colors.primary,
     padding: 10,
     borderRadius: 100,
     width: 200,

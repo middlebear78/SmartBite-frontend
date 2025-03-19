@@ -18,11 +18,6 @@ import { uploadImageForAnalysis } from "../services/imagesAnalyzeService";
 import * as FileSystem from "expo-file-system";
 
 export default function ImageApprove() {
-  console.log("DEBUG: Colors object →", Colors);
-  console.log("DEBUG: Colors.white →", Colors?.white);
-  console.log("DEBUG: Colors.background →", Colors?.background);
-  console.log("DEBUG: Colors.text →", Colors?.text);
-
   const router = useRouter();
   const params = useLocalSearchParams();
   const imagePath = params.imagePath as string;

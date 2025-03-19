@@ -4,7 +4,7 @@ import { Colors } from "../../constants/Colors";
 import { QuestionnaireContent } from "../../components/Questionnaire/QuestionnaireContent";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-import { Section } from "../../types/questionnare"; 
+import { Section } from "../../types/questionnare";
 
 const QuestionnaireScreen1: React.FC = () => {
   const screenNumber = 1;

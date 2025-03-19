@@ -1,5 +1,5 @@
 // components/Home/TipSliderItem.tsx
-import { View, Text, StyleSheet, Dimensions, Image } from "react-native";
+import { View, Text, StyleSheet, Image } from "react-native";
 import { Colors } from "../../constants/Colors";
 
 interface Tip {
@@ -14,25 +14,36 @@ interface TipSliderItemProps {
   tip: Tip;
 }
 
+// Static imports
+import tip1Image from "../../assets/images/tip1.png";
+import tip2Image from "../../assets/images/tip2.png";
+import tip3Image from "../../assets/images/tip3.png";
+import tip4Image from "../../assets/images/tip4.png";
+import tip5Image from "../../assets/images/tip5.png";
+
 const TipSliderItem = ({ tip }: TipSliderItemProps) => {
+  // Match the ID with static imports
   let imageSource;
   switch (tip.id) {
     case 1:
-      imageSource = require(`../../assets/images/tip1.png`);
+      imageSource = tip1Image;
       break;
     case 2:
-      imageSource = require(`../../assets/images/tip2.png`);
+      imageSource = tip2Image;
       break;
     case 3:
-      imageSource = require(`../../assets/images/tip3.png`);
+      imageSource = tip3Image;
       break;
     case 4:
-      imageSource = require(`../../assets/images/tip4.png`);
+      imageSource = tip4Image;
       break;
     case 5:
-      imageSource = require(`../../assets/images/tip5.png`);
+      imageSource = tip5Image;
       break;
+    default:
+      imageSource = tip1Image; // Default image in case of missing ID
   }
+
   return (
     <View style={styles.container}>
       <View style={styles.textContainer}>

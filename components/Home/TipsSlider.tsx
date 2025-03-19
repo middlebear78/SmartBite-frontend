@@ -1,10 +1,13 @@
-// app/components/TipsSlider.tsx
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { Colors } from "../../constants/Colors"; // Adjust the import path if needed
-import Carousel, { Pagination } from "react-native-reanimated-carousel";
+import { useRouter } from "expo-router"; // Import Expo Router hook
+import { Colors } from "../../constants/Colors";
+import Carousel, {
+  Pagination,
+  ICarouselInstance,
+} from "react-native-reanimated-carousel";
 import TipSliderItem from "./TipSliderItem";
-import Animated, { useSharedValue } from "react-native-reanimated";
+import { useSharedValue } from "react-native-reanimated";
 
 interface Tip {
   id: number;
@@ -19,16 +22,16 @@ const TipsSlider = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [autoPlay, setAutoPlay] = useState(false);
 
-  const ref = useRef<Carousel<Tip>>(null);
-  const progress = useSharedValue<number>(0);
+  const ref = useRef<ICarouselInstance>(null);
+  const progress = useSharedValue(0);
+
+  const router = useRouter(); // Initialize the Expo Router hook
 
   const onPressPagination = (index: number) => {
-    if (ref.current) {
-      ref.current.scrollTo({
-        index,
-        animated: true,
-      });
-    }
+    ref.current?.scrollTo({
+      index,
+      animated: true,
+    });
   };
 
   const data: Tip[] = [
@@ -63,6 +66,8 @@ const TipsSlider = () => {
     },
   ];
 
+  const renderItem = ({ item }: { item: Tip }) => <TipSliderItem tip={item} />;
+
   return (
     <View style={styles.container}>
       <Carousel
@@ -73,14 +78,12 @@ const TipsSlider = () => {
         width={width}
         height={Dimensions.get("window").height * 0.15}
         data={data}
-        renderItem={({ item }) => <TipSliderItem tip={item} />}
-        onProgressChange={(_, absoluteProgress) => {
-          progress.value = absoluteProgress;
-        }}
-        onSnapToItem={setActiveIndex}
+        renderItem={renderItem}
+        onProgressChange={progress}
+        onSnapToItem={(index) => setActiveIndex(index)}
         defaultIndex={0}
       />
-      <Pagination
+      <Pagination.Basic
         progress={progress}
         data={data}
         dotStyle={{
@@ -102,6 +105,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginTop: 25,
     height: Dimensions.get("window").height * 0.15,
+  },
+  paginationContainer: {
+    paddingVertical: 8,
+  },
+  paginationDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#2196F3",
   },
 });
 

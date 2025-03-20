@@ -13,6 +13,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { dummyMeals } from "../DummyData/DummyData";
 import { Screen } from "../components/Screen";
 import { useRouter } from "expo-router";
+import { Colors } from "../constants/Colors";
+import { Stack } from "expo-router";
 
 interface Meal {
   id: string;
@@ -223,33 +225,44 @@ export default function MyMeals() {
   };
 
   return (
-    <Screen title="My Meals" showBack={true}>
-      <View style={styles.filterContainer}>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.filterScrollContent}
-        >
-          {filterOptions.map((option) => (
-            <FilterTab
-              key={option.value}
-              label={option.label}
-              isActive={activeFilter === option.value}
-              onPress={() => setActiveFilter(option.value)}
-            />
-          ))}
-        </ScrollView>
-      </View>
-
-      <FlatList
-        data={filterMeals(dummyMeals)}
-        renderItem={renderItem}
-        keyExtractor={keyExtractor}
-        style={styles.list}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
+    <>
+      <Stack.Screen
+        options={{
+          headerStyle: {
+            backgroundColor: "white", // Set to white for just this screen
+          },
+          headerTintColor: "#007AFF", // Blue back button
+          headerShadowVisible: false, // No shadow under header
+        }}
       />
-    </Screen>
+      <Screen title="My Meals" backgroundColor={Colors.background.primary}>
+        <View style={styles.filterContainer}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={styles.filterScrollContent}
+          >
+            {filterOptions.map((option) => (
+              <FilterTab
+                key={option.value}
+                label={option.label}
+                isActive={activeFilter === option.value}
+                onPress={() => setActiveFilter(option.value)}
+              />
+            ))}
+          </ScrollView>
+        </View>
+
+        <FlatList
+          data={filterMeals(dummyMeals)}
+          renderItem={renderItem}
+          keyExtractor={keyExtractor}
+          style={styles.list}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+        />
+      </Screen>
+    </>
   );
 }
 

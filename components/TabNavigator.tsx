@@ -17,15 +17,15 @@ import {
 } from "./TabNavigatorIcons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter, usePathname } from "expo-router";
-import { Asset, useAssets } from 'expo-asset'; // For preloading assets
+import { Asset, useAssets } from "expo-asset"; // For preloading assets
 
 export const BottomTabNavigator = () => {
   const router = useRouter();
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
-  
+
   // Preload the asset
-  const [assets] = useAssets([require('../assets/icons/menuScanIcon.png')]);
+  const [assets] = useAssets([require("../assets/icons/menuScanIcon.png")]);
 
   const isActive = (route: string) => {
     if (route === "/" && pathname === "/") return true;
@@ -70,14 +70,14 @@ export const BottomTabNavigator = () => {
       >
         <TouchableOpacity
           style={styles.tabItem}
-          onPress={() => router.push("/")}
+          onPress={() => router.push("home")}
         >
-          <HomeIcon isSelected={isActive("/")} />
+          <HomeIcon isSelected={isActive("home")} />
           <Text
             style={[
               styles.tabTitle,
               {
-                color: isActive("/")
+                color: isActive("home")
                   ? Colors.white
                   : Colors.buttonBlueDisabled,
               },

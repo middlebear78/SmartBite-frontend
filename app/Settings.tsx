@@ -8,128 +8,139 @@ import {
 } from "react-native";
 import { Screen } from "../components/Screen";
 import { Ionicons } from "@expo/vector-icons";
-import { useRouter } from "expo-router";
+import { Stack, useRouter } from "expo-router";
 
 export default function SettingsScreen() {
   const router = useRouter();
 
   return (
-    <Screen title="Settings" showBack={true}>
-      <ScrollView style={styles.container}>
-        {/* Profile Section */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="person-outline" size={24} color="#007AFF" />
-            <Text style={styles.sectionTitle}>My Profile</Text>
+    <>
+      <Stack.Screen
+        options={{
+          headerStyle: {
+            backgroundColor: "white", // Set to white for just this screen
+          },
+          headerTintColor: "#007AFF", // Blue back button
+          headerShadowVisible: false, // No shadow under header
+        }}
+      />
+      <Screen title="Settings" showBack={false}>
+        <ScrollView style={styles.container}>
+          {/* Profile Section */}
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Ionicons name="person-outline" size={24} color="#007AFF" />
+              <Text style={styles.sectionTitle}>My Profile</Text>
+            </View>
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={styles.label}>Age</Text>
+                <Text style={styles.value}>28</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+              <View style={[styles.row, styles.borderTop]}>
+                <Text style={styles.label}>Height</Text>
+                <Text style={styles.value}>175 cm</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+              <View style={[styles.row, styles.borderTop]}>
+                <Text style={styles.label}>Current Weight</Text>
+                <Text style={styles.value}>70 kg</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+            </View>
           </View>
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.label}>Age</Text>
-              <Text style={styles.value}>28</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
-            </View>
-            <View style={[styles.row, styles.borderTop]}>
-              <Text style={styles.label}>Height</Text>
-              <Text style={styles.value}>175 cm</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
-            </View>
-            <View style={[styles.row, styles.borderTop]}>
-              <Text style={styles.label}>Current Weight</Text>
-              <Text style={styles.value}>70 kg</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
-            </View>
-          </View>
-        </View>
 
-        {/* Plan Section */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="star-outline" size={24} color="#007AFF" />
-            <Text style={styles.sectionTitle}>My Plan</Text>
+          {/* Plan Section */}
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Ionicons name="star-outline" size={24} color="#007AFF" />
+              <Text style={styles.sectionTitle}>My Plan</Text>
+            </View>
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={styles.label}>Current Plan</Text>
+                <Text style={[styles.value, styles.premium]}>Premium</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+              <View style={[styles.row, styles.borderTop]}>
+                <Text style={styles.label}>Renewal Date</Text>
+                <Text style={styles.value}>Jan 30, 2025</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+              <View style={[styles.row, styles.borderTop]}>
+                <Text style={styles.label}>Diet Type</Text>
+                <Text style={styles.value}>Balanced</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+              <View style={[styles.row, styles.borderTop]}>
+                <Text style={styles.label}>Daily Calorie Goal</Text>
+                <Text style={styles.value}>2000 kcal</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+            </View>
           </View>
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.label}>Current Plan</Text>
-              <Text style={[styles.value, styles.premium]}>Premium</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
-            </View>
-            <View style={[styles.row, styles.borderTop]}>
-              <Text style={styles.label}>Renewal Date</Text>
-              <Text style={styles.value}>Jan 30, 2025</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
-            </View>
-            <View style={[styles.row, styles.borderTop]}>
-              <Text style={styles.label}>Diet Type</Text>
-              <Text style={styles.value}>Balanced</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
-            </View>
-            <View style={[styles.row, styles.borderTop]}>
-              <Text style={styles.label}>Daily Calorie Goal</Text>
-              <Text style={styles.value}>2000 kcal</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
-            </View>
-          </View>
-        </View>
 
-        {/* Diet Goals Section */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="trophy-outline" size={24} color="#007AFF" />
-            <Text style={styles.sectionTitle}>Diet Goals</Text>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.label}>Target Weight</Text>
-              <Text style={styles.value}>65 kg</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+          {/* Diet Goals Section */}
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Ionicons name="trophy-outline" size={24} color="#007AFF" />
+              <Text style={styles.sectionTitle}>Diet Goals</Text>
             </View>
-            <View style={[styles.row, styles.borderTop]}>
-              <Text style={styles.label}>Weekly Goal</Text>
-              <Text style={styles.value}>-0.5 kg</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={styles.label}>Target Weight</Text>
+                <Text style={styles.value}>65 kg</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+              <View style={[styles.row, styles.borderTop]}>
+                <Text style={styles.label}>Weekly Goal</Text>
+                <Text style={styles.value}>-0.5 kg</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* Preferences Section */}
-        <View style={styles.section}>
-          <View style={styles.sectionHeader}>
-            <Ionicons name="settings-outline" size={24} color="#007AFF" />
-            <Text style={styles.sectionTitle}>Preferences</Text>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.label}>Units</Text>
-              <Text style={styles.value}>Metric</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+          {/* Preferences Section */}
+          <View style={styles.section}>
+            <View style={styles.sectionHeader}>
+              <Ionicons name="settings-outline" size={24} color="#007AFF" />
+              <Text style={styles.sectionTitle}>Preferences</Text>
             </View>
-            <View style={[styles.row, styles.borderTop]}>
-              <Text style={styles.label}>Language</Text>
-              <Text style={styles.value}>English</Text>
-              <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={styles.label}>Units</Text>
+                <Text style={styles.value}>Metric</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
+              <View style={[styles.row, styles.borderTop]}>
+                <Text style={styles.label}>Language</Text>
+                <Text style={styles.value}>English</Text>
+                <Ionicons name="chevron-forward" size={20} color="#C7C7CC" />
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* About Section */}
-        <View style={[styles.section, styles.lastSection]}>
-          <View style={styles.sectionHeader}>
-            <Ionicons
-              name="information-circle-outline"
-              size={24}
-              color="#007AFF"
-            />
-            <Text style={styles.sectionTitle}>About</Text>
-          </View>
-          <View style={styles.card}>
-            <View style={styles.row}>
-              <Text style={styles.label}>Version</Text>
-              <Text style={styles.value}>1.0.0</Text>
+          {/* About Section */}
+          <View style={[styles.section, styles.lastSection]}>
+            <View style={styles.sectionHeader}>
+              <Ionicons
+                name="information-circle-outline"
+                size={24}
+                color="#007AFF"
+              />
+              <Text style={styles.sectionTitle}>About</Text>
+            </View>
+            <View style={styles.card}>
+              <View style={styles.row}>
+                <Text style={styles.label}>Version</Text>
+                <Text style={styles.value}>1.0.0</Text>
+              </View>
             </View>
           </View>
-        </View>
-      </ScrollView>
-    </Screen>
+        </ScrollView>
+      </Screen>
+    </>
   );
 }
 

@@ -22,6 +22,7 @@ const QuestionnaireScreen3: React.FC = () => {
       <Screen
         title="Loading..."
         backgroundColor={Colors.background.secondary}
+        showBack={true}
       />
     );
   }

@@ -15,7 +15,7 @@ export const QuestionnaireScreen = ({
   return (
     <Screen
       title="Welcome"
-      nextScreen="Login"
+      
       showBack={false}
       backgroundColor={Colors.background.secondary}
     >

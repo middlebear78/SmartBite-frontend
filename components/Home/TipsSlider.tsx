@@ -20,7 +20,7 @@ interface Tip {
 const TipsSlider = () => {
   const { width } = Dimensions.get("window");
   const [activeIndex, setActiveIndex] = useState(0);
-  const [autoPlay, setAutoPlay] = useState(false);
+  const [autoPlay, setAutoPlay] = useState(true);
 
   const ref = useRef<ICarouselInstance>(null);
   const progress = useSharedValue(0);

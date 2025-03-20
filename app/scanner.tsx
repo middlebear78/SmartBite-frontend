@@ -10,10 +10,11 @@ import {
   UIManager,
   InteractionManager,
   Alert,
+  TouchableOpacity,
 } from "react-native";
 import { Camera, useCameraDevice } from "react-native-vision-camera";
 import * as FileSystem from "expo-file-system";
-import { useRouter } from "expo-router";
+import { useRouter, Stack } from "expo-router";
 import { useFocusEffect } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
@@ -24,8 +25,11 @@ import {
   ImageIcon,
   CaptureIcon,
   InfoIcon,
+  FlashIconOn,
+  FlashIconOff,
 } from "../components/Camera/CameraIcons";
 import { Screen } from "../components/Screen";
+import { Colors } from "../constants/Colors";
 
 // Enable LayoutAnimation for Android
 if (
@@ -52,6 +56,11 @@ export default function Scanner() {
     shallowEqual
   );
   const dispatch = useDispatch();
+
+  // Toggle flash function
+  const toggleFlash = useCallback(() => {
+    dispatch(setIsFlashOn(!isFlashOn));
+  }, [dispatch, isFlashOn]);
 
   // Request camera permissions on mount
   useEffect(() => {
@@ -140,7 +149,7 @@ export default function Scanner() {
 
       // Navigate to the next screen
       router.push({
-        pathname: "/image-approve",
+        pathname: "image-approve",
         params: { imagePath: destinationPath },
       });
     } catch (error) {
@@ -165,7 +174,7 @@ export default function Scanner() {
 
       if (result.assets.length) {
         router.push({
-          pathname: "/image-approve",
+          pathname: "image-approve",
           params: { imagePath: result.assets[0].uri },
         });
       }
@@ -183,52 +192,71 @@ export default function Scanner() {
   }, []);
 
   return (
-    <Screen title="Scan QR Code" backgroundColor="black">
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" backgroundColor="black" />
+    <>
+      <Stack.Screen
+        options={{
+          headerBackTitle: "Back",
+          title: "",
+          headerTintColor: Colors.text.light,
+          headerStyle: { backgroundColor: Colors.background.secondary },
+          headerRight: () => (
+            <TouchableOpacity
+              style={{ opacity: showFlashIcon ? 1 : 0, marginRight: 15 }}
+              onPress={showFlashIcon ? toggleFlash : undefined}
+            >
+              {isFlashOn ? <FlashIconOn /> : <FlashIconOff />}
+            </TouchableOpacity>
+          ),
+        }}
+      />
 
-        {device ? (
-          <Camera
-            ref={cameraRef}
-            style={StyleSheet.absoluteFill}
-            device={device}
-            isActive={true}
-            photo={true}
-            torch={isFlashOn ? "on" : "off"}
-            onInitialized={handleCameraReady}
-          />
-        ) : (
-          <View
-            style={[StyleSheet.absoluteFill, { backgroundColor: "black" }]}
-          />
-        )}
+      <Screen title="Scan QR Code" backgroundColor="black">
+        <View style={styles.container}>
+          <StatusBar barStyle="light-content" backgroundColor="black" />
 
-        <View style={styles.focusContainer}>
-          <Focus />
+          {device ? (
+            <Camera
+              ref={cameraRef}
+              style={StyleSheet.absoluteFill}
+              device={device}
+              isActive={true}
+              photo={true}
+              torch={isFlashOn ? "on" : "off"}
+              onInitialized={handleCameraReady}
+            />
+          ) : (
+            <View
+              style={[StyleSheet.absoluteFill, { backgroundColor: "black" }]}
+            />
+          )}
+
+          <View>
+            <Focus />
+          </View>
+
+          <View style={styles.BottomContainer}>
+            <Pressable onPress={handleSelectImage}>
+              <View style={styles.LeftContainer}>
+                <ImageIcon />
+              </View>
+            </Pressable>
+
+            <Pressable onPress={handleCapture}>
+              <View style={styles.CenterContainer}>
+                <CaptureIcon />
+              </View>
+            </Pressable>
+
+            <Pressable onPress={handleInfo}>
+              <View style={styles.RightContainer}>
+                <InfoIcon />
+                <Text style={styles.infoText}>How to scan</Text>
+              </View>
+            </Pressable>
+          </View>
         </View>
-
-        <View style={styles.BottomContainer}>
-          <Pressable onPress={handleSelectImage}>
-            <View style={styles.LeftContainer}>
-              <ImageIcon />
-            </View>
-          </Pressable>
-
-          <Pressable onPress={handleCapture}>
-            <View style={styles.CenterContainer}>
-              <CaptureIcon />
-            </View>
-          </Pressable>
-
-          <Pressable onPress={handleInfo}>
-            <View style={styles.RightContainer}>
-              <InfoIcon />
-              <Text style={styles.infoText}>How to scan</Text>
-            </View>
-          </Pressable>
-        </View>
-      </View>
-    </Screen>
+      </Screen>
+    </>
   );
 }
 
@@ -241,13 +269,13 @@ const styles = StyleSheet.create({
     width: "100%", // Stabilize layout
     height: "100%", // Stabilize layout
   },
-  focusContainer: {
-    position: "absolute",
-    opacity: 0.6,
-    top: "50%", // Center properly
-    left: "50%",
-    transform: [{ translateX: -50 }, { translateY: -50 }], // Adjust for Focus size
-  },
+  // focusContainer: {
+  //   position: "absolute",
+  //   opacity: 0.6,
+  //   top: "50%",
+  //   left: "50%",
+  //   transform: [{ translateX: "-50%" }, { translateY: "-50%" }],
+  // },
   BottomContainer: {
     position: "absolute",
     bottom: 0,

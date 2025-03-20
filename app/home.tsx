@@ -1,3 +1,4 @@
+import { Stack } from "expo-router";
 import {
   View,
   StyleSheet,
@@ -15,8 +16,7 @@ import TipsSlider from "../components/Home/TipsSlider";
 import DailyMeals from "../components/Home/DailyMeals";
 
 export default function HomeScreen() {
-  // Changed to default export
-  const router = useRouter(); // Changed from useNavigation
+  const router = useRouter();
   const today = new Date();
 
   // Format date like "Tue, Jan 7, 2025"
@@ -58,22 +58,27 @@ export default function HomeScreen() {
   ];
 
   return (
-    <View style={styles.mainContainer}>
-      <StatusBar barStyle="dark-content" backgroundColor="white" />
-      <Screen title="Daily Nutrition" showBack={false}>
-        <ScrollView
-          style={styles.scrollView}
-          showsVerticalScrollIndicator={false}
-        >
-          <DateAndCalories />
-          <MacroGrid />
-          <TipsSlider />
-          <DailyMeals />
-        </ScrollView>
-      </Screen>
+    <>
+      {/* Hide header just for this screen */}
+      <Stack.Screen options={{ headerShown: false }} />
 
-      <BottomTabNavigator />
-    </View>
+      <View style={styles.mainContainer}>
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
+        <Screen title="Daily Nutrition" showBack={false}>
+          <ScrollView
+            style={styles.scrollView}
+            showsVerticalScrollIndicator={false}
+          >
+            <DateAndCalories />
+            <MacroGrid />
+            <TipsSlider />
+            <DailyMeals />
+          </ScrollView>
+        </Screen>
+
+        <BottomTabNavigator />
+      </View>
+    </>
   );
 }
 

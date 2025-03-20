@@ -21,16 +21,13 @@ const QuestionnaireScreen1 = () => {
       <Screen
         title="Loading..."
         backgroundColor={Colors.background.secondary}
+        showBack={true}
       />
     );
   }
 
   return (
-    <Screen
-      title={section.title}
-      backgroundColor={Colors.background.secondary}
-      nextScreen="/questionnaire/2"
-    >
+    <Screen title={section.title} backgroundColor={Colors.background.secondary}>
       <QuestionnaireContent
         sectionIndex={screenNumber}
         topIcon={section.topIcon}

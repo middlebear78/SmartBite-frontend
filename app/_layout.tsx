@@ -9,6 +9,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack, SplashScreen } from "expo-router";
+import { Colors } from "../constants/Colors";
 
 enableScreens();
 // Prevent the splash screen from auto-hiding
@@ -39,7 +40,20 @@ export default function RootLayout() {
       <StatusBar style="light" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Provider store={store}>
-          <Stack screenOptions={{ headerShown: false }} />
+          <Stack
+            screenOptions={{
+              headerShown: true, // Show the header by default
+              headerStyle: {
+                backgroundColor: Colors.background.secondary,
+              },
+              headerTintColor: Colors.text.light,
+              headerBackTitle: "Back",
+              // For a minimalist header with just back button:
+              headerTitle: "", // Empty title by default
+              // Add animation settings if needed
+              animation: "slide_from_right",
+            }}
+          />
         </Provider>
       </GestureHandlerRootView>
     </SafeAreaProvider>

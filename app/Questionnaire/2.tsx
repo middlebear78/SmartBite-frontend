@@ -29,7 +29,6 @@ const QuestionnaireScreen2 = () => {
     <Screen
       title={section.title}
       backgroundColor={Colors.background.secondary}
-      nextScreen="/questionnaire/3"
       showBack={true}
     >
       <QuestionnaireContent

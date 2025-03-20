@@ -17,11 +17,15 @@ import {
 } from "./TabNavigatorIcons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter, usePathname } from "expo-router";
+import { Asset, useAssets } from 'expo-asset'; // For preloading assets
 
 export const BottomTabNavigator = () => {
   const router = useRouter();
   const pathname = usePathname();
   const insets = useSafeAreaInsets();
+  
+  // Preload the asset
+  const [assets] = useAssets([require('../assets/icons/menuScanIcon.png')]);
 
   const isActive = (route: string) => {
     if (route === "/" && pathname === "/") return true;
@@ -41,14 +45,16 @@ export const BottomTabNavigator = () => {
     >
       <View style={styles.centerTab}>
         <TouchableOpacity
-          onPress={() => router.push("/scanner")}
+          onPress={() => router.push("scanner")}
           style={styles.centerButton}
         >
           <View style={styles.centerButton}>
-            <Image
-              source={require("../assets/icons/menuScanIcon.png")}
-              style={styles.centerButtonImage}
-            />
+            {assets && assets[0] && (
+              <Image
+                source={{ uri: assets[0].uri }}
+                style={styles.centerButtonImage}
+              />
+            )}
           </View>
         </TouchableOpacity>
       </View>
@@ -71,7 +77,9 @@ export const BottomTabNavigator = () => {
             style={[
               styles.tabTitle,
               {
-                color: isActive("/") ? Colors.white : Colors.buttonBlueDisabled,
+                color: isActive("/")
+                  ? Colors.white
+                  : Colors.buttonBlueDisabled,
               },
             ]}
           >
@@ -81,14 +89,14 @@ export const BottomTabNavigator = () => {
 
         <TouchableOpacity
           style={styles.tabItem}
-          onPress={() => router.push("/mymeals")}
+          onPress={() => router.push("mymeals")}
         >
-          <MyBitesIcon isSelected={isActive("/mymeals")} />
+          <MyBitesIcon isSelected={isActive("mymeals")} />
           <Text
             style={[
               styles.tabTitle,
               {
-                color: isActive("/mymeals")
+                color: isActive("mymeals")
                   ? Colors.white
                   : Colors.buttonBlueDisabled,
               },
@@ -104,14 +112,14 @@ export const BottomTabNavigator = () => {
 
         <TouchableOpacity
           style={styles.tabItem}
-          onPress={() => router.push("/analytics")}
+          onPress={() => router.push("analytics")}
         >
-          <ProgressIcon isSelected={isActive("/analytics")} />
+          <ProgressIcon isSelected={isActive("analytics")} />
           <Text
             style={[
               styles.tabTitle,
               {
-                color: isActive("/analytics")
+                color: isActive("analytics")
                   ? Colors.white
                   : Colors.buttonBlueDisabled,
               },
@@ -123,14 +131,14 @@ export const BottomTabNavigator = () => {
 
         <TouchableOpacity
           style={styles.tabItem}
-          onPress={() => router.push("/settings")}
+          onPress={() => router.push("settings")}
         >
-          <SettingsIcon isSelected={isActive("/settings")} />
+          <SettingsIcon isSelected={isActive("settings")} />
           <Text
             style={[
               styles.tabTitle,
               {
-                color: isActive("/settings")
+                color: isActive("settings")
                   ? Colors.white
                   : Colors.buttonBlueDisabled,
               },

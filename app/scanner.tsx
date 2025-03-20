@@ -9,12 +9,13 @@ import {
   Platform,
   UIManager,
   InteractionManager,
+  Alert,
 } from "react-native";
 import { Camera, useCameraDevice } from "react-native-vision-camera";
-import * as FileSystem from "expo-file-system"; // ✅ Replaced RNFS
+import * as FileSystem from "expo-file-system";
 import { useRouter } from "expo-router";
-import { useFocusEffect } from "expo-router"; // ✅ Fixed navigation issue
-import * as ImagePicker from "expo-image-picker"; // ✅ Replaced react-native-image-picker
+import { useFocusEffect } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { RootState } from "../store";
 import { setShowFlashIcon, setIsFlashOn } from "../store/CameraSlice";
@@ -38,9 +39,8 @@ export default function Scanner() {
   console.log("Component rendered", new Date().toISOString());
   const device = useCameraDevice("back");
   const cameraRef = useRef<Camera>(null);
-  const [cameraReady, setCameraReady] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [isMounted, setIsMounted] = useState(true);
   const router = useRouter();
 
   const showFlashIcon = useSelector(
@@ -52,6 +52,16 @@ export default function Scanner() {
     shallowEqual
   );
   const dispatch = useDispatch();
+
+  // Request camera permissions on mount
+  useEffect(() => {
+    const requestPermissions = async () => {
+      const permission = await Camera.requestCameraPermission();
+      console.log("Camera permission status:", permission);
+    };
+
+    requestPermissions();
+  }, []);
 
   // Handle component mount/unmount
   useEffect(() => {
@@ -72,6 +82,8 @@ export default function Scanner() {
   // Manage screen focus state
   useFocusEffect(
     useCallback(() => {
+      setIsVisible(true);
+
       const transitionTask = InteractionManager.runAfterInteractions(() => {
         if (isMounted) {
           setIsVisible(true);
@@ -89,33 +101,56 @@ export default function Scanner() {
 
   // Capture image from the camera
   const handleCapture = useCallback(async () => {
-    if (cameraRef.current && cameraReady) {
-      try {
-        const photo = await cameraRef.current.takePhoto({
-          qualityPrioritization: "speed",
-          skipMetadata: true,
-        });
+    console.log("Capture button pressed");
 
-        const fileName = photo.path.split("/").pop();
-        const destinationPath = `${FileSystem.documentDirectory}${fileName}`;
-
-        // ✅ Replaced RNFS.moveFile with FileSystem.moveAsync
-        await FileSystem.moveAsync({
-          from: photo.path,
-          to: destinationPath,
-        });
-
-        router.push({
-          pathname: "/image-approve",
-          params: { imagePath: destinationPath },
-        });
-      } catch (error) {
-        console.error("Error capturing or saving photo:", error);
+    try {
+      if (!cameraRef.current) {
+        console.error("Camera ref is null");
+        return;
       }
-    } else {
-      router.back();
+
+      console.log("Taking photo...");
+      const photo = await cameraRef.current.takePhoto({
+        qualityPrioritization: "speed",
+        skipMetadata: true,
+        flash: isFlashOn ? "on" : "off",
+      });
+
+      console.log("Photo taken, path:", photo.path);
+
+      // Fix: Get proper filename without any path issues
+      const fileName = photo.path.split("/").pop();
+
+      // Check if fileName is valid
+      if (!fileName) {
+        throw new Error("Invalid file name");
+      }
+
+      const destinationPath = FileSystem.documentDirectory + fileName;
+
+      console.log(`Moving photo from ${photo.path} to ${destinationPath}`);
+
+      // Option 1: Copy the file instead of moving it
+      await FileSystem.copyAsync({
+        from: photo.path,
+        to: destinationPath,
+      });
+
+      console.log("Photo successfully copied to:", destinationPath);
+
+      // Navigate to the next screen
+      router.push({
+        pathname: "/image-approve",
+        params: { imagePath: destinationPath },
+      });
+    } catch (error) {
+      console.error("Camera capture error:", error);
+      Alert.alert(
+        "Camera Error",
+        "There was a problem taking the photo. Please try again."
+      );
     }
-  }, [cameraReady, router]);
+  }, [router, isFlashOn]);
 
   // Select an image from the gallery
   const handleSelectImage = useCallback(async () => {
@@ -144,13 +179,8 @@ export default function Scanner() {
   }, []);
 
   const handleCameraReady = useCallback(() => {
-    setCameraReady(true);
+    console.log("Camera is ready!");
   }, []);
-
-  // Fix the jump: Delay render until isVisible and isMounted are true
-  if (!isVisible || !isMounted || !device) {
-    return null; // Avoid placeholder to prevent layout shift
-  }
 
   return (
     <Screen title="Scan QR Code" backgroundColor="black">
@@ -162,9 +192,9 @@ export default function Scanner() {
             ref={cameraRef}
             style={StyleSheet.absoluteFill}
             device={device}
-            isActive={isVisible}
-            photo
-            torch={isFlashOn ? "on" : "off"} // Add flash support
+            isActive={true}
+            photo={true}
+            torch={isFlashOn ? "on" : "off"}
             onInitialized={handleCameraReady}
           />
         ) : (

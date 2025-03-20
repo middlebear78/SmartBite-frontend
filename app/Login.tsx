@@ -69,13 +69,13 @@ export default function LoginScreen() {
         );
         if (userData) {
           setUserInfo(userData);
-          router.replace("/");
+          router.replace("home");
         }
       }
     } else {
       setUserInfo(storedUser);
       console.log("Existing Google user info:", storedUser);
-      router.replace("/");
+      router.replace("home");
     }
   };
 
@@ -83,7 +83,7 @@ export default function LoginScreen() {
     const userData = await appleSignIn();
     if (userData) {
       setUserInfo(userData);
-      router.replace("/");
+      router.replace("home");
     }
   };
 

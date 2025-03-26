@@ -11,6 +11,9 @@ export const Colors = {
     lightGreen: "#E5FAF0",
     lightOrange: "#FFF6ED",
     lightGray: "#D9D9D9",
+    darkGray: "#757575",
+    darkBlue: "#00AEEF",
+    green: "#00CC66",
     gradient: {
       primary: "#6ACFF6",
       secondary: "#00AEEF",

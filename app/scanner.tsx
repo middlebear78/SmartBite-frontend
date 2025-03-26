@@ -11,17 +11,18 @@ import {
   InteractionManager,
   Alert,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { Camera, useCameraDevice } from "react-native-vision-camera";
 import * as FileSystem from "expo-file-system";
 import { useRouter, Stack } from "expo-router";
 import { useFocusEffect } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
+import { BlurView } from "expo-blur";
 import { useSelector, useDispatch, shallowEqual } from "react-redux";
 import { RootState } from "../store";
 import { setShowFlashIcon, setIsFlashOn } from "../store/CameraSlice";
 import {
-  Focus,
   ImageIcon,
   CaptureIcon,
   InfoIcon,
@@ -110,8 +111,6 @@ export default function Scanner() {
 
   // Capture image from the camera
   const handleCapture = useCallback(async () => {
-    console.log("Capture button pressed");
-
     try {
       if (!cameraRef.current) {
         console.error("Camera ref is null");
@@ -195,7 +194,7 @@ export default function Scanner() {
     <>
       <Stack.Screen
         options={{
-          headerBackTitle: "Back",
+          headerBackTitle: "",
           title: "",
           headerTintColor: Colors.text.light,
           headerStyle: { backgroundColor: Colors.background.secondary },
@@ -229,12 +228,32 @@ export default function Scanner() {
               style={[StyleSheet.absoluteFill, { backgroundColor: "black" }]}
             />
           )}
-
+          <TouchableOpacity style={{ position: "absolute", top: 100,  }} onPress={() => router.push("/ScanResult")}>
+            <Text style={{ color: "white" }}>עיצוב לעמוד תוצאות סריקה</Text>
+          </TouchableOpacity>
           <View>
-            <Focus />
+            <Image
+              style={{
+                width: 270,
+                height: 270,
+                opacity: 0.5,
+                position: "relative",
+                top: -50,
+              }}
+              source={require("../assets/focus-ring.png")}
+            />
+            {/* <Focus /> */}
           </View>
 
+          <View>
+            <Text>sdds</Text>
+          </View>
           <View style={styles.BottomContainer}>
+            <BlurView
+              intensity={30}
+              tint="extraLight"
+              style={StyleSheet.absoluteFill}
+            />
             <Pressable onPress={handleSelectImage}>
               <View style={styles.LeftContainer}>
                 <ImageIcon />
@@ -250,7 +269,7 @@ export default function Scanner() {
             <Pressable onPress={handleInfo}>
               <View style={styles.RightContainer}>
                 <InfoIcon />
-                <Text style={styles.infoText}>How to scan</Text>
+                {/* <Text style={styles.infoText}>How to scan</Text> */}
               </View>
             </Pressable>
           </View>
@@ -279,31 +298,33 @@ const styles = StyleSheet.create({
   BottomContainer: {
     position: "absolute",
     bottom: 0,
-    width: "85%",
+    width: "100%",
     alignItems: "center",
     justifyContent: "space-between",
     flexDirection: "row",
     gap: 20,
-    marginBottom: 30,
+    paddingHorizontal: 40,
+    paddingVertical: 20,
   },
   LeftContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgb(70, 70, 70)",
-    width: 56,
-    height: 56,
+    backgroundColor: "rgba(70, 70, 70, 0.76)",
+    width: 45,
+    height: 45,
     borderRadius: 8,
   },
   CenterContainer: {
     alignItems: "center",
     justifyContent: "center",
+    opacity: 0.8,
   },
   RightContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgb(70, 70, 70)",
-    width: 56,
-    height: 56,
+    backgroundColor: "rgba(70, 70, 70, 0.76)",
+    width: 45,
+    height: 45,
     borderRadius: 8,
   },
   infoText: {

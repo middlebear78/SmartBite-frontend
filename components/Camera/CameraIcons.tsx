@@ -6,6 +6,7 @@ import Svg, {
   LinearGradient,
   Stop,
   Circle,
+  G,
 } from "react-native-svg";
 
 export const FlashIconOff = () => (
@@ -75,7 +76,7 @@ export const Focus = () => (
 );
 
 export const ImageIcon = () => (
-  <Svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+  <Svg width="25" height="15" viewBox="0 0 22 12" fill="none">
     <Path
       d="M12.866 0.400146L9.366 5.06681L12.026 8.61348L10.5327 9.73348C8.95533 7.63348 6.33267 4.13348 6.33267 4.13348L0.732666 11.6001H21.266L12.866 0.400146Z"
       fill="#EDF9FE"
@@ -84,12 +85,23 @@ export const ImageIcon = () => (
 );
 
 export const CaptureIcon = () => (
-  <Svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-    <Circle cx="31.9501" cy="31.9509" r="24.5552" fill="#00AEEF" />
-    <Path
-      d="M63.9027 31.9514C63.9027 49.5976 49.5976 63.9027 31.9514 63.9027C14.3051 63.9027 0 49.5976 0 31.9514C0 14.3051 14.3051 0 31.9514 0C49.5976 0 63.9027 14.3051 63.9027 31.9514ZM3.9771 31.9514C3.9771 47.4011 16.5016 59.9256 31.9514 59.9256C47.4011 59.9256 59.9256 47.4011 59.9256 31.9514C59.9256 16.5016 47.4011 3.9771 31.9514 3.9771C16.5016 3.9771 3.9771 16.5016 3.9771 31.9514Z"
-      fill="#B3E7FA"
-    />
+  <Svg width="80" height="80" viewBox="0 0 71 71">
+    <G id="Group_1" data-name="Group 1" transform="translate(-925 -505)">
+      <Path
+        id="Path_1"
+        data-name="Path 1"
+        d="M35.5,7.483A28.017,28.017,0,1,1,7.483,35.5,28.017,28.017,0,0,1,35.5,7.483"
+        transform="translate(925 505)"
+        fill="#009edd"
+      />
+      <Path
+        id="Path_2"
+        data-name="Path 2"
+        d="M35.5,71A35.5,35.5,0,1,1,71,35.5,35.54,35.54,0,0,1,35.5,71m0-68A32.5,32.5,0,1,0,68,35.5,32.538,32.538,0,0,0,35.5,3"
+        transform="translate(925 505)"
+        fill="#a5def5"
+      />
+    </G>
   </Svg>
 );
 

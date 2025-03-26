@@ -65,12 +65,24 @@ const DateSlider = ({ updateIsToday, updateSelectedDate }: DateSliderProps) => {
   }, []);
 
   useLayoutEffect(() => {
-    itemRefs.current.forEach((ref, index) => {
-      ref.current?.measure((x, y, width, height, pageX) => {
-        setXItemsRef((prev) => [...prev, { index, pageX }]);
-      });
+    // Clear the previous measurements
+    setXItemsRef([]);
+    
+    // Wait for all measurements to complete
+    Promise.all(
+      itemRefs.current.map((ref, index) =>
+        new Promise<{index: number, pageX: number}>(resolve => {
+          ref.current?.measure((x, y, width, height, pageX) => {
+            resolve({ index, pageX });
+          });
+        })
+      )
+    ).then(measurements => {
+      // Sort by index to ensure correct order
+      const sortedMeasurements = measurements.sort((a, b) => a.index - b.index);
+      setXItemsRef(sortedMeasurements);
     });
-  }, [selectedDate]);
+  }, []);
 
   const onScrollViewLayout = (event: LayoutChangeEvent) => {
     const { width } = event.nativeEvent.layout;
@@ -85,25 +97,26 @@ const DateSlider = ({ updateIsToday, updateSelectedDate }: DateSliderProps) => {
     setSelectedDate(date);
     updateIsToday(index === 0);
     updateSelectedDate(date);
+    
     Animated.spring(containerWidth, {
       toValue: index === 0 ? 55 : 45,
-      damping: 10, // Controls bounce (lower = more bounce)
-      stiffness: 200, // Controls speed
-      mass: 1, // Controls inertia
+      damping: 10,
+      stiffness: 200,
+      mass: 1,
       useNativeDriver: false,
     }).start();
-    const item = itemRefs.current[index].current;
-    const scrollView = scrollViewRef.current;
-    if (item && scrollView) {
-      item.measure((x, y, width, height, pageX) => {
+
+    // Wait for next frame to ensure XItemsRef has values
+    requestAnimationFrame(() => {
+      if (XItemsRef[index]) {
         const itemX = XItemsRef[index].pageX;
-        const scrollX = itemX - scrollViewWidth / 2 + width / 2;
+        const scrollX = itemX - scrollViewWidth / 2 + 45; // Using approximate item width
         scrollViewRef.current?.scrollTo({
           x: scrollX,
           animated: true,
         });
-      });
-    }
+      }
+    });
   };
 
   return (

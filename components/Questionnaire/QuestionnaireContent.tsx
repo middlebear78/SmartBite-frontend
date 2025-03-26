@@ -190,7 +190,7 @@ export const QuestionnaireContent = ({
   return (
     <>
       <View style={styles.topContainer}>
-        <StepIndicator sectionIndex={sectionIndex} />
+        {sectionIndex !== 7 && <StepIndicator sectionIndex={sectionIndex} />}
         <View style={styles.iconContainer}>
           <Image source={topIconImage} style={styles.icon} />
         </View>
@@ -216,7 +216,7 @@ export const QuestionnaireContent = ({
 
           {question.type === "allSet" && (
             <View style={styles.buttonContainer}>
-              <RoundButton color="blue" nextScreen="/" text="Go to Dashboard" />
+              <RoundButton color="blue" nextScreen="/home" text="Go to Dashboard" />
             </View>
           )}
         </View>

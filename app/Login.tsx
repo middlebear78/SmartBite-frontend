@@ -15,10 +15,13 @@ import {
   getStoredUser,
   UserInfo,
 } from "../services/LoginServices";
-
+import { TouchableOpacity } from "react-native";
 WebBrowser.maybeCompleteAuthSession();
+interface LoginScreenProps {
+  nextScreen?: string;
+}
 
-export default function LoginScreen() {
+export default function LoginScreen({ nextScreen = "home" }: LoginScreenProps) {
   const router = useRouter();
   const [userInfo, setUserInfo] = React.useState<UserInfo>(null);
   const [request, response, promptAsync] = Google.useAuthRequest({
@@ -69,13 +72,13 @@ export default function LoginScreen() {
         );
         if (userData) {
           setUserInfo(userData);
-          router.replace("home");
+          router.replace(nextScreen);
         }
       }
     } else {
       setUserInfo(storedUser);
       console.log("Existing Google user info:", storedUser);
-      router.replace("home");
+      router.replace(nextScreen);
     }
   };
 
@@ -83,7 +86,7 @@ export default function LoginScreen() {
     const userData = await appleSignIn();
     if (userData) {
       setUserInfo(userData);
-      router.replace("home");
+      router.replace(nextScreen);
     }
   };
 
@@ -92,6 +95,15 @@ export default function LoginScreen() {
       <Text style={styles.title}>
         Create your account to{"\n"} save your progress
       </Text>
+
+      {/* for testing purposes */}
+      <TouchableOpacity
+        style={{ marginBottom: 20 }}
+        onPress={() => router.push("/home")}
+      >
+        <Text>home without login</Text>
+      </TouchableOpacity>
+      {/* for testing purposes */}
 
       <View style={styles.buttonsContainer}>
         {Platform.OS === "ios" && isAppleAuthAvailable && (

@@ -47,10 +47,7 @@ class LocalMealStorageService {
   /**
    * Save meal locally with image handling
    */
-  static async saveMeal(
-    meal: MealData,
-    imagePath?: string
-  ): Promise<string> {
+  static async saveMeal(meal: MealData, imagePath?: string): Promise<string> {
     try {
       // Generate a unique ID for this meal
       const mealId = Date.now().toString();
@@ -66,14 +63,47 @@ class LocalMealStorageService {
         const savedImagePath = `${this.IMAGE_DIRECTORY}${mealId}.${imageExtension}`;
 
         try {
-          await FileSystem.copyAsync({
-            from: imagePath,
-            to: savedImagePath,
-          });
-          mealWithId.local_image_path = savedImagePath;
-          console.log("✅ Image saved locally:", savedImagePath);
+          // Debug logs
+          console.log("📸 Original image path:", imagePath);
+          console.log("📸 Destination path:", savedImagePath);
+
+          // Check if source image exists
+          const sourceInfo = await FileSystem.getInfoAsync(imagePath);
+          console.log("📸 Source image exists:", sourceInfo.exists);
+
+          if (sourceInfo.exists) {
+            // Ensure directory exists before copying
+            const dirInfo = await FileSystem.getInfoAsync(this.IMAGE_DIRECTORY);
+            if (!dirInfo.exists) {
+              await FileSystem.makeDirectoryAsync(this.IMAGE_DIRECTORY, {
+                intermediates: true,
+              });
+              console.log("📸 Created directory:", this.IMAGE_DIRECTORY);
+            }
+
+            // Try to use moveAsync instead of copyAsync (can be more reliable)
+            await FileSystem.moveAsync({
+              from: imagePath,
+              to: savedImagePath,
+            });
+
+            // Verify the file was copied successfully
+            const destInfo = await FileSystem.getInfoAsync(savedImagePath);
+            console.log("📸 Destination image exists:", destInfo.exists);
+
+            if (destInfo.exists) {
+              mealWithId.local_image_path = savedImagePath;
+              console.log("✅ Image saved successfully:", savedImagePath);
+            } else {
+              console.error(
+                "❌ Image copy failed - destination file doesn't exist"
+              );
+            }
+          } else {
+            console.error("❌ Source image doesn't exist:", imagePath);
+          }
         } catch (imageError) {
-          console.error("❌ Error saving image locally:", imageError);
+          console.error("❌ Error saving image:", imageError);
         }
       }
 
@@ -104,7 +134,7 @@ class LocalMealStorageService {
   ): Promise<string> {
     try {
       const analysis = analysisResult.analysis;
-      
+
       // Create meal data object from analysis
       const mealData: MealData = {
         meal_title: analysis.meal_title,

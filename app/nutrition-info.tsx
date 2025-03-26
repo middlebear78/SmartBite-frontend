@@ -1,16 +1,15 @@
 // scan-results.tsx
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   StatusBar,
-  Image,
   StyleSheet,
   Dimensions,
   ImageBackground,
   TouchableOpacity,
   Alert,
-  FlatList,
+  ActivityIndicator,
 } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { Screen } from "../components/Screen";
@@ -19,8 +18,11 @@ import MacroGridItem from "../components/Home/MacroGridItem";
 import { ScrollView } from "react-native-gesture-handler";
 import { EditIcon, AddIcon } from "../components/SvgIcons";
 import ScanResultMealItem from "../components/ScanResultMealItem";
+import LocalMealStorageService from "../services/mealLocalStorageService"; // Import the MealStorage class
 
 const ScanResult = () => {
+  const [isSaving, setIsSaving] = useState(false);
+
   // Get URL params from navigation
   const params = useLocalSearchParams();
   const analysisResult = params.analysisResult
@@ -53,10 +55,26 @@ const ScanResult = () => {
     console.log("addIngredient on ScanResult.tsx");
   };
 
-  const saveIngredient = () => {
-    // Integrated with nutrition info functionality
-    Alert.alert("✅ Meal Logged", "Your meal has been saved successfully.");
-    console.log("📌 Meal Logged:", analysis);
+  // Use MealStorage to save the meal
+  const saveIngredient = async () => {
+    try {
+      setIsSaving(true);
+
+      // Use MealStorage to save the meal and image
+      const mealId = await LocalMealStorageService.saveMealFromAnalysis(
+        analysisResult,
+        imagePath
+      );
+
+      // Show success message
+      Alert.alert("✅ Meal Logged", "Your meal has been saved to your device.");
+      console.log("📌 Meal Logged with ID:", mealId);
+    } catch (error) {
+      console.error("Error saving meal:", error);
+      Alert.alert("Error", "Failed to save your meal. Please try again.");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const cancelAddIngredient = () => {
@@ -169,13 +187,19 @@ const ScanResult = () => {
                   <TouchableOpacity
                     onPress={saveIngredient}
                     style={styles.saveIngredientContainer}
+                    disabled={isSaving}
                   >
-                    <Text style={styles.saveIngredientText}>Save</Text>
+                    {isSaving ? (
+                      <ActivityIndicator color={Colors.white} size="small" />
+                    ) : (
+                      <Text style={styles.saveIngredientText}>Save</Text>
+                    )}
                   </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={addIngredient}
                     style={styles.addIconContainer}
+                    disabled={isSaving}
                   >
                     <AddIcon />
                   </TouchableOpacity>
@@ -183,6 +207,7 @@ const ScanResult = () => {
                   <TouchableOpacity
                     onPress={handleFixResults}
                     style={styles.cancelAddIngredientContainer}
+                    disabled={isSaving}
                   >
                     <Text style={styles.cancelAddIngredientText}>Fix</Text>
                   </TouchableOpacity>

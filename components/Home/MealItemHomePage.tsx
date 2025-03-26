@@ -7,47 +7,84 @@ import {
 } from "react-native";
 import { Colors } from "../../constants/Colors";
 
+// Updated interface to match the stored meal structure
 interface MealHomePageProps {
-  mealType: string;
-  date: string;
-  calories: number;
-  macros: string;
-  image: string;
-  mealId: string;
+  meal_title?: string;
+  timestamp?: string;
+  total_macronutrients?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+  };
+  local_image_path?: string;
+  id?: string;
 }
 
-const MealHomePage = ({
-  mealType,
-  date,
-  calories,
-  macros,
-  image,
-  mealId,
+const MealItemHomePage = ({
+  meal_title = "Meal",
+  timestamp = "",
+  total_macronutrients = { calories: 0, protein: 0, carbs: 0, fat: 0 },
+  local_image_path,
+  id = "",
 }: MealHomePageProps) => {
   const goToMealPage = () => {
-    console.log("go to meal page", mealId);
+    console.log("go to meal page", id);
   };
+
+  // Format the macros string
+  const formatMacros = () => {
+    return `Carbs-${total_macronutrients.carbs || 0}g, Fat-${
+      total_macronutrients.fat || 0
+    }g, Proteins-${total_macronutrients.protein || 0}g`;
+  };
+
+  // Format the date
+  const formatDate = () => {
+    if (!timestamp) return "";
+    const date = new Date(timestamp);
+    return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+  };
+
+  // Default image
+  const defaultImage = require("../../assets/demoImage.png");
+
+  // Add debug log outside the JSX
+  console.log("Image path being used:", local_image_path);
 
   return (
     <TouchableOpacity onPress={goToMealPage} style={styles.shadowContainer}>
       <View style={styles.container}>
         <ImageBackground
-          source={image || require("../../assets/noMealImage.jpg")}
+          source={local_image_path ? { uri: local_image_path } : defaultImage}
           style={styles.image}
-        ></ImageBackground>
+          onError={(e) =>
+            console.log(
+              "⚠️ Image load error:",
+              e.nativeEvent.error,
+              "Path:",
+              local_image_path
+            )
+          }
+        >
+          {/* Add empty View to prevent Text error */}
+          <View />
+        </ImageBackground>
         <View style={styles.dateContainer}>
           <Text style={styles.mealTypeAndDate}>
-            {mealType} {date}
+            {meal_title} {formatDate()}
           </Text>
-          <Text style={styles.calories}>{calories} cal</Text>
-          <Text style={styles.macros}>{macros}</Text>
+          <Text style={styles.calories}>
+            {total_macronutrients.calories || 0} cal
+          </Text>
+          <Text style={styles.macros}>{formatMacros()}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 };
 
-export default MealHomePage;
+export default MealItemHomePage;
 
 const styles = StyleSheet.create({
   shadowContainer: {

@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useFocusEffect } from "expo-router";
+
 import { Stack } from "expo-router";
 import {
   View,
@@ -7,6 +9,8 @@ import {
   Dimensions,
   ScrollView,
   StatusBar,
+  Text,
+  ActivityIndicator,
 } from "react-native";
 import { Screen } from "../components/Screen";
 import { useRouter } from "expo-router";
@@ -14,50 +18,56 @@ import { BottomTabNavigator } from "../components/TabNavigator";
 import DateAndCalories from "../components/Home/DateAndCalories";
 import MacroGrid from "../components/Home/MacroGrid";
 import TipsSlider from "../components/Home/TipsSlider";
-import DailyMeals from "../components/Home/DailyMeals";
 import MealItemHomePage from "../components/Home/MealItemHomePage";
+import LocalMealStorageService from "../services/mealLocalStorageService";
+
+// Define the meal structure from storage
+interface StoredMeal {
+  id?: string;
+  meal_title?: string;
+  timestamp?: string;
+  total_macronutrients?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+  };
+  local_image_path?: string;
+  foods?: any[];
+}
 
 export default function HomeScreen() {
   const router = useRouter();
-  const today = new Date();
+  const [meals, setMeals] = useState<StoredMeal[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Format date like "Tue, Jan 7, 2025"
+  // Get current date
+  const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
     weekday: "short",
     month: "short",
     day: "numeric",
   });
 
-  const mealSections = [
-    {
-      id: "breakfast",
-      title: "Breakfast",
-      time: "07:00 - 09:00",
-      calories: 0,
-      foods: 0,
-    },
-    {
-      id: "lunch",
-      title: "Lunch",
-      time: "11:30 - 13:00",
-      calories: 0,
-      foods: 0,
-    },
-    {
-      id: "dinner",
-      title: "Dinner",
-      time: "18:00 - 20:00",
-      calories: 0,
-      foods: 0,
-    },
-    {
-      id: "snack",
-      title: "Snack",
-      time: "Any time",
-      calories: 0,
-      foods: 0,
-    },
-  ];
+  // Load meals from local storage
+  useFocusEffect(
+    useCallback(() => {
+      const loadMeals = async () => {
+        try {
+          setLoading(true);
+          const savedMeals = await LocalMealStorageService.getLocalMeals();
+          setMeals(savedMeals);
+          console.log("✅ Loaded meals:", savedMeals.length);
+        } catch (error) {
+          console.error("❌ Error loading meals:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      loadMeals();
+    }, [])
+  );
 
   return (
     <>
@@ -74,48 +84,34 @@ export default function HomeScreen() {
             <DateAndCalories />
             <MacroGrid />
             <TipsSlider />
-            {/* <DailyMeals /> */}
+
             <View style={styles.mealsContainer}>
-              <MealItemHomePage
-                mealType="Breakfast"
-                date="26/03/2025"
-                calories={1200}
-                macros="Carbs-325g, Fat-77g, Proteins-325g"
-                image={require("../assets/demoImage.png")}
-                mealId="1"
-              />
-              <MealItemHomePage
-                mealType="Lunch"
-                date="26/03/2025"
-                calories={2245}
-                macros="Carbs-325g, Fat-77g, Proteins-325g"
-                image={require("../assets/demoImage.png")}
-                mealId="2"
-              />
-              <MealItemHomePage
-                mealType="Dinner"
-                date="26/03/2025"
-                calories={1222}
-                macros="Carbs-325g, Fat-77g, Proteins-325g"
-                image={require("../assets/demoImage.png")}
-                mealId="3"
-              />
-              <MealItemHomePage
-                mealType="Snack"
-                date="26/03/2025"
-                calories={1344}
-                macros="Carbs-325g, Fat-77g, Proteins-325g"
-                image={require("../assets/demoImage.png")}
-                mealId="4"
-              />
-              <MealItemHomePage
-                mealType="Snack"
-                date="26/03/2025"
-                calories={1450}
-                macros="Carbs-325g, Fat-77g, Proteins-325g"
-                image={require("../assets/demoImage.png")}
-                mealId="5"
-              />
+              <Text style={styles.sectionTitle}>Your Saved Meals</Text>
+
+              {loading ? (
+                <View style={styles.loadingContainer}>
+                  <ActivityIndicator size="large" color="#6B4EFF" />
+                  <Text style={styles.loadingText}>Loading your meals...</Text>
+                </View>
+              ) : meals.length > 0 ? (
+                meals.map((meal, index) => (
+                  <MealItemHomePage
+                    key={meal?.id || `meal-${index}`}
+                    meal_title={meal.meal_title}
+                    timestamp={meal.timestamp}
+                    total_macronutrients={meal.total_macronutrients}
+                    local_image_path={meal.local_image_path}
+                    id={meal.id}
+                  />
+                ))
+              ) : (
+                <View style={styles.emptyContainer}>
+                  <Text style={styles.emptyText}>No saved meals found</Text>
+                  <Text style={styles.emptySubtext}>
+                    Your saved meals will appear here
+                  </Text>
+                </View>
+              )}
             </View>
           </ScrollView>
         </Screen>
@@ -142,6 +138,38 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 10,
   },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#1A1A1A",
+    marginBottom: 10,
+  },
+  loadingContainer: {
+    padding: 20,
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 10,
+    fontSize: 16,
+    color: "#666666",
+  },
+  emptyContainer: {
+    padding: 30,
+    alignItems: "center",
+    backgroundColor: "#F8F8F8",
+    borderRadius: 12,
+  },
+  emptyText: {
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#1A1A1A",
+  },
+  emptySubtext: {
+    fontSize: 14,
+    color: "#666666",
+    marginTop: 5,
+  },
+  // Remaining styles...
   macrosGrid: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -177,71 +205,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#6B4EFF",
     fontWeight: "600",
-  },
-
-  mealCard: {
-    backgroundColor: "white",
-    borderRadius: 16,
-    padding: 15,
-    marginBottom: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  mealHeader: {
-    flex: 1,
-  },
-  mealTitle: {
-    fontSize: 17,
-    fontWeight: "600",
-    color: "#1A1A1A",
-    marginBottom: 4,
-  },
-  mealTime: {
-    fontSize: 14,
-    color: "#666666",
-  },
-  mealStats: {
-    marginTop: 8,
-  },
-  mealCalories: {
-    fontSize: 14,
-    color: "#666666",
-  },
-  foodCount: {
-    fontSize: 12,
-    color: "#999999",
-    marginTop: 2,
-  },
-  addFood: {
-    padding: 8,
-  },
-  cameraButton: {
-    position: "absolute",
-    right: 20,
-    bottom: 90,
-    backgroundColor: "#6B4EFF",
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    alignItems: "center",
-    justifyContent: "center",
-    shadowColor: "#6B4EFF",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  lower_nav: {
-    width: "100%",
-    backgroundColor: "white",
-    borderTopWidth: 1,
-    borderTopColor: "#F0F0F0",
-    paddingBottom: Platform.OS === "ios" ? 20 : 10,
   },
 });

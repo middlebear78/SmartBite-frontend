@@ -1,40 +1,69 @@
-// app/nutrition-info.tsx
+// scan-results.tsx
 import React from "react";
 import {
   View,
   Text,
-  StyleSheet,
+  StatusBar,
   Image,
-  FlatList,
+  StyleSheet,
+  Dimensions,
+  ImageBackground,
   TouchableOpacity,
   Alert,
+  FlatList,
 } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
+import { Screen } from "../components/Screen";
+import { Colors } from "../constants/Colors";
+import MacroGridItem from "../components/Home/MacroGridItem";
+import { ScrollView } from "react-native-gesture-handler";
+import { EditIcon, AddIcon } from "../components/SvgIcons";
+import ScanResultMealItem from "../components/ScanResultMealItem";
 
-export default function NutritionInfo() {
+const ScanResult = () => {
+  // Get URL params from navigation
   const params = useLocalSearchParams();
   const analysisResult = params.analysisResult
     ? JSON.parse(params.analysisResult as string)
     : null;
   const imagePath = params.imagePath as string;
 
-  // ✅ Debugging
-  console.log("🛠️ Analysis Result:", analysisResult);
-  console.log("🖼️ Received Image Path:", imagePath);
-
-  // ✅ Extract data safely
+  // Extract nutrition data safely
   const analysis = analysisResult?.analysis;
   const foods = analysis?.foods || [];
   const mealTitle = analysis?.meal_title || "Unknown Meal";
-  const totalMacros = analysis?.total_macronutrients || {};
+  const totalMacros = analysis?.total_macronutrients || {
+    calories: 0,
+    protein: 0,
+    carbs: 0,
+    fat: 0,
+    grams: 0,
+  };
 
-  // ✅ Handle "Log Meal" button
-  const handleLogMeal = () => {
+  // Debug logs
+  console.log("🛠️ Analysis Result:", analysisResult);
+  console.log("🖼️ Received Image Path:", imagePath);
+
+  // Original ScanResult functions
+  const editTitleAndDate = () => {
+    console.log("editTitleAndDate on ScanResult.tsx");
+  };
+
+  const addIngredient = () => {
+    console.log("addIngredient on ScanResult.tsx");
+  };
+
+  const saveIngredient = () => {
+    // Integrated with nutrition info functionality
     Alert.alert("✅ Meal Logged", "Your meal has been saved successfully.");
     console.log("📌 Meal Logged:", analysis);
   };
 
-  // ✅ Handle "Fix Results" button
+  const cancelAddIngredient = () => {
+    console.log("cancelAddIngredient on ScanResult.tsx");
+  };
+
+  // Fix results function from NutritionInfo
   const handleFixResults = () => {
     Alert.alert(
       "⚠️ Fixing Results",
@@ -43,161 +72,253 @@ export default function NutritionInfo() {
     console.log("✏️ Fixing Results for:", analysis);
   };
 
-  return (
-    <View style={styles.container}>
-      {/* ✅ Display Meal Title */}
-      <Text style={styles.title}>{mealTitle}</Text>
-
-      {/* ✅ Show Image from Local Storage */}
-      {imagePath && (
-        <Image
-          source={{ uri: imagePath }}
-          style={styles.image}
-          resizeMode="contain"
-          onError={(e) =>
-            console.log("❌ Image Load Error:", e.nativeEvent.error)
-          }
-        />
-      )}
-
-      {/* ✅ Show Foods List */}
-      <FlatList
-        data={foods}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.foodItem}>
-            <Text style={styles.foodName}>{item.food_name}</Text>
-            <Text style={styles.category}>Category: {item.category}</Text>
-            <Text>Calories: {item.macronutrients.calories} kcal</Text>
-            <Text>Protein: {item.macronutrients.protein} g</Text>
-            <Text>Carbs: {item.macronutrients.carbs} g</Text>
-            <Text>Fat: {item.macronutrients.fat} g</Text>
-            <Text>Weight: {item.macronutrients.grams} g</Text>
-          </View>
-        )}
-        ListEmptyComponent={
-          <Text style={styles.errorText}>No food detected</Text>
-        }
-      />
-
-      {/* ✅ Show Total Macronutrients */}
-      <View style={styles.totalMacros}>
-        <Text style={styles.totalTitle}>Total Macronutrients</Text>
-        <Text>Calories: {totalMacros.calories} kcal</Text>
-        <Text>Protein: {totalMacros.protein} g</Text>
-        <Text>Carbs: {totalMacros.carbs} g</Text>
-        <Text>Fat: {totalMacros.fat} g</Text>
-        <Text>Weight: {totalMacros.grams} g</Text>
-      </View>
-
-      {/* ✅ Action Buttons */}
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.logButton} onPress={handleLogMeal}>
-          <Text style={styles.buttonText}>📌 Log Meal</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.fixButton} onPress={handleFixResults}>
-          <Text style={styles.buttonText}>✏️ Fix Results</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+  // Function to render food items
+  const renderFoodItem = ({ item }) => (
+    <ScanResultMealItem
+      ingredient={item.food_name}
+      amount={`${item.macronutrients.grams}g`}
+    />
   );
-}
+
+  return (
+    <>
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerStyle: { backgroundColor: Colors.white },
+          headerTintColor: Colors.text.primary,
+          headerShadowVisible: false,
+          headerTitle: mealTitle || "Meal Details",
+        }}
+      />
+      <Screen title="ScanResult">
+        <StatusBar barStyle="dark-content" backgroundColor="white" />
+
+        <View style={styles.container}>
+          <View style={styles.imageContainer}>
+            <ImageBackground
+              source={{ uri: imagePath }}
+              style={styles.image}
+              onError={(e) =>
+                console.log("❌ Image Load Error:", e.nativeEvent.error)
+              }
+            />
+          </View>
+          <View style={styles.macroGridContainer}>
+            <MacroGridItem
+              title="Carbs"
+              value={`${totalMacros.carbs || 0}g`}
+              icon="carbs"
+              backgroundColor={Colors.background.lightBlue}
+            />
+            <MacroGridItem
+              title="Fats"
+              value={`${totalMacros.fat || 0}g`}
+              icon="fats"
+              backgroundColor={Colors.background.lightOrange}
+            />
+            <MacroGridItem
+              title="Proteins"
+              value={`${totalMacros.protein || 0}g`}
+              icon="proteins"
+              backgroundColor={Colors.background.lightGreen}
+            />
+          </View>
+          <View style={styles.backgroundPatternContainer}>
+            <ImageBackground
+              source={require("../assets/images/food_pattern.png")}
+              style={styles.container}
+              imageStyle={styles.backgroundPattern}
+            >
+              <View style={styles.dataContainer}>
+                <TouchableOpacity
+                  onPress={editTitleAndDate}
+                  style={styles.editIconContainer}
+                >
+                  <EditIcon />
+                </TouchableOpacity>
+                <Text style={styles.typeAndDate}>Lunch | 25.2.25</Text>
+                <Text style={styles.totalCalories}>
+                  Total - {totalMacros.calories || 0} cal
+                </Text>
+
+                {/* Use ScrollView for fixed items or FlatList for dynamic items */}
+                {foods && foods.length > 0 ? (
+                  <ScrollView style={styles.scrollViewContainer}>
+                    {foods.map((item, index) => (
+                      <ScanResultMealItem
+                        key={index}
+                        ingredient={item.food_name}
+                        amount={`${item.macronutrients.grams}g`}
+                      />
+                    ))}
+                  </ScrollView>
+                ) : (
+                  <ScrollView style={styles.scrollViewContainer}>
+                    <Text style={styles.noFoodText}>
+                      No food items detected
+                    </Text>
+                    <ScanResultMealItem
+                      ingredient="Add ingredients manually"
+                      amount=""
+                    />
+                  </ScrollView>
+                )}
+
+                <View style={styles.addIngredientContainer}>
+                  <TouchableOpacity
+                    onPress={saveIngredient}
+                    style={styles.saveIngredientContainer}
+                  >
+                    <Text style={styles.saveIngredientText}>Save</Text>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={addIngredient}
+                    style={styles.addIconContainer}
+                  >
+                    <AddIcon />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity
+                    onPress={handleFixResults}
+                    style={styles.cancelAddIngredientContainer}
+                  >
+                    <Text style={styles.cancelAddIngredientText}>Fix</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
+      </Screen>
+    </>
+  );
+};
+
+export default ScanResult;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: "#f9f9f9",
+    backgroundColor: Colors.white,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    color: "#333",
-    marginBottom: 15,
+  imageContainer: {
+    height: Dimensions.get("window").height * 0.3,
+    width: "100%",
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+    overflow: "hidden",
   },
   image: {
     width: "100%",
-    height: 250,
+    height: "100%",
+    resizeMode: "cover",
+  },
+  macroGridContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 30,
+    zIndex: 1,
+    position: "relative",
+    top: -70,
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    elevation: 5,
+  },
+  backgroundPatternContainer: {
+    paddingHorizontal: 10,
+    flex: 1,
+    borderRadius: 35,
+    overflow: "hidden",
+    marginTop: -50,
+  },
+  backgroundPattern: {
+    resizeMode: "cover",
+    height: "100%",
+    width: "100%",
+  },
+  dataContainer: {
+    padding: 15,
+  },
+  typeAndDate: {
+    textAlign: "center",
+    fontSize: 12,
+    color: Colors.text.primary,
+  },
+  totalCalories: {
+    textAlign: "center",
+    fontSize: 20,
+    marginTop: 5,
+    color: Colors.text.primary,
+    fontWeight: "bold",
+  },
+  editIconContainer: {
+    position: "absolute",
+    top: 15,
+    right: 15,
+  },
+  scrollViewContainer: {
+    paddingTop: 10,
+    height: "70%",
     marginBottom: 20,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#ccc",
+  },
+  addIconContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  addIngredientContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 60,
+  },
+  saveIngredientContainer: {
+    backgroundColor: Colors.background.darkBlue,
+    padding: 7,
+    width: 80,
+    borderRadius: 100,
+    alignItems: "center",
+  },
+  cancelAddIngredientContainer: {
+    backgroundColor: Colors.background.darkGray,
+    padding: 7,
+    width: 80,
+    borderRadius: 100,
+    alignItems: "center",
+  },
+  saveIngredientText: {
+    color: Colors.white,
+    fontSize: 16,
+  },
+  cancelAddIngredientText: {
+    color: Colors.white,
+    fontSize: 16,
+  },
+  noFoodText: {
+    textAlign: "center",
+    fontSize: 16,
+    color: "#ff6b6b",
+    marginTop: 20,
+    marginBottom: 10,
   },
   foodItem: {
     padding: 12,
     borderRadius: 8,
     backgroundColor: "#fff",
     marginBottom: 10,
-    shadowColor: "#000",
+    shadowColor: Colors.black,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
   },
   foodName: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#333",
-  },
-  category: {
-    fontSize: 14,
-    color: "#666",
-  },
-  totalMacros: {
-    marginTop: 20,
-    padding: 15,
-    borderRadius: 10,
-    backgroundColor: "#fff",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  totalTitle: {
-    fontSize: 18,
-    fontWeight: "bold",
-    marginBottom: 5,
-    color: "#333",
-  },
-  errorText: {
-    textAlign: "center",
-    fontSize: 16,
-    color: "red",
-    marginTop: 10,
-  },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 20,
-  },
-  logButton: {
-    backgroundColor: "#4CAF50",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  fixButton: {
-    backgroundColor: "#FF9800",
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
-  },
-  buttonText: {
     fontSize: 16,
     fontWeight: "bold",
-    color: "#fff",
-    textAlign: "center",
+    color: Colors.text.primary,
   },
 });

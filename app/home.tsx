@@ -14,6 +14,7 @@ import DateAndCalories from "../components/Home/DateAndCalories";
 import MacroGrid from "../components/Home/MacroGrid";
 import TipsSlider from "../components/Home/TipsSlider";
 import DailyMeals from "../components/Home/DailyMeals";
+import MealItemHomePage from "../components/Home/MealItemHomePage";
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -72,7 +73,49 @@ export default function HomeScreen() {
             <DateAndCalories />
             <MacroGrid />
             <TipsSlider />
-            <DailyMeals />
+            {/* <DailyMeals /> */}
+            <View style={styles.mealsContainer}>
+              <MealItemHomePage
+                mealType="Breakfast"
+                date="26/03/2025"
+                calories={1200}
+                macros="Carbs-325g, Fat-77g, Proteins-325g"
+                image={require("../assets/demoImage.png")}
+                mealId="1"
+              />
+              <MealItemHomePage
+                mealType="Lunch"
+                date="26/03/2025"
+                calories={2245}
+                macros="Carbs-325g, Fat-77g, Proteins-325g"
+                image={require("../assets/demoImage.png")}
+                mealId="2"
+              />
+              <MealItemHomePage
+                mealType="Dinner"
+                date="26/03/2025"
+                calories={1222}
+                macros="Carbs-325g, Fat-77g, Proteins-325g"
+                image={require("../assets/demoImage.png")}
+                mealId="3"
+              />
+              <MealItemHomePage
+                mealType="Snack"
+                date="26/03/2025"
+                calories={1344}
+                macros="Carbs-325g, Fat-77g, Proteins-325g"
+                image={require("../assets/demoImage.png")}
+                mealId="4"
+              />
+              <MealItemHomePage
+                mealType="Snack"
+                date="26/03/2025"
+                calories={1450}
+                macros="Carbs-325g, Fat-77g, Proteins-325g"
+                image={require("../assets/demoImage.png")}
+                mealId="5"
+              />
+            </View>
           </ScrollView>
         </Screen>
 
@@ -83,6 +126,12 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
+  mealsContainer: {
+    flexDirection: "column",
+    gap: 20,
+    marginTop: 30,
+    marginBottom: 120,
+  },
   mainContainer: {
     flex: 1,
     height: Dimensions.get("window").height,
@@ -128,9 +177,7 @@ const styles = StyleSheet.create({
     color: "#6B4EFF",
     fontWeight: "600",
   },
-  mealsContainer: {
-    paddingHorizontal: 15,
-  },
+
   mealCard: {
     backgroundColor: "white",
     borderRadius: 16,

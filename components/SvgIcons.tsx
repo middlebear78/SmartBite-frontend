@@ -9,7 +9,7 @@ import Svg, {
   G,
 } from "react-native-svg";
 import { Colors } from "../constants/Colors";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Animated } from "react-native";
 
 export const EditIcon = () => (
   <View style={styles.editIconContainer}>
@@ -54,6 +54,22 @@ export const AddIcon = () => (
     </Svg>
   </View>
 );
+
+export const ExpandIcon = ({ isExpanded }: { isExpanded: boolean }) => (
+  <Animated.View
+    style={{
+      transform: [{ rotate: isExpanded ? "180deg" : "0deg" }],
+    }}
+  >
+    <Svg width="14" height="8" viewBox="0 0 14 8" fill="none">
+      <Path
+        d="M7 8C7.26893 8 7.4983 7.89774 7.70395 7.68535L13.739 1.54966C13.913 1.38446 14 1.16421 14 0.912487C14 0.401179 13.6045 -5.94672e-07 13.0825 -5.71854e-07C12.8294 -5.6079e-07 12.6 0.102261 12.426 0.275319L7 5.80531L1.57401 0.27532C1.39209 0.102261 1.16271 -5.08238e-08 0.909604 -3.97601e-08C0.39548 -1.7287e-08 -3.32155e-07 0.40118 -3.09805e-07 0.912488C-2.98802e-07 1.16421 0.0870054 1.38446 0.261017 1.54966L6.29604 7.68535C6.50169 7.89774 6.73107 7.99213 7 8Z"
+        fill="#231F20"
+      />
+    </Svg>
+  </Animated.View>
+);
+
 const styles = StyleSheet.create({
   editIconContainer: {
     backgroundColor: Colors.background.darkBlue,

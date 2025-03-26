@@ -29,7 +29,7 @@ export const BottomTabNavigator = () => {
 
   const isActive = (route: string) => {
     if (route === "/" && pathname === "/") return true;
-    if (route !== "/" && pathname.startsWith(route)) return true;
+    if (route !== "/" && pathname.includes(route)) return true;
     return false;
   };
 

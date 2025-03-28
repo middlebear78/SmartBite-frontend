@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   StyleSheet,
@@ -5,21 +6,8 @@ import {
   ImageBackground,
   TouchableOpacity,
 } from "react-native";
+import * as FileSystem from "expo-file-system";
 import { Colors } from "../../constants/Colors";
-
-// Updated interface to match the stored meal structure
-interface MealHomePageProps {
-  meal_title?: string;
-  timestamp?: string;
-  total_macronutrients?: {
-    calories?: number;
-    protein?: number;
-    carbs?: number;
-    fat?: number;
-  };
-  local_image_path?: string;
-  id?: string;
-}
 
 const MealItemHomePage = ({
   meal_title = "Meal",
@@ -27,7 +15,7 @@ const MealItemHomePage = ({
   total_macronutrients = { calories: 0, protein: 0, carbs: 0, fat: 0 },
   local_image_path,
   id = "",
-}: MealHomePageProps) => {
+}) => {
   const goToMealPage = () => {
     console.log("go to meal page", id);
   };
@@ -46,25 +34,36 @@ const MealItemHomePage = ({
     return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
   };
 
-  // Default image
-  const defaultImage = require("../../assets/demoImage.png");
+  // Fixed getImageSource function
+  const getImageSource = () => {
+    if (!local_image_path) {
+      return require("../../assets/demoImage.png");
+    }
 
-  // Add debug log outside the JSX
-  console.log("Image path being used:", local_image_path);
+    // Extract filename from path regardless of path format
+    const filename = local_image_path.split("/").pop();
+
+    // If we have a filename, try to construct a current path
+    if (filename) {
+      // Use current app's document directory
+      return { uri: `${FileSystem.documentDirectory}meal_images/${filename}` };
+    }
+
+    // Fallback to default
+    return require("../../assets/demoImage.png");
+  };
+
+  const imageSource = getImageSource();
+  console.log("Using image source:", JSON.stringify(imageSource));
 
   return (
     <TouchableOpacity onPress={goToMealPage} style={styles.shadowContainer}>
       <View style={styles.container}>
         <ImageBackground
-          source={local_image_path ? { uri: local_image_path } : defaultImage}
+          source={imageSource}
           style={styles.image}
           onError={(e) =>
-            console.log(
-              "⚠️ Image load error:",
-              e.nativeEvent.error,
-              "Path:",
-              local_image_path
-            )
+            console.log("⚠️ Image load error:", e.nativeEvent.error)
           }
         >
           {/* Add empty View to prevent Text error */}

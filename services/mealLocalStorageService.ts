@@ -92,8 +92,13 @@ class LocalMealStorageService {
             console.log("📸 Destination image exists:", destInfo.exists);
 
             if (destInfo.exists) {
-              mealWithId.local_image_path = savedImagePath;
-              console.log("✅ Image saved successfully:", savedImagePath);
+              // Store just the filename instead of the full path
+              const filename = `${mealId}.${imageExtension}`;
+              mealWithId.local_image_path = filename;
+              console.log(
+                "✅ Image saved successfully, stored filename:",
+                filename
+              );
             } else {
               console.error(
                 "❌ Image copy failed - destination file doesn't exist"
@@ -295,6 +300,16 @@ class LocalMealStorageService {
         totalImageSizeMB: "0",
         lastSaved: null,
       };
+    }
+  }
+  static async updateAllMeals(meals: MealData[]): Promise<boolean> {
+    try {
+      await AsyncStorage.setItem(this.MEALS_STORAGE_KEY, JSON.stringify(meals));
+      console.log("✅ All meals updated");
+      return true;
+    } catch (error) {
+      console.error("❌ Error updating all meals:", error);
+      return false;
     }
   }
 }

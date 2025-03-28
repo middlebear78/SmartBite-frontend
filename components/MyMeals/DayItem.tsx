@@ -9,6 +9,8 @@ import {
 import { Colors } from "../../constants/Colors";
 import { useState, useRef } from "react";
 import { ExpandIcon } from "../SvgIcons";
+import MyBitesMealitem from "./MyBitesMealitem";
+
 type DayItemProps = {
   date: string;
   totalCalories: number;
@@ -60,35 +62,73 @@ const DayItem = ({ date, totalCalories, awardType }: DayItemProps) => {
   };
 
   return (
-    <TouchableOpacity onPress={handlePress} style={styles.mainContainer}>
-      <Animated.View
-        style={[
-          styles.container,
-          {
-            width: containerWidth,
-            borderRadius: borderRadius,
-          },
-        ]}
-      >
-        <View>
-          <Text style={styles.date}>{date}</Text>
-          <Text style={styles.totalCalories}>{totalCalories}</Text>
-        </View>
-        <View style={styles.awardsAndExpandIconContainer}>
-          <View style={styles.awardsContainer}>
-            <Image source={awardImage} style={styles.awardsImage} />
+    <View style={styles.mainContainer}>
+      <TouchableOpacity onPress={handlePress} style={styles.mainContainer}>
+        <Animated.View
+          style={[
+            styles.container,
+            {
+              width: containerWidth,
+              borderRadius: borderRadius,
+            },
+          ]}
+        >
+          <View>
+            <Text style={styles.date}>{date}</Text>
+            <Text style={styles.totalCalories}>{totalCalories}</Text>
           </View>
-          <View style={styles.expandIconContainer}>
-            <ExpandIcon isExpanded={isExpanded} />
+          <View style={styles.awardsAndExpandIconContainer}>
+            <View style={styles.awardsContainer}>
+              <Image source={awardImage} style={styles.awardsImage} />
+            </View>
+            <View style={styles.expandIconContainer}>
+              <ExpandIcon isExpanded={isExpanded} />
+            </View>
           </View>
-        </View>
-      </Animated.View>
+        </Animated.View>
+      </TouchableOpacity>
       {isExpanded && (
         <View style={styles.expandedContainer}>
-          <Text>Expanded Item data</Text>
+          {/* day data needs to be fetched from the database */}
+          <MyBitesMealitem
+            mealTitle="Chicken and Rice"
+            mealType="Lunch"
+            carbs="10g"
+            fats="10g"
+            proteins="10g"
+            mealCalories="1212"
+            image={require("../../assets/demoImage.png")}
+          />
+          <MyBitesMealitem
+            mealTitle="long title long titlelong titlelong titlelong titlelong title"
+            mealType="Lunch"
+            carbs="10g"
+            fats="10g"
+            proteins="10g"
+            mealCalories="1212"
+            image={require("../../assets/demoImage.png")}
+          />
+          <MyBitesMealitem
+            mealTitle="Chicken and Rice"
+            mealType="Lunch"
+            carbs="10g"
+            fats="10g"
+            proteins="10g"
+            mealCalories="1212"
+            image={require("../../assets/demoImage.png")}
+          />
+          <MyBitesMealitem
+            mealTitle="Chicken and Rice"
+            mealType="Lunch"
+            carbs="10g"
+            fats="10g"
+            proteins="10g"
+            mealCalories="1212"
+            image={require("../../assets/demoImage.png")}
+          />
         </View>
       )}
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -121,6 +161,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     backgroundColor: Colors.background.lightBlue,
     marginBottom: 20,
+    paddingVertical: 10,
   },
   date: {
     fontSize: 13,

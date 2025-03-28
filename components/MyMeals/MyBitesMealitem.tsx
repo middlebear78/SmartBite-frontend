@@ -1,55 +1,103 @@
 import { View, Text, Image, StyleSheet } from "react-native";
 import { Colors } from "../../constants/Colors";
 import MacroItem from "./MacroItem";
+import * as FileSystem from "expo-file-system";
 
+// Update interface to match our meal data structure
 interface MyBitesMealitemProps {
-  mealTitle: string;
-  carbs: string;
-  fats: string;
-  proteins: string;
-  image: string;
-  mealCalories: string;
-  mealType: string;
+  meal_title?: string;
+  total_macronutrients?: {
+    calories?: number;
+    protein?: number;
+    carbs?: number;
+    fat?: number;
+  };
+  local_image_path?: string;
+  mealType?: string;
+  timestamp?: string;
 }
 
 const MyBitesMealitem = ({
-  mealType,
-  mealTitle,
-  carbs,
-  fats,
-  proteins,
-  image,
-  mealCalories,
+  mealType = "Meal",
+  meal_title = "Untitled Meal",
+  total_macronutrients = { calories: 0, protein: 0, carbs: 0, fat: 0 },
+  local_image_path,
+  timestamp,
 }: MyBitesMealitemProps) => {
+  // Function to get proper image source
+  const getImageSource = () => {
+    if (!local_image_path) {
+      return require("../../assets/noMealImage.jpg");
+    }
+
+    // Extract filename from path
+    const filename = local_image_path.split("/").pop();
+
+    // If we have a filename, construct the path using current app's document directory
+    if (filename) {
+      console.log(`MyBitesMealitem - Using constructed path for: ${filename}`);
+      return { uri: `${FileSystem.documentDirectory}meal_images/${filename}` };
+    }
+
+    // Fallback to default
+    return require("../../assets/noMealImage.jpg");
+  };
+
+  // Format meal type from timestamp if not provided
+  const getMealType = () => {
+    if (mealType) return mealType;
+
+    if (timestamp) {
+      const date = new Date(timestamp);
+      const hour = date.getHours();
+
+      if (hour < 10) return "Breakfast";
+      if (hour < 14) return "Lunch";
+      if (hour < 18) return "Afternoon Snack";
+      return "Dinner";
+    }
+
+    return "Meal";
+  };
+
+  // Validation logging
+  console.log(`MyBitesMealitem - Rendering: ${meal_title}`);
+  console.log(`MyBitesMealitem - Image path: ${local_image_path}`);
+
   return (
     <View style={styles.mealItem}>
       <View style={styles.imageContainer}>
         <Image
-          source={image || require("../../assets/noMealImage.jpg")}
+          source={getImageSource()}
           style={styles.image}
+          onError={(e) =>
+            console.log(`MyBitesMealitem - Image error: ${e.nativeEvent.error}`)
+          }
         />
       </View>
       <View style={styles.mealDetails}>
-        <Text style={styles.mealType}>{mealType}</Text>
-        <Text style={styles.mealTitle}>{mealTitle}</Text>
+        <Text style={styles.mealType}>{getMealType()}</Text>
+        <Text style={styles.mealTitle}>{meal_title}</Text>
         <View style={styles.macroContainer}>
           <MacroItem
             title="Carbs"
-            value={carbs}
+            value={`${total_macronutrients.carbs || 0}g`}
             backgroundColor={Colors.background.lightBlue}
           />
           <MacroItem
             title="Fats"
-            value={fats}
+            value={`${total_macronutrients.fat || 0}g`}
             backgroundColor={Colors.background.lightOrange}
           />
           <MacroItem
             title="Proteins"
-            value={proteins}
+            value={`${total_macronutrients.protein || 0}g`}
             backgroundColor={Colors.background.lightGreen}
           />
         </View>
-        <Text style={styles.mealCalories}>meal cal {mealCalories}</Text>
+        <Text style={styles.mealCalories}>
+          meal cal {total_macronutrients.calories || 0}
+        </Text>
       </View>
     </View>
   );

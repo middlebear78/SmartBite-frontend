@@ -10,14 +10,21 @@ import { Colors } from "../../constants/Colors";
 import { useState, useRef } from "react";
 import { ExpandIcon } from "../SvgIcons";
 import MyBitesMealitem from "./MyBitesMealitem";
+import * as FileSystem from "expo-file-system";
 
 type DayItemProps = {
   date: string;
   totalCalories: number;
   awardType: "gold" | "silver" | "bronze" | null;
+  meals?: any[]; // Add this prop to accept meals data
 };
 
-const DayItem = ({ date, totalCalories, awardType }: DayItemProps) => {
+const DayItem = ({
+  date,
+  totalCalories,
+  awardType,
+  meals = [],
+}: DayItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const awardsGold = require("../../assets/images/awards/broccoliAwardGold.png");
@@ -61,6 +68,19 @@ const DayItem = ({ date, totalCalories, awardType }: DayItemProps) => {
     toggleExpand(!isExpanded);
   };
 
+  // Helper function to determine meal type based on time
+  const getMealType = (timestamp) => {
+    if (!timestamp) return "Meal";
+
+    const date = new Date(timestamp);
+    const hour = date.getHours();
+
+    if (hour < 10) return "Breakfast";
+    if (hour < 14) return "Lunch";
+    if (hour < 18) return "Afternoon Snack";
+    return "Dinner";
+  };
+
   return (
     <View style={styles.mainContainer}>
       <TouchableOpacity onPress={handlePress} style={styles.mainContainer}>
@@ -89,43 +109,68 @@ const DayItem = ({ date, totalCalories, awardType }: DayItemProps) => {
       </TouchableOpacity>
       {isExpanded && (
         <View style={styles.expandedContainer}>
-          {/* day data needs to be fetched from the database */}
-          <MyBitesMealitem
-            mealTitle="Chicken and Rice"
-            mealType="Lunch"
-            carbs="10g"
-            fats="10g"
-            proteins="10g"
-            mealCalories="1212"
-            image={require("../../assets/demoImage.png")}
-          />
-          <MyBitesMealitem
-            mealTitle="long title long titlelong titlelong titlelong titlelong title"
-            mealType="Lunch"
-            carbs="10g"
-            fats="10g"
-            proteins="10g"
-            mealCalories="1212"
-            image={require("../../assets/demoImage.png")}
-          />
-          <MyBitesMealitem
-            mealTitle="Chicken and Rice"
-            mealType="Lunch"
-            carbs="10g"
-            fats="10g"
-            proteins="10g"
-            mealCalories="1212"
-            image={require("../../assets/demoImage.png")}
-          />
-          <MyBitesMealitem
-            mealTitle="Chicken and Rice"
-            mealType="Lunch"
-            carbs="10g"
-            fats="10g"
-            proteins="10g"
-            mealCalories="1212"
-            image={require("../../assets/demoImage.png")}
-          />
+          {meals && meals.length > 0 ? (
+            // Map through the meals array and render MyBitesMealitem for each meal
+            meals.map((meal, index) => {
+              // Convert macronutrient values to strings with 'g' appended
+              const carbs = `${meal.total_macronutrients?.carbs || 0}g`;
+              const fats = `${meal.total_macronutrients?.fat || 0}g`;
+              const proteins = `${meal.total_macronutrients?.protein || 0}g`;
+              const calories = `${meal.total_macronutrients?.calories || 0}`;
+
+              // Determine meal type based on timestamp
+              const mealType = getMealType(meal.timestamp);
+
+              // Process image path
+              const getImageSource = () => {
+                if (!meal.local_image_path) {
+                  return require("../../assets/demoImage.png");
+                }
+
+                if (meal.local_image_path.startsWith("file://")) {
+                  return { uri: meal.local_image_path };
+                }
+
+                // If it's just a filename (stored without path)
+                if (!meal.local_image_path.includes("/")) {
+                  return {
+                    uri: `${FileSystem.documentDirectory}meal_images/${meal.local_image_path}`,
+                  };
+                }
+
+                // If it's a full path, extract filename
+                const filename = meal.local_image_path.split("/").pop();
+
+                if (filename) {
+                  return {
+                    uri: `${FileSystem.documentDirectory}meal_images/${filename}`,
+                  };
+                }
+
+                return require("../../assets/demoImage.png");
+              };
+
+              return (
+                <MyBitesMealitem
+                  key={meal.id || `meal-${index}`}
+                  mealTitle={meal.meal_title || "Untitled Meal"}
+                  mealType={mealType}
+                  carbs={carbs}
+                  fats={fats}
+                  proteins={proteins}
+                  mealCalories={calories}
+                  image={getImageSource()}
+                />
+              );
+            })
+          ) : (
+            // Show a message when no meals are found
+            <View style={styles.noMealsContainer}>
+              <Text style={styles.noMealsText}>
+                No meals recorded for this day
+              </Text>
+            </View>
+          )}
         </View>
       )}
     </View>
@@ -190,5 +235,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  noMealsContainer: {
+    padding: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  noMealsText: {
+    fontSize: 16,
+    color: Colors.text.secondary,
+    textAlign: "center",
   },
 });

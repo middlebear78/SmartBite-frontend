@@ -153,13 +153,11 @@ const DayItem = ({
               return (
                 <MyBitesMealitem
                   key={meal.id || `meal-${index}`}
-                  mealTitle={meal.meal_title || "Untitled Meal"}
-                  mealType={mealType}
-                  carbs={carbs}
-                  fats={fats}
-                  proteins={proteins}
-                  mealCalories={calories}
-                  image={getImageSource()}
+                  meal_title={meal.meal_title}
+                  mealType={getMealType(meal.timestamp)}
+                  total_macronutrients={meal.total_macronutrients}
+                  local_image_path={meal.local_image_path}
+                  timestamp={meal.timestamp}
                 />
               );
             })

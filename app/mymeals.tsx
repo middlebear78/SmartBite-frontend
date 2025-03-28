@@ -13,7 +13,7 @@ import {
 import { BottomTabNavigator } from "../components/TabNavigator";
 import MyMealsTabs from "../components/MyMeals/MyMealsTabs";
 import DayItem from "../components/MyMeals/DayItem";
-import MealItemHomePage from "../components/Home/MealItemHomePage";
+import MyBitesMealitem from "../components/MyMeals/MyBitesMealitem";
 import LocalMealStorageService from "../services/mealLocalStorageService";
 import * as FileSystem from "expo-file-system";
 
@@ -45,6 +45,10 @@ const MyMeals = () => {
     try {
       setLoading(true);
       const savedMeals = await LocalMealStorageService.getLocalMeals();
+      console.log(
+        "First meal structure:",
+        JSON.stringify(savedMeals[0], null, 2)
+      );
       console.log("Loaded meals:", savedMeals.length);
       setAllMeals(savedMeals);
 
@@ -121,6 +125,19 @@ const MyMeals = () => {
     return Object.values(mealsByDay).sort((a, b) => {
       return b.dateObj.getTime() - a.dateObj.getTime(); // Newest first
     });
+  };
+
+  // Helper function to determine meal type based on time
+  const getMealType = (timestamp) => {
+    if (!timestamp) return "Meal";
+
+    const date = new Date(timestamp);
+    const hour = date.getHours();
+
+    if (hour < 10) return "Breakfast";
+    if (hour < 14) return "Lunch";
+    if (hour < 18) return "Afternoon Snack";
+    return "Dinner";
   };
 
   // Filter day items based on active tab
@@ -226,17 +243,17 @@ const MyMeals = () => {
               <Text style={styles.loadingText}>Loading your meals...</Text>
             </View>
           ) : activeTab === 0 ? (
-            // Today tab - show individual meals
+            // Today tab - show MyBitesMealitem components directly
             <View style={styles.todayContainer}>
               {todayMeals.length > 0 ? (
                 todayMeals.map((meal, index) => (
-                  <MealItemHomePage
+                  <MyBitesMealitem
                     key={meal.id || `meal-${index}`}
                     meal_title={meal.meal_title}
-                    timestamp={meal.timestamp}
+                    mealType={getMealType(meal.timestamp)}
                     total_macronutrients={meal.total_macronutrients}
                     local_image_path={meal.local_image_path}
-                    id={meal.id}
+                    timestamp={meal.timestamp}
                   />
                 ))
               ) : (

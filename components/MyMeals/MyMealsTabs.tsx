@@ -4,13 +4,20 @@ import TabItem from "./TabItem";
 import { useRef, useState } from "react";
 import { Colors } from "../../constants/Colors";
 
-const MyMealsTabs = () => {
+type MyMealsTabsProps = {
+  onTabChange?: (index: number) => void;
+};
+
+const MyMealsTabs = ({ onTabChange }: MyMealsTabsProps) => {
   const scrollViewRef = useRef<ScrollView>(null);
 
   const [activeTab, setActiveTab] = useState(0);
 
   const handleTabPress = (index: number) => {
     setActiveTab(index);
+    if (onTabChange) {
+      onTabChange(index);
+    }
     scrollViewRef.current?.scrollTo({ x: index * 120, animated: true });
   };
 

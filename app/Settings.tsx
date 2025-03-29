@@ -9,6 +9,7 @@ import {
 import { Screen } from "../components/Screen";
 import { Ionicons } from "@expo/vector-icons";
 import { Stack, useRouter } from "expo-router";
+import { BottomTabNavigator } from "@/components/TabNavigator";
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -140,6 +141,7 @@ export default function SettingsScreen() {
           </View>
         </ScrollView>
       </Screen>
+      <BottomTabNavigator />
     </>
   );
 }

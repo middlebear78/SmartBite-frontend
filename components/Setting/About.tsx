@@ -1,27 +1,31 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "../../constants/Colors";
-import { MyPlanIcon } from "../SvgIcons";
-import CurrentPlanItem from "./CurrentPlanItem";
+import { AboutIcon } from "../SvgIcons";
 import InfoItem from "./InfoItem";
+import { LinearGradient } from "expo-linear-gradient";
 
 const About = () => {
-
-
-
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <MyPlanIcon />
-        <Text style={styles.headerText}>Abour</Text>
+        <AboutIcon />
+        <Text style={styles.headerText}>About</Text>
       </View>
-      <View style={styles.infoContainer}>
+      <LinearGradient
+        colors={[
+          Colors.background.gradient.secondary,
+          Colors.background.gradient.primary,
+        ]}
+        style={styles.infoContainer}
+      >
         <InfoItem
-          backgroundColor={Colors.background.darkBlue}
+          backgroundColor={Colors.white}
+          textColor={Colors.primary}
           title="Version"
           value="1.0.0"
           disabled={true}
         />
-      </View>
+      </LinearGradient>
     </View>
   );
 };

@@ -1,44 +1,51 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "../../constants/Colors";
-import { MyPlanIcon } from "../SvgIcons";
-import CurrentPlanItem from "./CurrentPlanItem";
+import { DietGoalsIcon } from "../SvgIcons";
 import InfoItem from "./InfoItem";
-
+import { LinearGradient } from "expo-linear-gradient";
 const DietGoals = () => {
-
   const changePlan = () => {
     console.log("change plan located MyPlan.tsx");
   };
 
-  const changeRenewalDate = () => {
-    console.log("change renewal date located MyPlan.tsx");
+  const changeTargetWeight = () => {
+    console.log("change target weight located DietGoals.tsx");
   };
 
-  const changeDietType = () => {
-    console.log("change diet type located MyPlan.tsx");
+  const changeWeeklyGoal = () => {
+    console.log("change weekly goal located DietGoals.tsx");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <MyPlanIcon />
+        <View style={{ position: "relative", top: -4 }}>
+          <DietGoalsIcon />
+        </View>
         <Text style={styles.headerText}>Diet Goals</Text>
       </View>
-      <View style={styles.infoContainer}>
-       
+      <LinearGradient
+        colors={[
+          Colors.background.gradient.secondary,
+          Colors.background.gradient.primary,
+        ]}
+        style={styles.infoContainer}
+      >
         <InfoItem
-          backgroundColor={Colors.background.darkBlue}
-          title="Renewal Date"
-          value="2025-05-01"
-          onPress={changeRenewalDate}
+          backgroundColor={Colors.white}
+          textColor={Colors.primary}
+          title="Target Weight"
+          value="65 kg"
+          onPress={changeTargetWeight}
         />
         <InfoItem
-          backgroundColor={Colors.background.darkBlue}
-          title="Diet Type"
-          value="Balanced"
-          onPress={changeDietType}
+          backgroundColor={Colors.white}
+          textColor={Colors.primary}
+          title="Weekly Goal"
+          value="-0.5 kg"
+          onPress={changeWeeklyGoal}
         />
-      </View>
+      </LinearGradient>
     </View>
   );
 };

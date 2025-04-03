@@ -1,43 +1,46 @@
 import { View, Text, StyleSheet } from "react-native";
 import { Colors } from "../../constants/Colors";
-import { MyPlanIcon } from "../SvgIcons";
-import CurrentPlanItem from "./CurrentPlanItem";
+import { PreferencesIcon } from "../SvgIcons";
 import InfoItem from "./InfoItem";
+import { LinearGradient } from "expo-linear-gradient";
 
 const Preferences = () => {
-
-  const changePlan = () => {
-    console.log("change plan located MyPlan.tsx");
+  const changeUnits = () => {
+    console.log("change units located Preferences.tsx");
   };
 
-  const changeRenewalDate = () => {
-    console.log("change renewal date located MyPlan.tsx");
-  };
-
-  const changeDietType = () => {
-    console.log("change diet type located MyPlan.tsx");
+  const changeLanguage = () => {
+    console.log("change language located Preferences.tsx");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <MyPlanIcon />
+        <PreferencesIcon />
         <Text style={styles.headerText}>Preferences</Text>
       </View>
-      <View style={styles.infoContainer}>
+      <LinearGradient
+        colors={[
+          Colors.background.gradient.secondary,
+          Colors.background.gradient.primary,
+        ]}
+        style={styles.infoContainer}
+      >
         <InfoItem
-          backgroundColor={Colors.background.darkBlue}
-          title="Renewal Date"
-          value="2025-05-01"
-          onPress={changeRenewalDate}
+          backgroundColor={Colors.white}
+          textColor={Colors.primary}
+          title="Units"
+          value="Metric"
+          onPress={changeUnits}
         />
         <InfoItem
-          backgroundColor={Colors.background.darkBlue}
-          title="Diet Type"
-          value="Balanced"
-          onPress={changeDietType}
+          backgroundColor={Colors.white}
+          textColor={Colors.primary}
+          title="Language"
+          value="English"
+          onPress={changeLanguage}
         />
-      </View>
+      </LinearGradient>
     </View>
   );
 };

@@ -21,6 +21,7 @@ export default function RootLayout() {
     NunitoBold: require("../assets/fonts/Nunito-Bold.ttf"),
     NunitoExtraBold: require("../assets/fonts/Nunito-ExtraBold.ttf"),
     DeliusRegular: require("../assets/fonts/Delius-Regular.ttf"),
+    OrbitronExtraBold: require("../assets/fonts/Orbitron-ExtraBold.ttf"),
   });
 
   useEffect(() => {

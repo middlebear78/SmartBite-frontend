@@ -4,4 +4,7 @@ export const fonts = {
     bold: "nunito-bold",
     extraBold: "nunito-extrabold",
   },
+  orbitron: {
+    extraBold: "OrbitronExtraBold",
+  },
 };

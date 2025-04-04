@@ -10,6 +10,7 @@ export const Colors = {
     lightBlue: "#E5F7FD",
     lightGreen: "#E5FAF0",
     lightOrange: "#FFF6ED",
+    gray: "#C2C2C2",
     lightGray: "#D9D9D9",
     darkGray: "#757575",
     darkBlue: "#00AEEF",
@@ -18,6 +19,12 @@ export const Colors = {
       primary: "#6ACFF6",
       secondary: "#00AEEF",
     },
+  },
+
+  plans: {
+    basic: ["#3BA55D", "#7DCE82"],
+    premium: ["#CB9E43", "#E3CB76"],
+    pro: ["#1B3C73", "#4A6FA5"],
   },
 
   buttonBlueActive: "#00AEEF",

@@ -5,18 +5,18 @@ import {
   StyleSheet,
   Text,
 } from "react-native";
-import Scale from "./Scale";
+import StepTracker from "./StepTracker";
 import { Colors } from "../../constants/Colors";
 import { fonts } from "../../constants/fonts";
 
-const WeightSection = () => {
+const StepsSection = () => {
   const updateWeight = () => {
     console.log("updateWeight located in weightSection.tsx");
   };
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../../assets/images/analytics/weight-bg.jpg")}
+        source={require("../../assets/images/analytics/step-bg.jpg")}
         style={[
           styles.container,
           {
@@ -25,20 +25,10 @@ const WeightSection = () => {
           },
         ]}
       >
-        <Scale weight={69.2} unit="kg" updateWeight={updateWeight} />
+        <StepTracker steps={6950} goal={10000} />
         <View style={styles.bottomContainer}>
-          <Text style={styles.lastWeekWeightChange}>
-            -0.2 kg from last week
-          </Text>
           <View style={styles.flexRow}>
-            <View style={styles.weightChangeContainer}>
-              <Text style={styles.weightChangeNumber}>-0.2 kg</Text>
-              <Text style={styles.weightChangeDescription}>Last 30 days</Text>
-            </View>
-            <View style={styles.weightChangeContainer}>
-              <Text style={styles.weightChangeNumber}>-5 kg</Text>
-              <Text style={styles.weightChangeDescription}>Total loss</Text>
-            </View>
+           
           </View>
         </View>
       </ImageBackground>
@@ -46,7 +36,7 @@ const WeightSection = () => {
   );
 };
 
-export default WeightSection;
+export default StepsSection;
 
 const styles = StyleSheet.create({
   container: {
@@ -62,7 +52,6 @@ const styles = StyleSheet.create({
     height: Dimensions.get("window").width,
     alignItems: "center",
     justifyContent: "flex-end",
-    
   },
 
   lastWeekWeightChange: {
@@ -70,12 +59,11 @@ const styles = StyleSheet.create({
     color: Colors.white,
     fontSize: 16,
     fontFamily: fonts.main.bold,
-    
   },
   flexRow: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "center",
     width: "80%",
     marginBottom: 30,
     marginTop: 15,

@@ -5,8 +5,9 @@ import { Colors } from "../constants/Colors";
 import { Screen } from "../components/Screen";
 import WeightSection from "../components/Analytics/WeightSection";
 import StepsSection from "../components/Analytics/StepsSection";
-import { BottomTabNavigator } from "../components/TabNavigator";
 import WaterSection from "../components/Analytics/WaterSection";
+import { BottomTabNavigator } from "../components/TabNavigator";
+
 const Analytics = () => {
   return (
     <>
@@ -24,7 +25,7 @@ const Analytics = () => {
           <WeightSection />
           <StepsSection />
           <WaterSection />
-          <View style={{ height: 100 }}></View>
+          <View style={{ height: 200 }}></View>
         </ScrollView>
         <BottomTabNavigator />
       </Screen>

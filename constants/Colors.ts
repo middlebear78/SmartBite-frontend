@@ -15,6 +15,7 @@ export const Colors = {
     darkGray: "#757575",
     darkBlue: "#00AEEF",
     green: "#00CC66",
+    orange: "#FFA94B",
     gradient: {
       primary: "#6ACFF6",
       secondary: "#00AEEF",

@@ -7,6 +7,9 @@ import WeightSection from "../components/Analytics/WeightSection";
 import StepsSection from "../components/Analytics/StepsSection";
 import { BottomTabNavigator } from "../components/TabNavigator";
 import WaterSection from "../components/Analytics/WaterSection";
+import InformationTab from "../components/Analytics/InfortamtionTab";
+import WeightProgress from "../components/Analytics/WeightProgress";
+
 const Analytics = () => {
   return (
     <>
@@ -22,12 +25,32 @@ const Analytics = () => {
       <Screen>
         <ScrollView>
           <WeightSection />
-          <StepsSection />
-          <WaterSection />
+          {/* <StepsSection /> */}
+          {/* <WaterSection /> */}
+          
+          <InformationTab
+            title="Weight Progress"
+            color={Colors.background.darkBlue}
+          >
+            <WeightProgress />
+          </InformationTab>
+
+          <InformationTab
+            title="Calories Intake"
+            color={Colors.background.green}
+          >
+            <Text>Calories Intake</Text>
+          </InformationTab>
+          <InformationTab
+            title="Macronutrient Distribution"
+            color={Colors.background.orange}
+          >
+            <Text>Macronutrient Distribution</Text>
+          </InformationTab>
           <View style={{ height: 100 }}></View>
         </ScrollView>
-        <BottomTabNavigator />
       </Screen>
+      <BottomTabNavigator />
     </>
   );
 };

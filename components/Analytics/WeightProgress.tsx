@@ -2,7 +2,6 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import { TextButton } from "../Analytics/WeightProgressButton";
 import { useState } from "react";
 
-
 const WeightProgress = () => {
   const [selectedItem, setSelectedItem] = useState("week");
 
@@ -47,8 +46,6 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
+    gap: 13,
   },
 });
-
-
-

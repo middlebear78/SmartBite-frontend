@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, Platform } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -28,7 +28,13 @@ export const TextButton = ({
   borderRadius,
 }: TextButtonProps) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity
+      style={[
+        { borderRadius: borderRadius ? borderRadius : 50 },
+        styles.container,
+      ]}
+      onPress={onPress}
+    >
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
@@ -75,12 +81,12 @@ const styles = StyleSheet.create({
     width: 80,
   },
   container: {
-    shadowColor: "rgba(0, 0, 0, 0)",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3,
+    shadowColor:
+      Platform.OS === "ios" ? "rgba(0, 0, 0, 1)" : "rgba(0, 0, 0, .5)",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
+    elevation: 2,
   },
 });
-
 export default TextButton;

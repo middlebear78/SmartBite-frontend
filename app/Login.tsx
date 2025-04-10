@@ -21,10 +21,12 @@ WebBrowser.maybeCompleteAuthSession();
 export default function LoginScreen() {
   const router = useRouter();
   const [userInfo, setUserInfo] = React.useState<UserInfo>(null);
-  const [request, response, promptAsync] = Google.useAuthRequest({
+  const [request, response, promptAsync] = Google.useIdTokenAuthRequest({
     webClientId: process.env.GOOGLE_WEB_CLIENT_ID,
     androidClientId: process.env.GOOGLE_ANDROID_CLIENT_ID,
     iosClientId: process.env.GOOGLE_IOS_CLIENT_ID,
+    // redirectUri: "https://auth.expo.io/@uri123/smart-bite",
+    scopes: ["profile", "email"],
   });
 
   const [isAppleAuthAvailable, setIsAppleAuthAvailable] =
@@ -51,34 +53,41 @@ export default function LoginScreen() {
     initializeAppleAuth();
   }, []);
 
+  React.useEffect(() => {
+    if (request) {
+      console.log("Auto-generated redirect URI:", request.redirectUri);
+    }
+  }, [request]);
+
   const initializeAppleAuth = async () => {
     const isAvailable = await checkAppleAuthAvailable();
     setIsAppleAuthAvailable(isAvailable);
   };
 
   const handleSignInWithGoogle = async () => {
-    const storedUser = await getStoredUser();
+    //  Comment out or remove this line to bypass the stored user check
+    // const storedUser = await getStoredUser();
 
-    if (!storedUser) {
-      if (
-        response?.type === "success" &&
-        response.authentication?.accessToken
-      ) {
-        const userData = await getGoogleUserInfo(
-          response.authentication.accessToken
-        );
-        if (userData) {
-          setUserInfo(userData);
-          router.replace("home");
-        }
+    // Remove the storedUser conditional check, always attempt sign-in
+
+    // if (!storedUser) {
+    if (response?.type === "success" && response.authentication?.accessToken) {
+      const userData = await getGoogleUserInfo(
+        response.authentication.accessToken
+      );
+      if (userData) {
+        setUserInfo(userData);
+        router.replace("home");
       }
-    } else {
-      setUserInfo(storedUser);
-      console.log("Existing Google user info:", storedUser);
-      router.replace("home");
     }
-  };
 
+    //   } else {
+    //     setUserInfo(storedUser);
+    //     console.log("Existing Google user info:", storedUser);
+    //     router.replace("home");
+    //   }
+    // };
+  };
   const handleAppleSignIn = async () => {
     const userData = await appleSignIn();
     if (userData) {
@@ -97,7 +106,13 @@ export default function LoginScreen() {
         {Platform.OS === "ios" && isAppleAuthAvailable && (
           <LoginButtons onPress={handleAppleSignIn} type="apple" />
         )}
-        <LoginButtons onPress={() => promptAsync()} type="google" />
+        <LoginButtons
+          onPress={() => {
+            console.log("Redirect URI:", request?.redirectUri);
+            promptAsync();
+          }}
+          type="google"
+        />
       </View>
 
       {/* {__DEV__ && <Button title="Clear User Data" onPress={clearUserData} />} */}

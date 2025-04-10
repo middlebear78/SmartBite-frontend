@@ -1,4 +1,3 @@
-// components/TabNavigator.tsx
 import {
   Text,
   View,
@@ -22,7 +21,7 @@ import { Asset, useAssets } from "expo-asset"; // For preloading assets
 export const BottomTabNavigator = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const insets = useSafeAreaInsets();
+  const insets = useSafeAreaInsets(); // Safe area insets to adjust layout
 
   // Preload the asset
   const [assets] = useAssets([require("../assets/icons/menuScanIcon.png")]);
@@ -38,8 +37,8 @@ export const BottomTabNavigator = () => {
       style={[
         styles.container,
         {
-          paddingBottom: Platform.OS === "android" ? 68 : 0,
-          position: "absolute",
+          paddingBottom: Platform.OS === "android" ? insets.bottom : 0, // Adjust for Android bottom inset
+          paddingTop: insets.top, // Ensure no cut-off at the top for safe area
         },
       ]}
     >
@@ -158,6 +157,8 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    width: "100%",
+    zIndex: 2, // Ensure the tab bar is above content
   },
   tabBar: {
     overflow: "hidden",

@@ -30,9 +30,7 @@
       "expo-asset",
       "expo-localization"
     ],
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.uri123.smart-bite",
@@ -55,7 +53,8 @@
         "android.permission.CAMERA",
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.uri123.smartbite"
+      "package": "com.uri123.smartbite",
+      "isRTL": false
     },
     "scheme": "smartbite",
     "web": {

@@ -1,5 +1,5 @@
-// app/welcome.tsx
-import { Text, StyleSheet, Image, View, Dimensions } from "react-native";
+import React, { useEffect } from "react";
+import { I18nManager, Text, StyleSheet, Image, View } from "react-native";
 import { Screen } from "../components/Screen";
 import { Colors } from "../constants/Colors";
 import commonStyles from "../styles/commonStyles";

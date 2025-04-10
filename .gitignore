@@ -1,40 +1,44 @@
-# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
-
-# dependencies
-node_modules/
-
-# Expo
-.expo/
-dist/
-web-build/
-expo-env.d.ts
-
-# Native
-*.orig.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
 # macOS
 .DS_Store
-*.pem
 
-# local env files
-.env*.local
+# Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Expo / Metro
+.expo/
+.expo-shared/
+
+# Build outputs
+android/.gradle/
+android/.idea/
+android/build/
+android/app/build/
+android/gradle/
+android/gradlew*
+android/gradle-wrapper.jar
+android/gradle-wrapper.properties
+android/local.properties      # contains your SDK path
+ios/Pods/
+ios/build/
+
+# Xcode
+*.xcworkspace
+*.xcuserdata
+DerivedData/
+
+# Environment
 .env
-# typescript
-*.tsbuildinfo
+.env.*.local
 
-app-example
-/ios
-/android 
+# Keystores
+*.jks
+*.keystore
+
+# Google services (optional—if you store this elsewhere, ignore it)
+# google-services.json
+
+# IDE
+.vscode/
+.idea/

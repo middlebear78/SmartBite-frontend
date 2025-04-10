@@ -52,10 +52,11 @@
     "react-native-safe-area-context": "^5.0.0",
     "react-native-screens": "~4.4.0",
     "react-native-snap-carousel": "^3.9.1",
-    "react-native-svg": "^15.11.2",
+    "react-native-svg": "15.8.0",
     "react-native-vision-camera": "^4.6.4",
     "react-redux": "^9.2.0",
-    "source-map": "^0.7.4"
+    "source-map": "^0.7.4",
+    "victory-native": "^41.16.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

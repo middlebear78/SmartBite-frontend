@@ -7,7 +7,7 @@ import WeightSection from "../components/Analytics/WeightSection";
 import StepsSection from "../components/Analytics/StepsSection";
 import { BottomTabNavigator } from "../components/TabNavigator";
 import WaterSection from "../components/Analytics/WaterSection";
-import InformationTab from "../components/Analytics/InfortamtionTab";
+import InformationTab from "../components/Analytics/InformationTab";
 import WeightProgress from "../components/Analytics/WeightProgress";
 
 const Analytics = () => {

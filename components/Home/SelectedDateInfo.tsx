@@ -95,8 +95,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   bigText: {
-    fontFamily: "Nunito",
-    fontWeight: "600",
+    fontFamily: fonts.main.bold,
     fontSize: 50,
     height: 55,
     color: Colors.white,

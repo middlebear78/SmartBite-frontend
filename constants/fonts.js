@@ -1,10 +1,13 @@
 export const fonts = {
   main: {
-    regular: "nunito-semibold",
-    bold: "nunito-bold",
-    extraBold: "nunito-extrabold",
+    regular: "Nunito",
+    bold: "NunitoBold",
+    extraBold: "NunitoExtraBold",
   },
   orbitron: {
     extraBold: "OrbitronExtraBold",
+  },
+  delius: {
+    regular: "DeliusRegular",
   },
 };

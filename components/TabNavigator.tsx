@@ -38,7 +38,6 @@ export const BottomTabNavigator = () => {
       style={[
         styles.container,
         {
-          paddingBottom: Platform.OS === "android" ? 68 : 0,
           position: "absolute",
         },
       ]}

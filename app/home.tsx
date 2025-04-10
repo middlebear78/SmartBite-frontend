@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     paddingHorizontal: 10,
+    marginTop: Platform.OS === "ios" ? 0 : 45,
   },
   sectionTitle: {
     fontSize: 18,

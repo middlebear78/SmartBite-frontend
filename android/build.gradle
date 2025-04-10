@@ -1,0 +1,26 @@
+ buildscript {
+     ext {
+        
+        kotlinVersion = findProperty('android.kotlinVersion') ?: '1.9.25'
+        buildToolsVersion = findProperty('android.buildToolsVersion') ?: '35.0.0'
+        minSdkVersion     = Integer.parseInt(findProperty('android.minSdkVersion') ?: '24')
+        compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '35')
+        targetSdkVersion  = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '34')
+        ndkVersion        = "26.1.10909125"
+     }
+     repositories {
+         google()
+         mavenCentral()
+     }
+     dependencies {
+
+        // Android Gradle Plugin – pin to a stable version
+        classpath("com.android.tools.build:gradle:7.4.1")
+        // React Native Gradle Plugin
+        classpath("com.facebook.react:react-native-gradle-plugin:0.74.0")
+       // Kotlin Gradle Plugin – ensure we use 1.9.25
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+     }
+ }
+ 
+ apply plugin: "com.facebook.react.rootproject"

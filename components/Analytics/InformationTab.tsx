@@ -6,14 +6,22 @@ interface InformationTabProps {
   title: string;
   color: string;
   children: React.ReactNode;
+  hideTab?: boolean;
 }
 
-const InformationTab = ({ title, color, children }: InformationTabProps) => {
+const InformationTab = ({
+  title,
+  color,
+  children,
+  hideTab,
+}: InformationTabProps) => {
   return (
     <View style={styles.mainContainer}>
-      <View style={[styles.topColorTab, { backgroundColor: color }]}>
-        <Text style={styles.topColorTabText}>{title}</Text>
-      </View>
+      {!hideTab && (
+        <View style={[styles.topColorTab, { backgroundColor: color }]}>
+          <Text style={styles.topColorTabText}>{title}</Text>
+        </View>
+      )}
       <View style={styles.container}>{children}</View>
     </View>
   );

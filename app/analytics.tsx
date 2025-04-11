@@ -9,6 +9,7 @@ import { BottomTabNavigator } from "../components/TabNavigator";
 import WaterSection from "../components/Analytics/WaterSection";
 import InformationTab from "../components/Analytics/InformationTab";
 import WeightProgress from "../components/Analytics/WeightProgress";
+import ActivityTracking from "../components/Analytics/ActivityTracking";
 
 const Analytics = () => {
   return (
@@ -27,7 +28,7 @@ const Analytics = () => {
           <WeightSection />
           {/* <StepsSection /> */}
           {/* <WaterSection /> */}
-          
+
           <InformationTab
             title="Weight Progress"
             color={Colors.background.darkBlue}
@@ -47,6 +48,15 @@ const Analytics = () => {
           >
             <Text>Macronutrient Distribution</Text>
           </InformationTab>
+
+          <InformationTab
+            title="Activity Tracking"
+            color={Colors.background.orange}
+            hideTab={true}
+          >
+            <ActivityTracking />
+          </InformationTab>
+
           <View style={{ height: 100 }}></View>
         </ScrollView>
       </Screen>

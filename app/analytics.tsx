@@ -10,7 +10,7 @@ import WaterSection from "../components/Analytics/WaterSection";
 import InformationTab from "../components/Analytics/InformationTab";
 import WeightProgress from "../components/Analytics/WeightProgress";
 import ActivityTracking from "../components/Analytics/ActivityTracking";
-
+import NutritionalInsights from "../components/Analytics/NutritionalInsights";
 const Analytics = () => {
   return (
     <>
@@ -57,6 +57,13 @@ const Analytics = () => {
             <ActivityTracking />
           </InformationTab>
 
+          <InformationTab
+            title="Nutritional Insights"
+            color={Colors.background.orange}
+            hideTab={true}
+          >
+            <NutritionalInsights />
+          </InformationTab>
           <View style={{ height: 100 }}></View>
         </ScrollView>
       </Screen>

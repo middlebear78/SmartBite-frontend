@@ -7,7 +7,5 @@ export const fonts = {
   orbitron: {
     extraBold: "OrbitronExtraBold",
   },
-  delius: {
-    regular: "DeliusRegular",
-  },
+  delius: "DeliusRegular",
 };

@@ -63,9 +63,11 @@ export default function RootLayout() {
                 headerTintColor: Colors.text.light,
                 headerBackTitle: "Back",
                 headerTitle: "", // Empty title by default
-                animation: "slide_from_right",
+                animation: "slide_from_right", // Default animation for most screens
               }}
-            />
+            >
+              
+            </Stack>
           </SafeAreaView>
         </Provider>
       </GestureHandlerRootView>

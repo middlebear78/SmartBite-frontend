@@ -216,7 +216,11 @@ export const QuestionnaireContent = ({
 
           {question.type === "allSet" && (
             <View style={styles.buttonContainer}>
-              <RoundButton color="blue" nextScreen="/" text="Go to Dashboard" />
+              <RoundButton
+                color="blue"
+                nextScreen="home"
+                text="Go to Dashboard"
+              />
             </View>
           )}
         </View>

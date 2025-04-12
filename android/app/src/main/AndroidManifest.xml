@@ -28,6 +28,7 @@
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="smartbite"/>
         <data android:scheme="com.uri123.smartbite"/>
+        <data android:scheme="exp+smart-bite"/>
       </intent-filter>
     </activity>
   </application>

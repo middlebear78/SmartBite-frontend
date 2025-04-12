@@ -77,7 +77,7 @@ export default function LoginScreen() {
       );
       if (userData) {
         setUserInfo(userData);
-        router.replace("home");
+        router.replace("/questionnaire/7");
       }
     }
 
@@ -92,7 +92,7 @@ export default function LoginScreen() {
     const userData = await appleSignIn();
     if (userData) {
       setUserInfo(userData);
-      router.replace("home");
+      router.replace("/questionnaire/7");
     }
   };
 

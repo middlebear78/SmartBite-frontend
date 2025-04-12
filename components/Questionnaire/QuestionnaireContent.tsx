@@ -20,7 +20,7 @@ import BodyProfile from "./BodyProfile";
 import TextButton from "../TextButton";
 import AllSet from "./AllSet";
 import StepIndicator from "./StepIndicator";
-import LoginScreen from "../../app/login";
+import LoginScreen from "../../app/Login";
 
 export const QuestionnaireContent = ({
   sectionIndex,

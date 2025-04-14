@@ -1,11 +1,36 @@
-
-import { Text, StyleSheet, Image, View, Dimensions } from "react-native";
+import React, { useEffect, useState } from "react";
+import { I18nManager, Text, StyleSheet, Image, View, Dimensions } from "react-native";
 import { Screen } from "../components/Screen";
 import { Colors } from "../constants/Colors";
 import commonStyles from "../styles/commonStyles";
 import RoundButton from "../components/RoundButton";
+import { useRouter } from "expo-router";
+import { getStoredUser } from "../services/LoginServices";
 
 export default function WelcomeScreen() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // ----------------------------------------User check------------------------------------------
+  useEffect(() => {
+    // Check if user exists on component mount
+    checkStoredUser();
+  }, []);
+
+  const checkStoredUser = async () => {
+    const storedUser = await getStoredUser();
+    if (storedUser) {
+      // User exists, navigate to home
+      router.replace("home"); // Or whatever your home route is
+    } else {
+      setIsLoading(false);
+    }
+    // If no user, stay on welcome screen
+  };
+
+  if (isLoading) {
+    return null; // Or return a loading spinner if you prefer
+  }
+  // -------------------------------------------------------------------------------------------
   return (
     <Screen
       title="Welcome"

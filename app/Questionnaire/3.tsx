@@ -16,6 +16,7 @@ const QuestionnaireScreen3: React.FC = () => {
     )
   );
 
+  
   // ✅ Prevent errors if section is undefined
   if (!section) {
     return (

@@ -13,7 +13,7 @@ const QuestionnaireScreen1 = () => {
     (state: RootState) =>
       state.Questionnaire.questionnaire.sections[screenNumber - 1]
   );
-
+  console.log("Section options:", JSON.stringify(section.question.options, null, 2));
   console.log("Current section data:", section);
 
   if (!section) {

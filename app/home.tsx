@@ -12,6 +12,7 @@ import {
   Text,
   ActivityIndicator,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context"; // Import SafeAreaView
 import { Screen } from "../components/Screen";
 import { useRouter } from "expo-router";
 import { BottomTabNavigator } from "../components/TabNavigator";
@@ -21,7 +22,6 @@ import TipsSlider from "../components/Home/TipsSlider";
 import MealItemHomePage from "../components/Home/MealItemHomePage";
 import LocalMealStorageService from "../services/mealLocalStorageService";
 
-// Define the meal structure from storage
 interface StoredMeal {
   id?: string;
   meal_title?: string;
@@ -41,7 +41,6 @@ export default function HomeScreen() {
   const [meals, setMeals] = useState<StoredMeal[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Get current date
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
     weekday: "short",
@@ -49,7 +48,6 @@ export default function HomeScreen() {
     day: "numeric",
   });
 
-  // Load meals from local storage
   useFocusEffect(
     useCallback(() => {
       const loadMeals = async () => {
@@ -71,10 +69,10 @@ export default function HomeScreen() {
 
   return (
     <>
-      {/* Hide header just for this screen */}
       <Stack.Screen options={{ headerShown: false }} />
 
-      <View style={styles.mainContainer}>
+      {/* Wrap the entire view in SafeAreaView */}
+      <SafeAreaView style={styles.mainContainer}>
         <StatusBar barStyle="dark-content" backgroundColor="white" />
         <Screen title="Daily Nutrition" showBack={false}>
           <ScrollView
@@ -117,7 +115,7 @@ export default function HomeScreen() {
         </Screen>
 
         <BottomTabNavigator />
-      </View>
+      </SafeAreaView>
     </>
   );
 }
@@ -133,6 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: Dimensions.get("window").height,
     backgroundColor: "white",
+    paddingBottom: 20, // Ensure padding at the bottom
   },
   scrollView: {
     flex: 1,
@@ -170,7 +169,6 @@ const styles = StyleSheet.create({
     color: "#666666",
     marginTop: 5,
   },
-  // Remaining styles...
   macrosGrid: {
     flexDirection: "row",
     justifyContent: "space-between",

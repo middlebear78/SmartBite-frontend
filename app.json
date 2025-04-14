@@ -1,69 +1,74 @@
 {
-    "expo": {
-      "name": "SmartBite",
-      "slug": "smart-bite",
-      "version": "1.0.0",
-      "orientation": "portrait",
-      "icon": "./assets/icon.png",
-      "userInterfaceStyle": "automatic",
-      "splash": {
-        "image": "./assets/splash.png",
-        "resizeMode": "contain",
+  "expo": {
+    "name": "SmartBite",
+    "slug": "smart-bite",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "SmartBite needs access to your Camera to analyze your food.",
+          "enableMicrophonePermission": true,
+          "microphonePermissionText": "SmartBite needs access to your Microphone."
+        }
+      ],
+      [
+        "@react-native-google-signin/google-signin",
+        {
+          "iosUrlScheme": "com.googleusercontent.apps.250627929439-sdrh8kn6vcasqhhj09adiodfjuu0rs53"
+        }
+      ],
+      "expo-asset",
+      "expo-localization"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.uri123.smart-bite",
+      "infoPlist": {
+        "NSCameraUsageDescription": "SmartBite needs access to your Camera to analyze your food.",
+        "NSMicrophoneUsageDescription": "SmartBite needs access to your Microphone."
+      },
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.250627929439-sdrh8kn6vcasqhhj09adiodfjuu0rs53"
+        }
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "plugins": [
-        "expo-router",
-        [
-          "react-native-vision-camera",
-          {
-            "cameraPermissionText": "SmartBite needs access to your Camera to analyze your food.",
-            "enableMicrophonePermission": true,
-            "microphonePermissionText": "SmartBite needs access to your Microphone."
-          }
-        ],
-        [
-          "@react-native-google-signin/google-signin",
-          {
-            "iosUrlScheme": "com.googleusercontent.apps.250627929439-sdrh8kn6vcasqhhj09adiodfjuu0rs53"
-          }
-        ],
-        "expo-asset",
-        "expo-localization"
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
       ],
-      "assetBundlePatterns": [
-        "**/*"
-      ],
-      "ios": {
-        "supportsTablet": true,
-        "bundleIdentifier": "com.uri123.smart-bite",
-        "infoPlist": {
-          "NSCameraUsageDescription": "SmartBite needs access to your Camera to analyze your food.",
-          "NSMicrophoneUsageDescription": "SmartBite needs access to your Microphone."
-        }
+      "package": "com.uri123.smartbite",
+      "isRTL": false
+    },
+    "scheme": "smartbite",
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "router": {
+        "origin": false
       },
-      "android": {
-        "adaptiveIcon": {
-          "foregroundImage": "./assets/adaptive-icon.png",
-          "backgroundColor": "#ffffff"
-        },
-        "permissions": [
-          "android.permission.CAMERA",
-          "android.permission.RECORD_AUDIO"
-        ],
-        "package": "com.uri123.smartbite"
-      },
-      "scheme": "smartbite",
-      "web": {
-        "favicon": "./assets/favicon.png"
-      },
-      "extra": {
-        "router": {
-          "origin": false
-        },
-        "eas": {
-          "projectId": "f8b2b68c-648e-484c-9f4e-e90586c36f80"
-        }
+      "eas": {
+        "projectId": "f8b2b68c-648e-484c-9f4e-e90586c36f80"
       }
     }
   }
-  
+}

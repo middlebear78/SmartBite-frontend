@@ -1,14 +1,14 @@
 
 import React, { useEffect } from "react";
+import { I18nManager, View, StyleSheet } from "react-native";
 import { enableScreens } from "react-native-screens";
 import "react-native-gesture-handler";
-import { Text, View } from "react-native";
 import { useFonts } from "expo-font";
 import { Provider } from "react-redux";
 import { store } from "../store";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Stack, SplashScreen } from "expo-router";
 import { Colors } from "../constants/Colors";
 
@@ -17,6 +17,14 @@ enableScreens();
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  useEffect(() => {
+    // Ensure LTR layout
+    if (I18nManager.isRTL) {
+      I18nManager.forceRTL(false);
+      I18nManager.allowRTL(false); // Disable RTL for the entire app
+    }
+  }, []);
+
   const [fontsLoaded] = useFonts({
     Nunito: require("../assets/fonts/Nunito-SemiBold.ttf"),
     NunitoBold: require("../assets/fonts/Nunito-Bold.ttf"),
@@ -39,25 +47,39 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar style="light" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Provider store={store}>
-          <Stack
-            screenOptions={{
-              headerShown: true,
-              headerStyle: {
-                backgroundColor: Colors.background.secondary,
-              },
-              headerTintColor: Colors.text.light,
-              headerBackTitle: "Back",
-              // For a minimalist header with just back button:
-              headerTitle: "", // Empty title by default
-              // Add animation settings if needed
-              animation: "slide_from_right",
-            }}
-          />
+          <SafeAreaView style={styles.container}>
+            {/* Configure StatusBar properties here */}
+            <StatusBar
+              style="light" // Text color for the status bar
+              translucent={true} // Make the status bar translucent
+              backgroundColor="transparent" // Make the background transparent
+            />
+            <Stack
+              screenOptions={{
+                headerShown: true,
+                headerStyle: {
+                  backgroundColor: Colors.background.secondary,
+                },
+                headerTintColor: Colors.text.light,
+                headerBackTitle: "Back",
+                headerTitle: "", // Empty title by default
+                animation: "slide_from_right", // Default animation for most screens
+              }}
+            >
+              
+            </Stack>
+          </SafeAreaView>
         </Provider>
       </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+});

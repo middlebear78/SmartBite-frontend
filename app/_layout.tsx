@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { I18nManager, View, StyleSheet } from "react-native";
 import { enableScreens } from "react-native-screens";
@@ -29,6 +30,7 @@ export default function RootLayout() {
     NunitoBold: require("../assets/fonts/Nunito-Bold.ttf"),
     NunitoExtraBold: require("../assets/fonts/Nunito-ExtraBold.ttf"),
     DeliusRegular: require("../assets/fonts/Delius-Regular.ttf"),
+    OrbitronExtraBold: require("../assets/fonts/Orbitron-ExtraBold.ttf"),
   });
 
   useEffect(() => {

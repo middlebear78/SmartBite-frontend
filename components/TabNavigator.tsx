@@ -37,8 +37,8 @@ export const BottomTabNavigator = () => {
       style={[
         styles.container,
         {
-          paddingBottom: Platform.OS === "android" ? insets.bottom : 0, // Adjust for Android bottom inset
-          paddingTop: insets.top, // Ensure no cut-off at the top for safe area
+          position: "absolute",
+
         },
       ]}
     >

@@ -2,7 +2,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Colors } from "../../constants/Colors";
-
+import { fonts } from "../../constants/fonts";
 import Gradient from "../Gradient";
 
 interface DateItemProps {
@@ -126,15 +126,17 @@ const styles = StyleSheet.create({
   },
   dayText: {
     fontSize: 18,
-    lineHeight: 18,
     fontWeight: "600",
     color: Colors.secondary,
+    fontFamily: fonts.main.bold,
+    marginTop: -4,
   },
   dateText: {
     fontSize: 18,
-    lineHeight: 18,
     fontWeight: "600",
     color: Colors.secondary,
+    fontFamily: fonts.main.bold,
+    marginTop: -5,
   },
   selectedText: {
     color: "#FFFFFF",

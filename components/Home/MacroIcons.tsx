@@ -2,7 +2,7 @@
 import * as React from "react";
 import Svg, { Path } from "react-native-svg";
 
-export const CarbsIcon = ({ size }: { size: number }) => (
+export const CarbsIcon = ({ size }: { size?: number }) => (
   <Svg width="34" height={size || 42} viewBox="0 0 34 42" fill="none">
     <Path
       d="M9.71 13.1C9.63 12.68 9.59 12.24 9.59 11.8C9.59 6.11 16.71 1.5 16.71 1.5C16.71 1.5 23.83 6.11 23.83 11.8C23.83 12.24 23.79 12.67 23.71 13.1"
@@ -42,7 +42,7 @@ export const CarbsIcon = ({ size }: { size: number }) => (
   </Svg>
 );
 
-export const FatsIcon = ({ size }: { size: number }) => (
+export const FatsIcon = ({ size }: { size?: number }) => (
   <Svg width={42} height={size || 42} viewBox="0 0 42 42" fill="none">
     <Path
       d="M12.5402 7.83996V5.99996C12.5402 4.10996 13.4402 2.32996 14.9702 1.20996"
@@ -82,7 +82,7 @@ export const FatsIcon = ({ size }: { size: number }) => (
   </Svg>
 );
 
-export const ProteinsIcon = ({ size }: { size: number }) => (
+export const ProteinsIcon = ({ size }: { size?: number }) => (
   <Svg width={43} height={size || 41} viewBox="0 0 43 41" fill="none">
     <Path
       d="M34.5601 26.84L34.9901 34.39C36.3601 34.63 37.4001 35.74 37.4001 37.27C37.4001 38.8 35.8001 40.2 34.4701 40.2C33.1401 40.2 32.5001 39.65 31.9801 38.82C31.4601 39.65 30.8301 40.2 29.4901 40.2C28.1501 40.2 26.5601 38.8 26.5601 37.27C26.5601 35.74 27.6001 34.63 28.9801 34.39L29.4101 26.84"

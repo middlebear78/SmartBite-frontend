@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   title: {
     marginTop: 10,
     fontSize: 15,
-    fontFamily: fonts.main.regular,
+    fontFamily: fonts.main.bold,
     color: Colors.text.primary,
   },
   value: {

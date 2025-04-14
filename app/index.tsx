@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { I18nManager, Text, StyleSheet, Image, View } from "react-native";
+import { I18nManager, Text, StyleSheet, Image, View, Dimensions } from "react-native";
 import { Screen } from "../components/Screen";
 import { Colors } from "../constants/Colors";
 import commonStyles from "../styles/commonStyles";
@@ -109,3 +109,5 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
 });
+
+

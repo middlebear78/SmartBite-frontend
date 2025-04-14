@@ -1,4 +1,4 @@
-// app/welcome.tsx
+
 import { Text, StyleSheet, Image, View, Dimensions } from "react-native";
 import { Screen } from "../components/Screen";
 import { Colors } from "../constants/Colors";
@@ -84,3 +84,5 @@ const styles = StyleSheet.create({
     marginTop: 60,
   },
 });
+
+

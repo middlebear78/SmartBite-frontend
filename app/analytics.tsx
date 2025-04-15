@@ -11,6 +11,7 @@ import InformationTab from "../components/Analytics/InformationTab";
 import WeightProgress from "../components/Analytics/WeightProgress";
 import ActivityTracking from "../components/Analytics/ActivityTracking";
 import NutritionalInsights from "../components/Analytics/NutritionalInsights";
+import CaloriesIntake from "../components/Analytics/CaloriesIntake";
 const Analytics = () => {
   return (
     <>
@@ -40,7 +41,7 @@ const Analytics = () => {
             title="Calories Intake"
             color={Colors.background.green}
           >
-            <Text>Calories Intake</Text>
+            <CaloriesIntake />
           </InformationTab>
           <InformationTab
             title="Macronutrient Distribution"

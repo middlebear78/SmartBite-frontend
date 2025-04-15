@@ -2,19 +2,22 @@ import React, { useState } from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 import { TextButton } from "../Analytics/WeightProgressButton";
 import { LineChart } from "react-native-chart-kit";
-
+import { Colors } from "../../constants/Colors";
 const screenWidth = Dimensions.get("window").width;
 
 const chartConfig = {
   backgroundGradientFrom: "#ffffff",
   backgroundGradientTo: "#ffffff",
   decimalPlaces: 1,
-  color: (opacity = 1) => `rgba(0, 188, 212, ${opacity})`,
+  color: (opacity = 1) => `rgba(0, 174, 239, ${opacity})`,
   labelColor: () => "#000",
   propsForDots: {
     r: "4",
     strokeWidth: "2",
-    stroke: "#00BCD4",
+    stroke: Colors.background.darkBlue,
+  },
+  propsForBackgroundLines: {
+    strokeWidth: 0,
   },
 };
 
@@ -52,10 +55,9 @@ const WeightProgress = () => {
 
       <LineChart
         data={dataByPeriod[selectedItem]}
-        width={screenWidth - 32}
-        height={220}
+        width={Dimensions.get("window").width * 0.9}
+        height={200}
         chartConfig={chartConfig}
-        bezier
         style={styles.chart}
       />
     </View>
@@ -67,13 +69,13 @@ export default WeightProgress;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     padding: 16,
   },
   buttonRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     marginBottom: 20,
+    gap: 20,
   },
   chart: {
     borderRadius: 16,

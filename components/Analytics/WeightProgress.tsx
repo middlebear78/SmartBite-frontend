@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, Text } from "react-native";
 import { TextButton } from "../Analytics/WeightProgressButton";
 import { LineChart } from "react-native-chart-kit";
 import { Colors } from "../../constants/Colors";
-const screenWidth = Dimensions.get("window").width;
+import GraphLegend from "./GraphLegend";
 
 const chartConfig = {
   backgroundGradientFrom: "#ffffff",
@@ -37,7 +37,9 @@ const dataByPeriod = {
 };
 
 const WeightProgress = () => {
-  const [selectedItem, setSelectedItem] = useState<"week" | "month" | "year">("week");
+  const [selectedItem, setSelectedItem] = useState<"week" | "month" | "year">(
+    "week"
+  );
 
   return (
     <View style={styles.container}>
@@ -60,6 +62,18 @@ const WeightProgress = () => {
         chartConfig={chartConfig}
         style={styles.chart}
       />
+      <View style={styles.legendDescription}>
+        <GraphLegend
+          title="Current"
+          value="69.2kg"
+          color={Colors.background.darkBlue}
+        />
+        <GraphLegend
+          title="Target"
+          value="65kg"
+          color={Colors.background.gray}
+        />
+      </View>
     </View>
   );
 };
@@ -79,5 +93,12 @@ const styles = StyleSheet.create({
   },
   chart: {
     borderRadius: 16,
+  },
+  legendDescription: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    flex: 1,
+    gap: 20,
   },
 });

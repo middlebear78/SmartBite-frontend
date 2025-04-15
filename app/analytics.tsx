@@ -12,6 +12,7 @@ import WeightProgress from "../components/Analytics/WeightProgress";
 import ActivityTracking from "../components/Analytics/ActivityTracking";
 import NutritionalInsights from "../components/Analytics/NutritionalInsights";
 import CaloriesIntake from "../components/Analytics/CaloriesIntake";
+import MacronutrientDistribution from "../components/Analytics/MacronutrientDistribution";
 const Analytics = () => {
   return (
     <>
@@ -47,7 +48,7 @@ const Analytics = () => {
             title="Macronutrient Distribution"
             color={Colors.background.orange}
           >
-            <Text>Macronutrient Distribution</Text>
+            <MacronutrientDistribution />
           </InformationTab>
 
           <InformationTab
@@ -65,7 +66,7 @@ const Analytics = () => {
           >
             <NutritionalInsights />
           </InformationTab>
-          <View style={{ height: 100 }}></View>
+          <View style={{ height: 150 }}></View>
         </ScrollView>
       </Screen>
       <BottomTabNavigator />

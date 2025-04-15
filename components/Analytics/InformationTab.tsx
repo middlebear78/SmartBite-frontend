@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   },
   container: {
     width: Dimensions.get("window").width * 0.9,
-    height: 280,
+    height: 310,
     backgroundColor: "white",
     borderRadius: 25,
     shadowColor: "#000",

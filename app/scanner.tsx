@@ -197,6 +197,7 @@ export default function Scanner() {
           headerBackTitle: "",
           title: "",
           headerTintColor: Colors.text.light,
+
           headerStyle: { backgroundColor: Colors.background.secondary },
           headerRight: () => (
             <TouchableOpacity

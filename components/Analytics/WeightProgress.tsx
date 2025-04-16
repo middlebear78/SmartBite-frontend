@@ -1,20 +1,23 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
+import { View, StyleSheet, Dimensions, Text } from "react-native";
 import { TextButton } from "../Analytics/WeightProgressButton";
 import { LineChart } from "react-native-chart-kit";
-
-const screenWidth = Dimensions.get("window").width;
+import { Colors } from "../../constants/Colors";
+import GraphLegend from "./GraphLegend";
 
 const chartConfig = {
   backgroundGradientFrom: "#ffffff",
   backgroundGradientTo: "#ffffff",
   decimalPlaces: 1,
-  color: (opacity = 1) => `rgba(0, 188, 212, ${opacity})`,
+  color: (opacity = 1) => `rgba(0, 174, 239, ${opacity})`,
   labelColor: () => "#000",
   propsForDots: {
     r: "4",
     strokeWidth: "2",
-    stroke: "#00BCD4",
+    stroke: Colors.background.darkBlue,
+  },
+  propsForBackgroundLines: {
+    strokeWidth: 0,
   },
 };
 
@@ -34,7 +37,9 @@ const dataByPeriod = {
 };
 
 const WeightProgress = () => {
-  const [selectedItem, setSelectedItem] = useState<"week" | "month" | "year">("week");
+  const [selectedItem, setSelectedItem] = useState<"week" | "month" | "year">(
+    "week"
+  );
 
   return (
     <View style={styles.container}>
@@ -52,12 +57,23 @@ const WeightProgress = () => {
 
       <LineChart
         data={dataByPeriod[selectedItem]}
-        width={screenWidth - 32}
-        height={220}
+        width={Dimensions.get("window").width * 0.9}
+        height={200}
         chartConfig={chartConfig}
-        bezier
         style={styles.chart}
       />
+      <View style={styles.legendDescription}>
+        <GraphLegend
+          title="Current"
+          value="69.2kg"
+          color={Colors.background.darkBlue}
+        />
+        <GraphLegend
+          title="Target"
+          value="65kg"
+          color={Colors.background.gray}
+        />
+      </View>
     </View>
   );
 };
@@ -67,15 +83,22 @@ export default WeightProgress;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
     padding: 16,
   },
   buttonRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     marginBottom: 20,
+    gap: 20,
   },
   chart: {
     borderRadius: 16,
+  },
+  legendDescription: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-end",
+    flex: 1,
+    gap: 20,
   },
 });

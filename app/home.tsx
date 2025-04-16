@@ -12,7 +12,6 @@ import {
   Text,
   ActivityIndicator,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context"; // Import SafeAreaView
 import { Screen } from "../components/Screen";
 import { useRouter } from "expo-router";
 import { BottomTabNavigator } from "../components/TabNavigator";
@@ -21,6 +20,8 @@ import MacroGrid from "../components/Home/MacroGrid";
 import TipsSlider from "../components/Home/TipsSlider";
 import MealItemHomePage from "../components/Home/MealItemHomePage";
 import LocalMealStorageService from "../services/mealLocalStorageService";
+import { fonts } from "../constants/fonts";
+import { Colors } from "../constants/Colors";
 
 interface StoredMeal {
   id?: string;
@@ -72,50 +73,49 @@ export default function HomeScreen() {
       <Stack.Screen options={{ headerShown: false }} />
 
       {/* Wrap the entire view in SafeAreaView */}
-      <SafeAreaView style={styles.mainContainer}>
-        <StatusBar barStyle="dark-content" backgroundColor="white" />
-        <Screen title="Daily Nutrition" showBack={false}>
-          <ScrollView
-            style={styles.scrollView}
-            showsVerticalScrollIndicator={false}
-          >
-            <DateAndCalories />
-            <MacroGrid />
-            <TipsSlider />
 
-            <View style={styles.mealsContainer}>
-              <Text style={styles.sectionTitle}>Your Saved Meals</Text>
+      <StatusBar barStyle="dark-content" backgroundColor="white" />
+      <Screen title="Daily Nutrition" showBack={false}>
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+        >
+          <DateAndCalories />
+          <MacroGrid />
+          <TipsSlider />
 
-              {loading ? (
-                <View style={styles.loadingContainer}>
-                  <ActivityIndicator size="large" color="#6B4EFF" />
-                  <Text style={styles.loadingText}>Loading your meals...</Text>
-                </View>
-              ) : meals.length > 0 ? (
-                meals.map((meal, index) => (
-                  <MealItemHomePage
-                    key={meal?.id || `meal-${index}`}
-                    meal_title={meal.meal_title}
-                    timestamp={meal.timestamp}
-                    total_macronutrients={meal.total_macronutrients}
-                    local_image_path={meal.local_image_path}
-                    id={meal.id}
-                  />
-                ))
-              ) : (
-                <View style={styles.emptyContainer}>
-                  <Text style={styles.emptyText}>No saved meals found</Text>
-                  <Text style={styles.emptySubtext}>
-                    Your saved meals will appear here
-                  </Text>
-                </View>
-              )}
-            </View>
-          </ScrollView>
-        </Screen>
+          <View style={styles.mealsContainer}>
+            <Text style={styles.sectionTitle}>Your Saved Meals</Text>
 
-        <BottomTabNavigator />
-      </SafeAreaView>
+            {loading ? (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#6B4EFF" />
+                <Text style={styles.loadingText}>Loading your meals...</Text>
+              </View>
+            ) : meals.length > 0 ? (
+              meals.map((meal, index) => (
+                <MealItemHomePage
+                  key={meal?.id || `meal-${index}`}
+                  meal_title={meal.meal_title}
+                  timestamp={meal.timestamp}
+                  total_macronutrients={meal.total_macronutrients}
+                  local_image_path={meal.local_image_path}
+                  id={meal.id}
+                />
+              ))
+            ) : (
+              <View style={styles.emptyContainer}>
+                <Text style={styles.emptyText}>No saved meals found</Text>
+                <Text style={styles.emptySubtext}>
+                  Your saved meals will appear here
+                </Text>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </Screen>
+
+      <BottomTabNavigator />
     </>
   );
 }
@@ -139,10 +139,11 @@ const styles = StyleSheet.create({
     marginTop: Platform.OS === "ios" ? 0 : 45,
   },
   sectionTitle: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#1A1A1A",
-    marginBottom: 10,
+    fontSize: 16,
+    fontFamily: fonts.main.bold,
+    color: Colors.text.primary,
+    textAlign: "center",
+    marginTop: 5,
   },
   loadingContainer: {
     padding: 20,

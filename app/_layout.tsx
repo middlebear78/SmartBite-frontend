@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { I18nManager, View, StyleSheet } from "react-native";
 import { enableScreens } from "react-native-screens";
@@ -8,7 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "../store";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Stack, SplashScreen } from "expo-router";
 import { Colors } from "../constants/Colors";
 
@@ -49,28 +48,24 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Provider store={store}>
-          <SafeAreaView style={styles.container}>
-            {/* Configure StatusBar properties here */}
-            <StatusBar
-              style="light" // Text color for the status bar
-              translucent={true} // Make the status bar translucent
-              backgroundColor="transparent" // Make the background transparent
-            />
-            <Stack
-              screenOptions={{
-                headerShown: true,
-                headerStyle: {
-                  backgroundColor: Colors.background.secondary,
-                },
-                headerTintColor: Colors.text.light,
-                headerBackTitle: "Back",
-                headerTitle: "", // Empty title by default
-                animation: "slide_from_right", // Default animation for most screens
-              }}
-            >
-              
-            </Stack>
-          </SafeAreaView>
+          {/* Configure StatusBar properties here */}
+          <StatusBar
+            style="light" // Text color for the status bar
+            translucent={true} // Make the status bar translucent
+            backgroundColor="transparent" // Make the background transparent
+          />
+          <Stack
+            screenOptions={{
+              headerShown: true,
+              headerStyle: {
+                backgroundColor: Colors.background.secondary,
+              },
+              headerTintColor: Colors.text.light,
+              headerBackTitle: "Back",
+              headerTitle: "", // Empty title by default
+              animation: "slide_from_right", // Default animation for most screens
+            }}
+          ></Stack>
         </Provider>
       </GestureHandlerRootView>
     </SafeAreaProvider>

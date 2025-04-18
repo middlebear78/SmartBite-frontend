@@ -194,14 +194,18 @@ export default function Scanner() {
     <>
       <Stack.Screen
         options={{
-          headerBackTitle: "",
+          headerBackTitle: "Back",
           title: "",
           headerTintColor: Colors.text.light,
 
           headerStyle: { backgroundColor: Colors.background.secondary },
           headerRight: () => (
             <TouchableOpacity
-              style={{ opacity: showFlashIcon ? 1 : 0, marginRight: 15 }}
+              style={{
+                opacity: showFlashIcon ? 1 : 0,
+                padding: 10, //this is for the small touch fix
+                marginRight: 15,
+              }}
               onPress={showFlashIcon ? toggleFlash : undefined}
             >
               {isFlashOn ? <FlashIconOn /> : <FlashIconOff />}

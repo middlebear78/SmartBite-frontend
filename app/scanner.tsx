@@ -194,7 +194,7 @@ export default function Scanner() {
     <>
       <Stack.Screen
         options={{
-          headerBackTitle: "",
+          headerBackTitle: "Back",
           title: "",
           headerTintColor: Colors.text.light,
 

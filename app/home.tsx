@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useLocalSearchParams } from "expo-router";
+import CustomAlert from "../components/CustomAlert";
 import * as FileSystem from "expo-file-system";
 import { Stack } from "expo-router";
 import {
@@ -39,8 +40,15 @@ interface StoredMeal {
 
 export default function HomeScreen() {
   const router = useRouter();
+  const params = useLocalSearchParams();
   const [meals, setMeals] = useState<StoredMeal[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertType, setAlertType] = useState<"success" | "error" | "info">(
+    "success"
+  );
 
   const today = new Date();
   const formattedDate = today.toLocaleDateString("en-US", {
@@ -67,6 +75,22 @@ export default function HomeScreen() {
       loadMeals();
     }, [])
   );
+  useEffect(() => {
+    if (params.showSuccessAlert === "true") {
+      // Small delay to ensure navigation is complete
+      setTimeout(() => {
+        setAlertMessage(
+          (params.alertMessage as string) || "Meal saved successfully"
+        );
+        setAlertType("success");
+        setAlertVisible(true);
+
+        // Clear the parameters after showing the alert
+        // This is crucial to prevent the loop
+        router.setParams({ showSuccessAlert: "false" });
+      }, 300);
+    }
+  }, [params.showSuccessAlert]); // Only depend on this specific parameter
 
   return (
     <>
@@ -116,6 +140,12 @@ export default function HomeScreen() {
       </Screen>
 
       <BottomTabNavigator />
+      <CustomAlert
+        visible={alertVisible}
+        message={alertMessage}
+        type={alertType}
+        onHide={() => setAlertVisible(false)}
+      />
     </>
   );
 }

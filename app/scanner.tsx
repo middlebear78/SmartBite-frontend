@@ -243,9 +243,6 @@ export default function Scanner() {
             {/* <Focus /> */}
           </View>
 
-          <View>
-            <Text>sdds</Text>
-          </View>
           <View style={styles.BottomContainer}>
             <BlurView
               intensity={30}

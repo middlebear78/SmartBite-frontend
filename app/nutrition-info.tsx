@@ -11,7 +11,7 @@ import {
   Alert,
   ActivityIndicator,
 } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Screen } from "../components/Screen";
 import { Colors } from "../constants/Colors";
 import MacroGridItem from "../components/Home/MacroGridItem";
@@ -19,8 +19,10 @@ import { ScrollView } from "react-native-gesture-handler";
 import { EditIcon, AddIcon } from "../components/SvgIcons";
 import ScanResultMealItem from "../components/ScanResultMealItem";
 import LocalMealStorageService from "../services/mealLocalStorageService"; // Import the MealStorage class
+import CustomAlert from "@/components/CustomAlert";
 
 const ScanResult = () => {
+  const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
 
   // Get URL params from navigation
@@ -41,6 +43,12 @@ const ScanResult = () => {
     fat: 0,
     grams: 0,
   };
+
+  const [AlertVisible, setAlertVisible] = useState<Boolean>(false);
+  const [AlertMessage, setAlertMessage] = useState<String>("");
+  const [AlertType, setAlertType] = useState<"success" | "error" | "info">(
+    "success"
+  );
 
   // Debug logs
   console.log("🛠️ Analysis Result:", analysisResult);
@@ -66,9 +74,16 @@ const ScanResult = () => {
         imagePath
       );
 
-      // Show success message
-      Alert.alert("✅ Meal Logged", "Your meal has been saved to your device.");
       console.log("📌 Meal Logged with ID:", mealId);
+
+      // Navigate to home with a success parameter
+      router.replace({
+        pathname: "/home",
+        params: {
+          showSuccessAlert: "true",
+          alertMessage: "Your meal has been saved to your Bites Diary",
+        },
+      });
     } catch (error) {
       console.error("Error saving meal:", error);
       Alert.alert("Error", "Failed to save your meal. Please try again.");

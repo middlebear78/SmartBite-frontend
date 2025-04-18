@@ -84,7 +84,7 @@ export default function HomeScreen() {
         );
         setAlertType("success");
         setAlertVisible(true);
-
+        console.log("Alert should be visible now:", params.alertMessage);
         // Clear the parameters after showing the alert
         // This is crucial to prevent the loop
         router.setParams({ showSuccessAlert: "false" });

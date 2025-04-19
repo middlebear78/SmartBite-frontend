@@ -46,7 +46,7 @@ const MealItemHomePage = ({
     });
   };
 
-  // Add this function to handle meal deletion
+  // Add this function to handle meal deletion for the debugging -------------------------------
   const handleDeleteMeal = (event) => {
     // Stop the event from propagating to the parent TouchableOpacity
     event.stopPropagation();
@@ -82,7 +82,7 @@ const MealItemHomePage = ({
       ]
     );
   };
-
+  //--------------------------------------------------------------------------------------------------------------------------
   // Format the macros string
   const formatMacros = () => {
     return `Carbs-${total_macronutrients.carbs || 0}g, Fat-${
@@ -142,7 +142,7 @@ const MealItemHomePage = ({
           <Text style={styles.macros}>{formatMacros()}</Text>
         </View>
 
-        {/* Add delete button */}
+        {/* delete button for the debugging*/}
         <TouchableOpacity
           style={styles.deleteButton}
           onPress={handleDeleteMeal}

@@ -5,9 +5,12 @@ import {
   Text,
   ImageBackground,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Colors } from "../../constants/Colors";
+import { useRouter } from "expo-router";
+import LocalMealStorageService from "../../services/mealLocalStorageService";
 
 const MealItemHomePage = ({
   meal_title = "Meal",
@@ -15,9 +18,69 @@ const MealItemHomePage = ({
   total_macronutrients = { calories: 0, protein: 0, carbs: 0, fat: 0 },
   local_image_path,
   id = "",
+  foods = [],
 }) => {
+  const router = useRouter();
+
   const goToMealPage = () => {
     console.log("go to meal page", id);
+    const mealData = {
+      analysis: {
+        meal_title,
+        total_macronutrients,
+        foods: foods || [],
+      },
+    };
+    router.push({
+      pathname: "/nutrition-info",
+      params: {
+        analysisResult: JSON.stringify(mealData),
+        imagePath: local_image_path
+          ? `${FileSystem.documentDirectory}meal_images/${local_image_path
+              .split("/")
+              .pop()}`
+          : "",
+        editMode: "true",
+        mealId: id, // Make sure to pass the ID
+      },
+    });
+  };
+
+  // Add this function to handle meal deletion
+  const handleDeleteMeal = (event) => {
+    // Stop the event from propagating to the parent TouchableOpacity
+    event.stopPropagation();
+
+    // Show confirmation alert
+    Alert.alert(
+      "Delete Meal",
+      `Are you sure you want to delete "${meal_title}"?`,
+      [
+        {
+          text: "Cancel",
+          style: "cancel",
+        },
+        {
+          text: "Delete",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              // Call the delete method from your service
+              await LocalMealStorageService.deleteMeal(id);
+              // Refresh the home screen (could trigger a reload or use a callback)
+              // You might need to pass a callback from your HomeScreen to refresh the list
+              console.log("✅ Meal deleted successfully");
+            } catch (error) {
+              console.error("❌ Error deleting meal:", error);
+              Alert.alert(
+                "Error",
+                "Failed to delete the meal. Please try again."
+              );
+            }
+          },
+        },
+      ]
+    );
   };
 
   // Format the macros string
@@ -78,6 +141,14 @@ const MealItemHomePage = ({
           </Text>
           <Text style={styles.macros}>{formatMacros()}</Text>
         </View>
+
+        {/* Add delete button */}
+        <TouchableOpacity
+          style={styles.deleteButton}
+          onPress={handleDeleteMeal}
+        >
+          <Text style={styles.deleteButtonText}>×</Text>
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -134,5 +205,23 @@ const styles = StyleSheet.create({
     marginTop: 3,
     fontSize: 12,
     color: Colors.text.primary,
+  },
+  deleteButton: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+    backgroundColor: "rgba(255, 59, 48, 0.8)",
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 10,
+  },
+  deleteButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    lineHeight: 20,
   },
 });

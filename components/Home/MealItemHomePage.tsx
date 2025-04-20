@@ -143,12 +143,12 @@ const MealItemHomePage = ({
         </View>
 
         {/* delete button for the debugging*/}
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.deleteButton}
           onPress={handleDeleteMeal}
         >
           <Text style={styles.deleteButtonText}>×</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </TouchableOpacity>
   );

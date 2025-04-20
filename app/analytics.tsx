@@ -28,8 +28,8 @@ const Analytics = () => {
       <Screen>
         <ScrollView>
           <WeightSection />
-          {/* <StepsSection /> */}
-          {/* <WaterSection /> */}
+          <StepsSection />
+          <WaterSection />
 
           <InformationTab
             title="Weight Progress"

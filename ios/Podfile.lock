@@ -242,7 +242,7 @@ PODS:
     - ExpoModulesCore
   - ExpoFont (13.0.4):
     - ExpoModulesCore
-  - ExpoHead (4.0.19):
+  - ExpoHead (4.0.20):
     - ExpoModulesCore
   - ExpoImagePicker (16.0.6):
     - ExpoModulesCore
@@ -1599,7 +1599,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context (5.3.0):
+  - react-native-safe-area-context (5.4.0):
     - React-Core
   - react-native-slider (4.5.6):
     - DoubleConversion
@@ -1938,7 +1938,7 @@ PODS:
   - RNGoogleSignin (13.2.0):
     - GoogleSignIn (~> 7.1)
     - React-Core
-  - RNReanimated (3.17.1):
+  - RNReanimated (3.17.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1960,10 +1960,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.17.1)
-    - RNReanimated/worklets (= 3.17.1)
+    - RNReanimated/reanimated (= 3.17.4)
+    - RNReanimated/worklets (= 3.17.4)
     - Yoga
-  - RNReanimated/reanimated (3.17.1):
+  - RNReanimated/reanimated (3.17.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1985,9 +1985,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated/apple (= 3.17.1)
+    - RNReanimated/reanimated/apple (= 3.17.4)
     - Yoga
-  - RNReanimated/reanimated/apple (3.17.1):
+  - RNReanimated/reanimated/apple (3.17.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2010,7 +2010,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated/worklets (3.17.1):
+  - RNReanimated/worklets (3.17.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2032,9 +2032,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/worklets/apple (= 3.17.1)
+    - RNReanimated/worklets/apple (= 3.17.4)
     - Yoga
-  - RNReanimated/worklets/apple (3.17.1):
+  - RNReanimated/worklets/apple (3.17.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2081,6 +2081,27 @@ PODS:
     - Yoga
   - RNSVG (15.8.0):
     - React-Core
+  - RNVectorIcons (10.2.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - SocketRocket (0.7.1)
   - VisionCamera (4.6.4):
     - VisionCamera/Core (= 4.6.4)
@@ -2196,6 +2217,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
@@ -2415,6 +2437,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSVG:
     :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   VisionCamera:
     :path: "../node_modules/react-native-vision-camera"
   Yoga:
@@ -2441,7 +2465,7 @@ SPEC CHECKSUMS:
   ExpoCrypto: e97e864c8d7b9ce4a000bca45dddb93544a1b2b4
   ExpoFileSystem: 42d363d3b96f9afab980dcef60d5657a4443c655
   ExpoFont: f354e926f8feae5e831ec8087f36652b44a0b188
-  ExpoHead: caaccab2474a1b1f3be62eb1d493f9d30c704f94
+  ExpoHead: cee2d16ef197aaadb0ac481cf221a663636eb074
   ExpoImagePicker: 24e5ba8da111f74519b1e6dc556e0b438b2b8464
   ExpoKeepAwake: b0171a73665bfcefcfcc311742a72a956e6aa680
   ExpoLinearGradient: 35ebd83b16f80b3add053a2fd68cc328ed927f60
@@ -2491,7 +2515,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: 16e31e4f503a5f46adafd035096130418c3bce70
   react-native-cameraroll: 12a9c1cd6d10d32d438f45cc1a55348728062055
   react-native-image-picker: 86f8954a0b8c0f85d56fa1d85ae87936ae74e615
-  react-native-safe-area-context: fdb0a66feac038cb6eb1edafcf2ccee2b5cf0284
+  react-native-safe-area-context: 9d72abf6d8473da73033b597090a80b709c0b2f1
   react-native-slider: 0b7c66d7408aa7c279b783f6a017c31870184c99
   React-nativeconfig: f7ab6c152e780b99a8c17448f2d99cf5f69a2311
   React-NativeModulesApple: 9aeb901b9bfcc9235e912445fb3cf4780a99baf4
@@ -2525,9 +2549,10 @@ SPEC CHECKSUMS:
   RNFS: 89de7d7f4c0f6bafa05343c578f61118c8282ed8
   RNGestureHandler: 27a63f2218affdf1a426d56682f9b174904838b3
   RNGoogleSignin: b8760528f2a7cbe157ecfdcc13bdb7d2745c9389
-  RNReanimated: 17a1990801a6a324816dcc52a9a44dfb99d556b3
+  RNReanimated: 3e9f6bc7668f30371aab26e818deeb3cc02e12f1
   RNScreens: 4a5ab20b324ed1e3fe3862796b8f8e0a6208c415
   RNSVG: 8542aa11770b27563714bbd8494a8436385fc85f
+  RNVectorIcons: 182892e7d1a2f27b52d3c627eca5d2665a22ee28
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   VisionCamera: f56eaedde0d3fa095143b78374d29e89e71735f9
   Yoga: fcc198acd4a55599b3468cfb6ebc526baff5f06e

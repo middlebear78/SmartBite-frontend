@@ -34,7 +34,9 @@ const SelectedDateInfo = ({ isToday, selectedDate }: SelectedDateInfoProps) => {
   if (isToday) {
     dataToshow = (
       <View style={styles.todayContainer}>
-        <Text style={styles.bigText}>2000</Text>
+        <View style={styles.caloriesContainer}>
+          <Text style={styles.bigText}>2000</Text>
+        </View>
         <Text style={styles.smallText}>Calories left{"\n"}for today</Text>
       </View>
     );
@@ -97,10 +99,10 @@ const styles = StyleSheet.create({
   bigText: {
     fontFamily: fonts.main.bold,
     fontSize: 50,
-    height: 55,
     color: Colors.white,
-    position: "relative",
-    top: -5,
+  },
+  caloriesContainer: {
+    height: 60,
   },
   smallText: {
     fontSize: 18,
@@ -111,7 +113,7 @@ const styles = StyleSheet.create({
   },
   todayContainer: {
     position: "relative",
-    top: -2,
+    top: -4,
   },
   dataStatsContainer: {
     flexDirection: "row",

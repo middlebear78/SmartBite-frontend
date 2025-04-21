@@ -4,7 +4,7 @@ import { View, StyleSheet } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store";
-
+import { CheckMarkIcon } from "../SvgIcons";
 interface StepIndicatorItemProps {
   active: boolean;
   step: number;
@@ -20,7 +20,11 @@ const StepIndicatorItem = ({ active, step }: StepIndicatorItemProps) => {
   let stepItem = <View style={styles.stepIndicatorItem}></View>;
 
   if (haveAnswered) {
-    stepItem = <View style={styles.haveAnsweredStepIndicatorItem}></View>;
+    stepItem = (
+      <View style={styles.haveAnsweredStepIndicatorItem}>
+        <CheckMarkIcon />
+      </View>
+    );
   }
 
   if (active) {
@@ -50,5 +54,7 @@ const styles = StyleSheet.create({
     width: 28,
     borderRadius: 50,
     backgroundColor: Colors.success,
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

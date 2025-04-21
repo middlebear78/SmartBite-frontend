@@ -338,6 +338,16 @@ export const NutritionalInsightsIcon = () => (
   </Svg>
 );
 
+export const CheckMarkIcon = () => (
+  <Svg width="13" height="10" viewBox="0 0 13 10" fill="none">
+    <Path
+      fill-rule="evenodd"
+      clip-rule="evenodd"
+      d="M3.66008 9.13L0.540078 6.01001C0.0100781 5.48001 0.0100781 4.61001 0.540078 4.08001C1.07008 3.55001 1.94008 3.55001 2.47008 4.08001L4.67008 6.28001L10.1401 0.810006C10.6701 0.280006 11.5401 0.280006 12.0701 0.810006C12.6001 1.34001 12.6001 2.21001 12.0701 2.74001L5.64008 9.17001C5.11008 9.70001 4.24008 9.70001 3.71008 9.17001C3.70008 9.16001 3.68008 9.14001 3.67008 9.12001L3.66008 9.13Z"
+      fill="#E9E9E9"
+    />
+  </Svg>
+);
 const styles = StyleSheet.create({
   editIconContainer: {
     backgroundColor: Colors.background.darkBlue,

@@ -42,3 +42,16 @@ DerivedData/
 # IDE
 .vscode/
 .idea/
+*.lock
+package.json
+package.json
+metro.config.js
+ios/SmartBite.xcodeproj/project.pbxproj
+/ios
+/ios
+/ios
+/android
+/android
+android/build.gradle
+package.json
+ios/SmartBite.xcodeproj/project.pbxproj

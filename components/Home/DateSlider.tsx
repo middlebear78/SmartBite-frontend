@@ -1,11 +1,12 @@
 // components/Home/DateSlider.tsx
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   LayoutChangeEvent,
   ScrollView,
   StyleSheet,
   View,
   Animated,
+  Platform,
 } from "react-native";
 import { Colors } from "../../constants/Colors";
 
@@ -18,11 +19,6 @@ interface DateSliderProps {
 
 const DateSlider = ({ updateIsToday, updateSelectedDate }: DateSliderProps) => {
   const [selectedDate, setSelectedDate] = useState("");
-  const [scrollViewWidth, setScrollViewWidth] = useState(0);
-  const [XItemsRef, setXItemsRef] = useState<
-    Array<{ index: number; pageX: number }>
-  >([]);
-
   const [isFirstRender, setIsFirstRender] = useState(true);
   const scrollViewRef = useRef<ScrollView>(null);
   const itemRefs = useRef<React.RefObject<View>[]>([]);
@@ -64,17 +60,7 @@ const DateSlider = ({ updateIsToday, updateSelectedDate }: DateSliderProps) => {
     itemRefs.current = lastSevenDays.map(() => React.createRef<View>());
   }, []);
 
-  useLayoutEffect(() => {
-    itemRefs.current.forEach((ref, index) => {
-      ref.current?.measure((x, y, width, height, pageX) => {
-        setXItemsRef((prev) => [...prev, { index, pageX }]);
-      });
-    });
-  }, [selectedDate]);
-
   const onScrollViewLayout = (event: LayoutChangeEvent) => {
-    const { width } = event.nativeEvent.layout;
-    setScrollViewWidth(width);
     if (isFirstRender) {
       scrollViewRef.current?.scrollToEnd({ animated: false });
       setIsFirstRender(false);
@@ -87,23 +73,17 @@ const DateSlider = ({ updateIsToday, updateSelectedDate }: DateSliderProps) => {
     updateSelectedDate(date);
     Animated.spring(containerWidth, {
       toValue: index === 0 ? 55 : 45,
-      damping: 10, // Controls bounce (lower = more bounce)
-      stiffness: 200, // Controls speed
-      mass: 1, // Controls inertia
+      damping: 10,
+      stiffness: 200,
+      mass: 1,
       useNativeDriver: false,
     }).start();
-    const item = itemRefs.current[index].current;
-    const scrollView = scrollViewRef.current;
-    if (item && scrollView) {
-      item.measure((x, y, width, height, pageX) => {
-        const itemX = XItemsRef[index].pageX;
-        const scrollX = itemX - scrollViewWidth / 2 + width / 2;
-        scrollViewRef.current?.scrollTo({
-          x: scrollX,
-          animated: true,
-        });
-      });
-    }
+
+    // Calculate scroll position for RTL direction
+    const totalItems = lastSevenDays.length;
+    const itemWidth = 60; // Width of each date item
+    const scrollPosition = (totalItems - 1 - index) * itemWidth;
+    scrollViewRef.current?.scrollTo({ x: scrollPosition, animated: true });
   };
 
   return (
@@ -153,7 +133,7 @@ const styles = StyleSheet.create({
   dateContainer: {
     direction: "rtl",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: Platform.OS === 'ios' ? "row" : "row-reverse",
     gap: 15,
     paddingHorizontal: 20,
   },

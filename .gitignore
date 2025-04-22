@@ -1,57 +1,31 @@
+# Completely ignore iOS and Android build folders
+/ios/
+/android/
+
 # macOS
 .DS_Store
 
 # Node
 node_modules/
 npm-debug.log*
+yarn-debug.log*
 yarn-error.log*
+.pnp.*
+.yarn/*
 
 # Expo / Metro
 .expo/
 .expo-shared/
+__generated__/
+.metro-cache/
 
-# Build outputs
-android/.gradle/
-android/.idea/
-android/build/
-android/app/build/
-android/gradle/
-android/gradlew*
-android/gradle-wrapper.jar
-android/gradle-wrapper.properties
-android/local.properties      # contains your SDK path
-ios/Pods/
-ios/build/
-
-# Xcode
-*.xcworkspace
-*.xcuserdata
-DerivedData/
-
-# Environment
+# Environment files
 .env
-.env.*.local
+.env.*
+!.env.example
 
-# Keystores
-*.jks
-*.keystore
-
-# Google services (optional—if you store this elsewhere, ignore it)
-# google-services.json
-
-# IDE
-.vscode/
+# Editor configs
 .idea/
-*.lock
-package.json
-package.json
-metro.config.js
-ios/SmartBite.xcodeproj/project.pbxproj
-/ios
-/ios
-/ios
-/android
-/android
-android/build.gradle
-package.json
-ios/SmartBite.xcodeproj/project.pbxproj
+.vscode/
+*.swp
+*.swo

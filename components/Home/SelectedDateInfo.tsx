@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
   Dimensions,
+  Platform,
 } from "react-native";
 import Gradient from "../Gradient";
 import { Colors } from "../../constants/Colors";
@@ -113,7 +114,11 @@ const styles = StyleSheet.create({
   },
   todayContainer: {
     position: "relative",
+
     top: -4,
+
+    top: Platform.OS === "ios" ? -2 : -3,
+
   },
   dataStatsContainer: {
     flexDirection: "row",

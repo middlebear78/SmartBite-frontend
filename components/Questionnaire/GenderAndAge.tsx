@@ -1,6 +1,6 @@
 // components/Questionnaire/GenderAndAge.tsx
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState } from "react";
+import { View, Text, StyleSheet, TextInput } from "react-native";
 import TextButton from "../TextButton";
 import NumberPickerHorizontal from "../NumberPickerHorizontal";
 import { Section } from "../../types/questionnaire";
@@ -23,6 +23,13 @@ const GenderAndAge: React.FC<GenderAndAgeProps> = ({
   sectionIndex,
   handleSelectOption,
 }) => {
+  const [name, setName] = useState("");
+
+  const handleNameChange = (text: string) => {
+    setName(text);
+    handleSelectOption(text, "name", sectionIndex, "name");
+  };
+
   const genderData = question.options.map((option) => {
     return (
       <TextButton
@@ -45,6 +52,25 @@ const GenderAndAge: React.FC<GenderAndAgeProps> = ({
 
   return (
     <View style={styles.genderAndAgeContainer}>
+      <Text style={{ fontSize: 14, fontWeight: "500", marginBottom: 10 }}>
+        We’d love to know your name!
+      </Text>
+      <TextInput
+        style={{
+          height: 40,
+          borderColor: "transparent",
+          borderWidth: 1,
+          width: "80%",
+          paddingHorizontal: 10,
+          paddingVertical: 5,
+          backgroundColor: "white",
+          borderRadius: 5,
+          marginBottom: 40,
+        }}
+        placeholder="Your Name"
+        onChangeText={handleNameChange}
+        value={name}
+      />
       <Text style={{ fontSize: 14, fontWeight: "500", marginBottom: 10 }}>
         Gender
       </Text>

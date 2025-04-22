@@ -1,4 +1,4 @@
-// scan-results.tsx
+// edit-meal.tsx
 import React, { useState } from "react";
 import {
   View,
@@ -27,6 +27,9 @@ const ScanResult = () => {
 
   // Get URL params from navigation
   const params = useLocalSearchParams();
+  const editMode = (params.editMode = "true");
+  const mealId = params.mealId as string;
+
   const analysisResult = params.analysisResult
     ? JSON.parse(params.analysisResult as string)
     : null;
@@ -53,6 +56,7 @@ const ScanResult = () => {
   // Debug logs
   console.log("🛠️ Analysis Result:", analysisResult);
   console.log("🖼️ Received Image Path:", imagePath);
+  console.log("✏️ Edit Mode:", editMode, "Meal ID:", mealId);
 
   // Original ScanResult functions
   const editTitleAndDate = () => {
@@ -68,24 +72,44 @@ const ScanResult = () => {
     try {
       setIsSaving(true);
 
-      // Use MealStorage to save the meal and image
-      const mealId = await LocalMealStorageService.saveMealFromAnalysis(
-        analysisResult,
-        imagePath
-      );
+      if (editMode && mealId) {
+        // Update existing meal
+        await LocalMealStorageService.updateMeal(
+          mealId,
+          analysisResult,
+          imagePath
+        );
 
-      console.log("📌 Meal Logged with ID:", mealId);
+        console.log("✅ Meal Updated with ID:", mealId);
 
-      // Navigate to home with a success parameter
-      router.replace({
-        pathname: "/home",
-        params: {
-          showSuccessAlert: "true",
-          alertMessage: "Your meal has been saved to your Bites Diary",
-        },
-      });
+        // Navigate back to home with an update message
+        router.replace({
+          pathname: "/home",
+          params: {
+            showSuccessAlert: "true",
+            alertMessage: "Your meal has been updated",
+          },
+        });
+      } else {
+        // Original code for saving a new meal
+        const newMealId = await LocalMealStorageService.saveMealFromAnalysis(
+          analysisResult,
+          imagePath
+        );
+
+        console.log("📌 Meal Logged with ID:", newMealId);
+
+        // Navigate to home with a success parameter
+        router.replace({
+          pathname: "/home",
+          params: {
+            showSuccessAlert: "true",
+            alertMessage: "Your meal has been saved to your Bites Diary",
+          },
+        });
+      }
     } catch (error) {
-      console.error("Error saving meal:", error);
+      console.error("Error saving/updating meal:", error);
       Alert.alert("Error", "Failed to save your meal. Please try again.");
     } finally {
       setIsSaving(false);
@@ -207,7 +231,9 @@ const ScanResult = () => {
                     {isSaving ? (
                       <ActivityIndicator color={Colors.white} size="small" />
                     ) : (
-                      <Text style={styles.saveIngredientText}>Save</Text>
+                      <Text style={styles.saveIngredientText}>
+                        {editMode ? "Update" : "Save"}
+                      </Text>
                     )}
                   </TouchableOpacity>
 

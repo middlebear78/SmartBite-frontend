@@ -11,6 +11,7 @@ export interface MealData {
   local_image_path?: string;
   timestamp?: string;
   id?: string;
+  displayOrder?: number;
 }
 
 export interface AnalysisResult {
@@ -43,19 +44,33 @@ class LocalMealStorageService {
       console.error("❌ Error initializing LocalMealStorageService:", error);
     }
   }
-
-  /**
-   * Save meal locally with image handling
-   */
   static async saveMeal(meal: MealData, imagePath?: string): Promise<string> {
     try {
       // Generate a unique ID for this meal
       const mealId = Date.now().toString();
+
+      // Get existing meals to determine the highest display order
+      const existingMeals = await this.getLocalMeals();
+
+      // Find the highest display order
+      let highestOrder = 0;
+      existingMeals.forEach((meal) => {
+        if (meal.displayOrder && meal.displayOrder > highestOrder) {
+          highestOrder = meal.displayOrder;
+        }
+      });
+
+      // Assign a display order one higher than the current highest
       const mealWithId = {
         ...meal,
         id: mealId,
         timestamp: new Date().toISOString(),
+        displayOrder: highestOrder + 1, // New meals get higher numbers (will appear at top)
       };
+
+      console.log(
+        `✅ New meal created with displayOrder: ${mealWithId.displayOrder}, highest was: ${highestOrder}`
+      );
 
       // If there's a local image path, save it permanently
       if (imagePath) {
@@ -112,8 +127,7 @@ class LocalMealStorageService {
         }
       }
 
-      // Get existing meals and add new one
-      const existingMeals = await this.getLocalMeals();
+      // Add new meal to existing meals
       existingMeals.push(mealWithId);
 
       // Save the updated list
@@ -129,6 +143,9 @@ class LocalMealStorageService {
       throw error;
     }
   }
+  /**
+   * Save meal locally with image handling
+   */
 
   /**
    * Save meal from analysis result
@@ -164,19 +181,16 @@ class LocalMealStorageService {
       const mealsJson = await AsyncStorage.getItem(this.MEALS_STORAGE_KEY);
       const meals = mealsJson ? JSON.parse(mealsJson) : [];
 
-      // Sort by timestamp (newest first)
-      return meals.sort((a: MealData, b: MealData) => {
-        return (
-          new Date(b.timestamp || "").getTime() -
-          new Date(a.timestamp || "").getTime()
-        );
-      });
+      // REMOVE SORTING COMPLETELY - return meals exactly as stored
+      return meals;
+
+      // OR if you need some form of sorting, use the original order they were saved:
+      // return meals; // No sorting - preserves order in AsyncStorage
     } catch (error) {
       console.error("❌ Error fetching local meals:", error);
       return [];
     }
   }
-
   /**
    * Get a specific meal by ID
    */
@@ -302,6 +316,86 @@ class LocalMealStorageService {
       };
     }
   }
+
+  static async updateMeal(
+    mealId: string,
+    analysisResult: AnalysisResult,
+    imagePath?: string
+  ): Promise<string> {
+    try {
+      // Get raw meals JSON string without processing it
+      const mealsJson = await AsyncStorage.getItem(this.MEALS_STORAGE_KEY);
+      // Parse JSON directly without sorting
+      const meals = mealsJson ? JSON.parse(mealsJson) : [];
+
+      // Find the meal to update
+      const mealIndex = meals.findIndex((meal) => meal.id === mealId);
+
+      if (mealIndex === -1) {
+        throw new Error(`Meal with ID ${mealId} not found`);
+      }
+
+      // Get original meal
+      const originalMeal = meals[mealIndex];
+      console.log("Original meal to update:", originalMeal);
+
+      // Create updated meal without changing critical properties
+      const updatedMeal = {
+        ...originalMeal,
+        meal_title:
+          analysisResult.analysis.meal_title || originalMeal.meal_title,
+        total_macronutrients:
+          analysisResult.analysis.total_macronutrients ||
+          originalMeal.total_macronutrients,
+        foods: analysisResult.analysis.foods || originalMeal.foods,
+      };
+
+      // Extract just the filename from imagePath for comparison
+      const imageFilename = imagePath ? imagePath.split("/").pop() : "";
+      console.log(
+        "Image comparison - Image filename:",
+        imageFilename,
+        "Stored path:",
+        updatedMeal.local_image_path
+      );
+
+      // Only handle image if needed and the filenames don't match
+      if (imagePath && imageFilename !== updatedMeal.local_image_path) {
+        // Keep the original filename
+        if (updatedMeal.local_image_path) {
+          const fullImagePath = `${this.IMAGE_DIRECTORY}${updatedMeal.local_image_path}`;
+          console.log("Updating image at path:", fullImagePath);
+
+          // Check if source image exists
+          const sourceInfo = await FileSystem.getInfoAsync(imagePath);
+
+          if (sourceInfo.exists) {
+            // COPY instead of MOVE to avoid deleting the source
+            await FileSystem.copyAsync({
+              from: imagePath,
+              to: fullImagePath,
+            });
+            console.log("✅ Successfully copied image to:", fullImagePath);
+          }
+        }
+      } else {
+        console.log("✅ No image update needed - using existing image");
+      }
+
+      // Update in place
+      meals[mealIndex] = updatedMeal;
+      console.log("✅ Updated meal:", updatedMeal);
+
+      // Save without sorting
+      await AsyncStorage.setItem(this.MEALS_STORAGE_KEY, JSON.stringify(meals));
+
+      return mealId;
+    } catch (error) {
+      console.error("❌ Error updating meal:", error);
+      throw error;
+    }
+  }
+
   static async updateAllMeals(meals: MealData[]): Promise<boolean> {
     try {
       await AsyncStorage.setItem(this.MEALS_STORAGE_KEY, JSON.stringify(meals));

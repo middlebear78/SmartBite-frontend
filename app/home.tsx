@@ -23,6 +23,7 @@ import MealItemHomePage from "../components/Home/MealItemHomePage";
 import LocalMealStorageService from "../services/mealLocalStorageService";
 import { fonts } from "../constants/fonts";
 import { Colors } from "../constants/Colors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface StoredMeal {
   id?: string;
@@ -62,7 +63,20 @@ export default function HomeScreen() {
       const loadMeals = async () => {
         try {
           setLoading(true);
-          const savedMeals = await LocalMealStorageService.getLocalMeals();
+          // Get meals without resorting them
+          const mealsJson = await AsyncStorage.getItem(
+            LocalMealStorageService.MEALS_STORAGE_KEY
+          );
+          const savedMeals = mealsJson ? JSON.parse(mealsJson) : [];
+
+          // Debug log to check if foods data exists
+          savedMeals.forEach((meal, index) => {
+            console.log(
+              `Meal ${index} - ${meal.meal_title} - Foods:`,
+              meal.foods ? meal.foods.length : "none"
+            );
+          });
+
           setMeals(savedMeals);
           console.log("✅ Loaded meals:", savedMeals.length);
         } catch (error) {
@@ -73,7 +87,7 @@ export default function HomeScreen() {
       };
 
       loadMeals();
-    }, [])
+    }, []) // Empty dependency array means it runs once when the screen is focused
   );
   useEffect(() => {
     if (params.showSuccessAlert === "true") {
@@ -125,6 +139,7 @@ export default function HomeScreen() {
                   total_macronutrients={meal.total_macronutrients}
                   local_image_path={meal.local_image_path}
                   id={meal.id}
+                  foods={meal.foods}
                 />
               ))
             ) : (

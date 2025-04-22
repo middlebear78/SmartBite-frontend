@@ -63,7 +63,7 @@ export default function RootLayout() {
               headerTintColor: Colors.text.light,
               headerBackTitle: "Back",
               headerTitle: "", // Empty title by default
-              animation: "slide_from_right", // Default animation for most screens
+              animation: "default", // Default animation for most screens
             }}
           ></Stack>
         </Provider>

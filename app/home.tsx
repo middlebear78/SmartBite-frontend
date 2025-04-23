@@ -24,6 +24,31 @@ import LocalMealStorageService from "../services/mealLocalStorageService";
 import { fonts } from "../constants/fonts";
 import { Colors } from "../constants/Colors";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import dummymeals from "../DummyData/DummyHomeMealsItem";
+
+// -----------------Define the interface for DUMMY -food items ------------------------
+interface FoodItem {
+  id: string;
+  name: string;
+  amount: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
+
+const meal = dummymeals[0];
+const mealId = meal?.id || "default-id";
+const mealTitle = meal?.meal_title || "Default Meal";
+const mealTimestamp = meal?.timestamp || "Apr 23, 2025";
+const mealCalories = meal?.total_macronutrients?.calories || 0;
+const mealProtein = meal?.total_macronutrients?.protein || 0;
+const mealCarbs = meal?.total_macronutrients?.carbs || 0;
+const mealFat = meal?.total_macronutrients?.fat || 0;
+const mealImagePath = meal?.local_image_path || "";
+const mealFoods = meal?.foods || [];
+
+// --------------------end of dummy_data_interface--------------------
 
 interface StoredMeal {
   id?: string;
@@ -124,6 +149,21 @@ export default function HomeScreen() {
 
           <View style={styles.mealsContainer}>
             <Text style={styles.sectionTitle}>Your Saved Meals</Text>
+
+            {/* --------------------------dummy_meals------------------------------------------ */}
+
+            {dummymeals.map((meal, index) => (
+              <MealItemHomePage
+                key={meal.id}
+                meal_title={meal.meal_title}
+                timestamp={meal.timestamp}
+                total_macronutrients={meal.total_macronutrients}
+                local_image_path={meal.local_image_path}
+                id={meal.id}
+                foods={meal.foods}
+              />
+            ))}
+            {/* ------------------------------end_of_dummy_meals---------------------------------- */}
 
             {loading ? (
               <View style={styles.loadingContainer}>

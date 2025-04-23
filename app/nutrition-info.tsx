@@ -1,4 +1,4 @@
-// edit-meal.tsx
+// nutrition-info.tsx
 import React, { useState } from "react";
 import {
   View,

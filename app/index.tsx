@@ -14,30 +14,88 @@ import RoundButton from "../components/RoundButton";
 import { useRouter } from "expo-router";
 import { getStoredUser } from "../services/LoginServices";
 
+// Add this function to your app's startup/initialization code - this is for the dummy images
+import * as FileSystem from "expo-file-system";
+import { Asset } from "expo-asset";
+
 export default function WelcomeScreen() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   // ----------------------------------------User check------------------------------------------
-  // useEffect(() => {
-  //   // Check if user exists on component mount
-  //   checkStoredUser();
-  // }, []);
+  useEffect(() => {
+    //----------------this is for setting dummy images------------
+    setupDummyImages();
+    //-----------------end of dummy images loading -----------------
+    // Check if user exists on component mount
+    checkStoredUser();
+  }, []);
 
-  // const checkStoredUser = async () => {
-  //   const storedUser = await getStoredUser();
-  //   if (storedUser) {
-  //     // User exists, navigate to home
-  //     router.replace("home"); // Or whatever your home route is
-  //   } else {
-  //     setIsLoading(false);
-  //   }
-  //   // If no user, stay on welcome screen
-  // };
+  const checkStoredUser = async () => {
+    const storedUser = await getStoredUser();
+    if (storedUser) {
+      // User exists, navigate to home
+      router.replace("home"); // Or whatever your home route is
+    } else {
+      setIsLoading(false);
+    }
+    // If no user, stay on welcome screen
+  };
 
-  // if (isLoading) {
-  //   return null; // Or return a loading spinner if you prefer
-  // }
+  if (isLoading) {
+    return null; // Or return a loading spinner if you prefer
+  }
   // -------------------------------------------------------------------------------------------
+
+  //-----------------------------------------dummy-images-setup-------------------------------------
+  async function setupDummyImages() {
+    try {
+      // Create the meal_images directory if it doesn't exist
+      const mealImagesDir = `${FileSystem.documentDirectory}meal_images/`;
+      const dirInfo = await FileSystem.getInfoAsync(mealImagesDir);
+      if (!dirInfo.exists) {
+        await FileSystem.makeDirectoryAsync(mealImagesDir, {
+          intermediates: true,
+        });
+      }
+
+      // Define the images to copy
+      const imagesToCopy = [
+        {
+          source: require("../assets/images/homeMealItemImages/stam.jpg"),
+          destination: `${mealImagesDir}stam.jpg`,
+        },
+        {
+          source: require("../assets/images/homeMealItemImages/healthy-plate.webp"),
+          destination: `${mealImagesDir}healthy-plate.webp`,
+        },
+        {
+          source: require("../assets/images/homeMealItemImages/spicy-chicken.jpeg"),
+          destination: `${mealImagesDir}spicy-chicken.jpeg`,
+        },
+      ];
+
+      // Copy each image
+      for (const img of imagesToCopy) {
+        const asset = Asset.fromModule(img.source);
+        await asset.downloadAsync();
+        if (asset.localUri) {
+          await FileSystem.copyAsync({
+            from: asset.localUri,
+            to: img.destination,
+          });
+        }
+      }
+
+      console.log("✅ Dummy images set up successfully");
+    } catch (error) {
+      console.error("❌ Error setting up dummy images:", error);
+    }
+  }
+
+  // Call this function app starts
+
+  setupDummyImages();
+  // --------------------------------------------------end-dummy-images-setup-----------------------
   return (
     <Screen
       title="Welcome"

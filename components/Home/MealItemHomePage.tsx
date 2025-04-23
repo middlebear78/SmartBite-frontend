@@ -6,11 +6,13 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
+  Platform,
 } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Colors } from "../../constants/Colors";
 import { useRouter } from "expo-router";
 import LocalMealStorageService from "../../services/mealLocalStorageService";
+import { fonts } from "../../constants/fonts";
 
 const MealItemHomePage = ({
   meal_title = "Meal",
@@ -133,9 +135,16 @@ const MealItemHomePage = ({
           <View />
         </ImageBackground>
         <View style={styles.dateContainer}>
-          <Text style={styles.mealTypeAndDate}>
-            {meal_title} {formatDate()}
-          </Text>
+          <View style={styles.mealTypeAndDate}>
+            <Text
+              style={styles.mealTitle}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {meal_title}
+            </Text>
+            <Text style={styles.date}>{formatDate()}</Text>
+          </View>
           <Text style={styles.calories}>
             {total_macronutrients.calories || 0} cal
           </Text>
@@ -158,11 +167,15 @@ export default MealItemHomePage;
 
 const styles = StyleSheet.create({
   shadowContainer: {
-    shadowColor: "black",
+    shadowColor: Colors.background.darkGray,
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 3,
-    elevation: 10,
+    elevation: 2,
+    borderWidth: Platform.OS === "ios" ? 0 : 1,
+    borderColor: "#f2f2f2",
+    backgroundColor: "white",
+    borderRadius: 20,
   },
   container: {
     flex: 1,
@@ -172,7 +185,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     overflow: "hidden",
-    shadowColor: "black",
+  },
+
+  title: {
+    fontSize: 20,
+    color: Colors.text.secondary,
+    fontFamily: fonts.main.regular,
+  },
+
+  image: {
+    width: 100,
+    height: "100%",
+    borderRadius: 20,
+  },
+  mealTypeAndDate: {
+    color: Colors.text.primary,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  mealTitle: { fontSize: 12, width: "75%", fontFamily: fonts.main.regular },
+  date: {
+    fontSize: 11,
+    fontFamily: fonts.main.regular,
   },
   dateContainer: {
     height: "100%",
@@ -182,29 +217,17 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     padding: 10,
   },
-  title: {
-    fontSize: 20,
-    color: Colors.text.secondary,
-  },
-  image: {
-    width: 100,
-    height: "100%",
-    borderRadius: 20,
-  },
-  mealTypeAndDate: {
-    fontSize: 12,
-    color: Colors.text.primary,
-  },
   calories: {
     marginTop: 10,
     fontSize: 16,
-    fontWeight: "bold",
     color: Colors.text.primary,
+    fontFamily: fonts.main.bold,
   },
   macros: {
     marginTop: 3,
     fontSize: 12,
     color: Colors.text.primary,
+    fontFamily: fonts.main.regular,
   },
   deleteButton: {
     position: "absolute",

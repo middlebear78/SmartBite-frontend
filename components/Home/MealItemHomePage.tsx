@@ -13,7 +13,7 @@ import { Colors } from "../../constants/Colors";
 import { useRouter } from "expo-router";
 import LocalMealStorageService from "../../services/mealLocalStorageService";
 import { fonts } from "../../constants/fonts";
-
+import { CarbsLetterIcon, FatLetterIcon, ProteinLetterIcon } from "../SvgIcons";
 const MealItemHomePage = ({
   meal_title = "Meal",
   timestamp = "",
@@ -86,10 +86,39 @@ const MealItemHomePage = ({
   };
   //--------------------------------------------------------------------------------------------------------------------------
   // Format the macros string
+  // const formatMacros = () => {
+  //   return `Carbs-${total_macronutrients.carbs || 0}g, Fat-${
+  //     total_macronutrients.fat || 0
+  //   }g, Proteins-${total_macronutrients.protein || 0}g`;
+  // };
+
   const formatMacros = () => {
-    return `Carbs-${total_macronutrients.carbs || 0}g, Fat-${
-      total_macronutrients.fat || 0
-    }g, Proteins-${total_macronutrients.protein || 0}g`;
+    return (
+      <View style={styles.macrosContainer}>
+        <View style={styles.macroItem}>
+          <View style={styles.macroIcon}>
+            <CarbsLetterIcon />
+          </View>
+          <Text style={styles.macroText}>
+            {total_macronutrients.carbs || 0}g
+          </Text>
+        </View>
+        <View style={styles.macroItem}>
+          <View style={styles.macroIcon}>
+            <FatLetterIcon />
+          </View>
+          <Text style={styles.macroText}>{total_macronutrients.fat || 0}g</Text>
+        </View>
+        <View style={styles.macroItem}>
+          <View style={styles.macroIcon}>
+            <ProteinLetterIcon />
+          </View>
+          <Text style={styles.macroText}>
+            {total_macronutrients.protein || 0}g
+          </Text>
+        </View>
+      </View>
+    );
   };
 
   // Format the date
@@ -246,5 +275,27 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     lineHeight: 20,
+  },
+  macrosContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 7,
+  },
+  macroIcon: {
+    width: 16,
+    height: 16,
+   
+  },
+  macroItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 5,
+    gap: 4,
+  },
+  macroText: {
+    fontSize: 12,
+    color: Colors.text.primary,
+    fontFamily: fonts.main.regular,
   },
 });

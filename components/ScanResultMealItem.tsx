@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Colors } from "../constants/Colors";
+import { fonts } from "../constants/fonts";
 import { EditIcon } from "./SvgIcons";
 interface ScanResultMealItemProps {
   ingredient: string;
@@ -40,7 +41,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     minHeight: 60,
     padding: 10,
-
     marginBottom: 10,
     flexDirection: "row",
     alignItems: "center",
@@ -51,12 +51,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   ingredient: {
-    fontSize: 16,
-    marginBottom: 3,
-    lineHeight: 16,
+    fontSize: 14,
+    fontFamily: fonts.main.regular,
   },
   amount: {
     fontSize: 14,
-    lineHeight: 14,
+    fontFamily: fonts.main.regular,
   },
 });

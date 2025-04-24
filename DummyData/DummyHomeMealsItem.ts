@@ -30,7 +30,7 @@ export interface DummyMeal {
 const dummymeals: DummyMeal[] = [
   {
     id: "meal-1",
-    meal_title: "Meatloaf Dinner",
+    meal_title: "Meatloaf Dinner long title demo long title",
     timestamp: new Date().toISOString(),
     total_macronutrients: {
       calories: 650,

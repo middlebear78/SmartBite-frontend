@@ -6,12 +6,14 @@ import {
   ImageBackground,
   TouchableOpacity,
   Alert,
+  Platform,
 } from "react-native";
 import * as FileSystem from "expo-file-system";
 import { Colors } from "../../constants/Colors";
 import { useRouter } from "expo-router";
 import LocalMealStorageService from "../../services/mealLocalStorageService";
-
+import { fonts } from "../../constants/fonts";
+import { CarbsLetterIcon, FatLetterIcon, ProteinLetterIcon } from "../SvgIcons";
 const MealItemHomePage = ({
   meal_title = "Meal",
   timestamp = "",
@@ -84,10 +86,39 @@ const MealItemHomePage = ({
   };
   //--------------------------------------------------------------------------------------------------------------------------
   // Format the macros string
+  // const formatMacros = () => {
+  //   return `Carbs-${total_macronutrients.carbs || 0}g, Fat-${
+  //     total_macronutrients.fat || 0
+  //   }g, Proteins-${total_macronutrients.protein || 0}g`;
+  // };
+
   const formatMacros = () => {
-    return `Carbs-${total_macronutrients.carbs || 0}g, Fat-${
-      total_macronutrients.fat || 0
-    }g, Proteins-${total_macronutrients.protein || 0}g`;
+    return (
+      <View style={styles.macrosContainer}>
+        <View style={styles.macroItem}>
+          <View style={styles.macroIcon}>
+            <CarbsLetterIcon />
+          </View>
+          <Text style={styles.macroText}>
+            {total_macronutrients.carbs || 0}g
+          </Text>
+        </View>
+        <View style={styles.macroItem}>
+          <View style={styles.macroIcon}>
+            <FatLetterIcon />
+          </View>
+          <Text style={styles.macroText}>{total_macronutrients.fat || 0}g</Text>
+        </View>
+        <View style={styles.macroItem}>
+          <View style={styles.macroIcon}>
+            <ProteinLetterIcon />
+          </View>
+          <Text style={styles.macroText}>
+            {total_macronutrients.protein || 0}g
+          </Text>
+        </View>
+      </View>
+    );
   };
 
   // Format the date
@@ -133,9 +164,16 @@ const MealItemHomePage = ({
           <View />
         </ImageBackground>
         <View style={styles.dateContainer}>
-          <Text style={styles.mealTypeAndDate}>
-            {meal_title} {formatDate()}
-          </Text>
+          <View style={styles.mealTypeAndDate}>
+            <Text
+              style={styles.mealTitle}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {meal_title}
+            </Text>
+            <Text style={styles.date}>{formatDate()}</Text>
+          </View>
           <Text style={styles.calories}>
             {total_macronutrients.calories || 0} cal
           </Text>
@@ -158,11 +196,15 @@ export default MealItemHomePage;
 
 const styles = StyleSheet.create({
   shadowContainer: {
-    shadowColor: "black",
+    shadowColor: Colors.background.darkGray,
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 3,
-    elevation: 10,
+    elevation: 2,
+    borderWidth: Platform.OS === "ios" ? 0 : 1,
+    borderColor: "#f2f2f2",
+    backgroundColor: "white",
+    borderRadius: 20,
   },
   container: {
     flex: 1,
@@ -172,7 +214,29 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     overflow: "hidden",
-    shadowColor: "black",
+  },
+
+  title: {
+    fontSize: 20,
+    color: Colors.text.secondary,
+    fontFamily: fonts.main.regular,
+  },
+
+  image: {
+    width: 100,
+    height: "100%",
+    borderRadius: 20,
+  },
+  mealTypeAndDate: {
+    color: Colors.text.primary,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  mealTitle: { fontSize: 12, width: "75%", fontFamily: fonts.main.regular },
+  date: {
+    fontSize: 11,
+    fontFamily: fonts.main.regular,
   },
   dateContainer: {
     height: "100%",
@@ -182,29 +246,17 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     padding: 10,
   },
-  title: {
-    fontSize: 20,
-    color: Colors.text.secondary,
-  },
-  image: {
-    width: 100,
-    height: "100%",
-    borderRadius: 20,
-  },
-  mealTypeAndDate: {
-    fontSize: 12,
-    color: Colors.text.primary,
-  },
   calories: {
     marginTop: 10,
     fontSize: 16,
-    fontWeight: "bold",
     color: Colors.text.primary,
+    fontFamily: fonts.main.bold,
   },
   macros: {
     marginTop: 3,
     fontSize: 12,
     color: Colors.text.primary,
+    fontFamily: fonts.main.regular,
   },
   deleteButton: {
     position: "absolute",
@@ -223,5 +275,27 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     lineHeight: 20,
+  },
+  macrosContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 7,
+  },
+  macroIcon: {
+    width: 16,
+    height: 16,
+   
+  },
+  macroItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 5,
+    gap: 4,
+  },
+  macroText: {
+    fontSize: 12,
+    color: Colors.text.primary,
+    fontFamily: fonts.main.regular,
   },
 });

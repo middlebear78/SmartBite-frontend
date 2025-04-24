@@ -14,6 +14,7 @@ import {
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Screen } from "../components/Screen";
 import { Colors } from "../constants/Colors";
+import { fonts } from "../constants/fonts";
 import MacroGridItem from "../components/Home/MacroGridItem";
 import { ScrollView } from "react-native-gesture-handler";
 import { EditIcon, AddIcon } from "../components/SvgIcons";
@@ -223,7 +224,7 @@ const ScanResult = () => {
                 )}
 
                 <View style={styles.addIngredientContainer}>
-                  <TouchableOpacity
+                  {/* <TouchableOpacity
                     onPress={saveIngredient}
                     style={styles.saveIngredientContainer}
                     disabled={isSaving}
@@ -231,11 +232,9 @@ const ScanResult = () => {
                     {isSaving ? (
                       <ActivityIndicator color={Colors.white} size="small" />
                     ) : (
-                      <Text style={styles.saveIngredientText}>
-                        {editMode ? "Update" : "Save"}
-                      </Text>
+                      <Text style={styles.saveIngredientText}>Save</Text>
                     )}
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
 
                   <TouchableOpacity
                     onPress={addIngredient}
@@ -244,14 +243,14 @@ const ScanResult = () => {
                   >
                     <AddIcon />
                   </TouchableOpacity>
-
+{/* 
                   <TouchableOpacity
                     onPress={handleFixResults}
                     style={styles.cancelAddIngredientContainer}
                     disabled={isSaving}
                   >
                     <Text style={styles.cancelAddIngredientText}>Fix</Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity> */}
                 </View>
               </View>
             </ImageBackground>
@@ -289,16 +288,11 @@ const styles = StyleSheet.create({
     zIndex: 1,
     position: "relative",
     top: -70,
-    shadowColor: Colors.black,
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 5,
   },
   backgroundPatternContainer: {
-    paddingHorizontal: 10,
     flex: 1,
-    borderRadius: 35,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
     overflow: "hidden",
     marginTop: -50,
   },
@@ -308,24 +302,27 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   dataContainer: {
-    padding: 15,
+    padding: 20,
   },
   typeAndDate: {
     textAlign: "center",
-    fontSize: 12,
+    fontSize: 13,
     color: Colors.text.primary,
+    fontFamily: fonts.main.regular,
   },
   totalCalories: {
     textAlign: "center",
     fontSize: 20,
-    marginTop: 5,
+    marginTop: 0,
     color: Colors.text.primary,
+    fontFamily: fonts.main.bold,
     fontWeight: "bold",
   },
   editIconContainer: {
     position: "absolute",
     top: 15,
     right: 15,
+    zIndex: 100,
   },
   scrollViewContainer: {
     paddingTop: 10,
@@ -344,10 +341,11 @@ const styles = StyleSheet.create({
   },
   saveIngredientContainer: {
     backgroundColor: Colors.background.darkBlue,
-    padding: 7,
-    width: 80,
-    borderRadius: 100,
     alignItems: "center",
+    justifyContent: "center",
+    width: 80,
+    height: 30,
+    borderRadius: 100,
   },
   cancelAddIngredientContainer: {
     backgroundColor: Colors.background.darkGray,

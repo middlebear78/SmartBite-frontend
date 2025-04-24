@@ -1,5 +1,5 @@
 // components/Home/MacroGridItem.tsx
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Platform } from "react-native";
 import { Colors } from "../../constants/Colors";
 import { fonts } from "../../constants/fonts";
 import { CarbsIcon, FatsIcon, ProteinsIcon } from "./MacroIcons";
@@ -52,6 +52,14 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     padding: 10,
+    shadowColor:
+      Platform.OS === "ios"
+        ? Colors.background.lightGray
+        : Colors.background.darkGray,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 7,
+    elevation: 7,
   },
   title: {
     marginTop: 10,

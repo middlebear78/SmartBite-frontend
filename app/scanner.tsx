@@ -183,7 +183,8 @@ export default function Scanner() {
   }, [router]);
 
   const handleInfo = useCallback(() => {
-    console.log("info");
+    console.log("Opening how to use screen");
+    router.push("howToUse");
   }, []);
 
   const handleCameraReady = useCallback(() => {

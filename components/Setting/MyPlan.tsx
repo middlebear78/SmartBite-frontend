@@ -3,11 +3,14 @@ import { Colors } from "../../constants/Colors";
 import { MyPlanIcon } from "../SvgIcons";
 import CurrentPlanItem from "./CurrentPlanItem";
 import InfoItem from "./InfoItem";
+import { useRouter } from "expo-router";
 
 const MyPlan = () => {
+  const router = useRouter();
 
   const changePlan = () => {
     console.log("change plan located MyPlan.tsx");
+    router.push("subscriptionPlan");
   };
 
   const changeRenewalDate = () => {
@@ -46,7 +49,7 @@ const MyPlan = () => {
           value="Balanced"
           onPress={changeDietType}
         />
-         <InfoItem
+        <InfoItem
           backgroundColor={Colors.background.darkBlue}
           title="Daily Calorie Goal"
           value="2000 cal"

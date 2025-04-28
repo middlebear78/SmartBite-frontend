@@ -1,5 +1,5 @@
 // nutrition-info.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -17,14 +17,23 @@ import { Colors } from "../constants/Colors";
 import { fonts } from "../constants/fonts";
 import MacroGridItem from "../components/Home/MacroGridItem";
 import { ScrollView } from "react-native-gesture-handler";
-import { EditIcon, AddIcon } from "../components/SvgIcons";
+import {
+  EditIcon,
+  AddIcon,
+  CarbsLetterIcon,
+  FatLetterIcon,
+  ProteinLetterIcon,
+} from "../components/SvgIcons";
 import ScanResultMealItem from "../components/ScanResultMealItem";
 import LocalMealStorageService from "../services/mealLocalStorageService"; // Import the MealStorage class
 import CustomAlert from "@/components/CustomAlert";
+import Ionicons from "@expo/vector-icons/Ionicons"; // Import Ionicons for checkmarks and diet indicators
 
 const ScanResult = () => {
   const router = useRouter();
   const [isSaving, setIsSaving] = useState(false);
+  const [dietCompliant, setDietCompliant] = useState({});
+  const [overallDietCompliant, setOverallDietCompliant] = useState(false);
 
   // Get URL params from navigation
   const params = useLocalSearchParams();
@@ -54,10 +63,28 @@ const ScanResult = () => {
     "success"
   );
 
+  // Check overall diet compliance
+  useEffect(() => {
+    if (foods.length > 0) {
+      // Consider meal compliant if all items are compliant or neutral
+      const allCompliant = foods.every(
+        (item) => dietCompliant[item.food_name] !== false
+      );
+      setOverallDietCompliant(allCompliant);
+    }
+  }, [dietCompliant, foods]);
+
   // Debug logs
   console.log("🛠️ Analysis Result:", analysisResult);
   console.log("🖼️ Received Image Path:", imagePath);
   console.log("✏️ Edit Mode:", editMode, "Meal ID:", mealId);
+
+  // Diet compliance check - a simple example that would be replaced with real logic
+  const checkDietCompliance = (food) => {
+    // Example diet rules - you would replace this with actual diet rules
+    // For demo: low-carb diet (under 20g carbs per item is compliant)
+    return food.macronutrients.carbs < 20;
+  };
 
   // Original ScanResult functions
   const editTitleAndDate = () => {
@@ -130,14 +157,6 @@ const ScanResult = () => {
     console.log("✏️ Fixing Results for:", analysis);
   };
 
-  // Function to render food items
-  const renderFoodItem = ({ item }) => (
-    <ScanResultMealItem
-      ingredient={item.food_name}
-      amount={`${item.macronutrients.grams}g`}
-    />
-  );
-
   return (
     <>
       <Stack.Screen
@@ -200,16 +219,93 @@ const ScanResult = () => {
                   Total - {totalMacros.calories || 0} cal
                 </Text>
 
-                {/* Use ScrollView for fixed items or FlatList for dynamic items */}
+                {/* Diet Fit indicator on the top-right corner */}
+                <View style={styles.topRightContainer}>
+                  <View style={styles.dietFitContainer}>
+                    <Text style={styles.dietFitText}>Diet Fit</Text>
+                    <Ionicons
+                      name={
+                        overallDietCompliant
+                          ? "checkmark-circle"
+                          : "close-circle"
+                      }
+                      size={22}
+                      color={
+                        overallDietCompliant
+                          ? Colors.background.lightGreen
+                          : "#ff6b6b"
+                      }
+                    />
+                  </View>
+                </View>
+
+                {/* Food Items with Diet Compatibility Icons */}
                 {foods && foods.length > 0 ? (
                   <ScrollView style={styles.scrollViewContainer}>
-                    {foods.map((item, index) => (
-                      <ScanResultMealItem
-                        key={index}
-                        ingredient={item.food_name}
-                        amount={`${item.macronutrients.grams}g`}
-                      />
-                    ))}
+                    {foods.map((item, index) => {
+                      // Check if this food is diet compliant
+                      const isCompliant = checkDietCompliance(item);
+
+                      // Update diet compliance state for this item
+                      if (dietCompliant[item.food_name] === undefined) {
+                        setDietCompliant((prev) => ({
+                          ...prev,
+                          [item.food_name]: isCompliant,
+                        }));
+                      }
+
+                      return (
+                        <View key={index} style={styles.foodItemContainer}>
+                          <View style={styles.foodItemRow}>
+                            <ScanResultMealItem
+                              ingredient={item.food_name}
+                              amount={`${item.macronutrients.grams}g`}
+                            />
+                            <View style={styles.macroAndDietContainer}>
+                              <View style={styles.inlineIconsContainer}>
+                                <View style={styles.macroItem}>
+                                  <View style={styles.macroIcon}>
+                                    <CarbsLetterIcon />
+                                  </View>
+                                  <Text style={styles.macroText}>
+                                    {item.macronutrients.carbs}g
+                                  </Text>
+                                </View>
+                                <View style={styles.macroItem}>
+                                  <View style={styles.macroIcon}>
+                                    <ProteinLetterIcon />
+                                  </View>
+                                  <Text style={styles.macroText}>
+                                    {item.macronutrients.protein}g
+                                  </Text>
+                                </View>
+                                <View style={styles.macroItem}>
+                                  <View style={styles.macroIcon}>
+                                    <FatLetterIcon />
+                                  </View>
+                                  <Text style={styles.macroText}>
+                                    {item.macronutrients.fat}g
+                                  </Text>
+                                </View>
+                              </View>
+                              <Ionicons
+                                name={
+                                  isCompliant
+                                    ? "checkmark-circle"
+                                    : "close-circle"
+                                }
+                                size={20}
+                                color={
+                                  isCompliant
+                                    ? Colors.background.lightGreen
+                                    : "#ff6b6b"
+                                }
+                              />
+                            </View>
+                          </View>
+                        </View>
+                      );
+                    })}
                   </ScrollView>
                 ) : (
                   <ScrollView style={styles.scrollViewContainer}>
@@ -224,7 +320,7 @@ const ScanResult = () => {
                 )}
 
                 <View style={styles.addIngredientContainer}>
-                  {/* <TouchableOpacity
+                  <TouchableOpacity
                     onPress={saveIngredient}
                     style={styles.saveIngredientContainer}
                     disabled={isSaving}
@@ -234,7 +330,7 @@ const ScanResult = () => {
                     ) : (
                       <Text style={styles.saveIngredientText}>Save</Text>
                     )}
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
 
                   <TouchableOpacity
                     onPress={addIngredient}
@@ -243,14 +339,14 @@ const ScanResult = () => {
                   >
                     <AddIcon />
                   </TouchableOpacity>
-{/* 
+
                   <TouchableOpacity
                     onPress={handleFixResults}
                     style={styles.cancelAddIngredientContainer}
                     disabled={isSaving}
                   >
                     <Text style={styles.cancelAddIngredientText}>Fix</Text>
-                  </TouchableOpacity> */}
+                  </TouchableOpacity>
                 </View>
               </View>
             </ImageBackground>
@@ -384,5 +480,69 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: Colors.text.primary,
+  },
+  // New styles for diet compliance indicators
+  topRightContainer: {
+    position: "absolute",
+    top: 10,
+    right: 50,
+    zIndex: 100,
+  },
+  dietFitContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "rgba(245, 245, 245, 0.9)",
+    borderRadius: 12,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  dietFitText: {
+    fontSize: 12,
+    marginRight: 4,
+    fontFamily: fonts.main.medium,
+  },
+
+  foodItemContainer: {
+    marginBottom: 15,
+    backgroundColor: Colors.white,
+    borderRadius: 10,
+    padding: 5,
+    shadowColor: Colors.black,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 2,
+  },
+  foodItemRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: 5,
+  },
+  macroAndDietContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  inlineIconsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 3,
+  },
+
+  macroIcon: {
+    width: 16,
+    height: 16,
+  },
+  macroItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginRight: 5,
+    gap: 4,
+  },
+  macroText: {
+    fontSize: 12,
+    color: Colors.text.primary,
+    fontFamily: fonts.main.regular,
   },
 });

@@ -7,6 +7,7 @@ export const uploadImageForAnalysis = async (imagePath: string) => {
 
     // ✅ Log the image path before sending
     console.log("🖼️ Image Path:", imagePath);
+    console.log("API URL CHECK:", process.env.API_BASE_URL);
     console.log("📤 Sending image to:", API_BASE_URL);
 
     const formData = new FormData();

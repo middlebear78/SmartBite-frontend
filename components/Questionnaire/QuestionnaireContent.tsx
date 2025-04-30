@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 import commonStyles from "../../styles/commonStyles";
 import RoundButton from "../RoundButton";
@@ -190,12 +191,23 @@ export const QuestionnaireContent = ({
   return (
     <>
       <View style={styles.topContainer}>
-        <StepIndicator sectionIndex={sectionIndex} />
+        <View style={{ zIndex: sectionIndex === 7 ? -1 : 1 }}>
+          <StepIndicator sectionIndex={sectionIndex} />
+        </View>
         <View style={styles.iconContainer}>
           <Image source={topIconImage} style={styles.icon} />
         </View>
-        <Text style={commonStyles.whiteTitle}>{title}</Text>
-        <Text style={commonStyles.whiteText}>{subtitle} </Text>
+        <View style={styles.textContainer}>
+          <Text style={commonStyles.whiteTitle}>{title}</Text>
+          <Text style={commonStyles.whiteText}>{subtitle} </Text>
+        </View>
+
+        {sectionIndex === 7 && (
+          <ImageBackground
+            source={require("../../assets/images/holdingGlass.png")}
+            style={styles.cheersImage}
+          />
+        )}
       </View>
 
       <QuestionnaireBottomSheet>
@@ -230,6 +242,20 @@ export const QuestionnaireContent = ({
 };
 
 const styles = StyleSheet.create({
+  textContainer: {
+    position: "relative",
+    zIndex: 2,
+  },
+
+  cheersImage: {
+    width: Dimensions.get("window").width,
+    height: "110%",
+    resizeMode: "contain",
+    position: "absolute",
+    zIndex: -1,
+    top: 10,
+    left: 0,
+  },
   imageContainer: {
     alignItems: "flex-start",
     justifyContent: "flex-start",

@@ -30,7 +30,7 @@ const QuestionnaireScreen2 = () => {
     <Screen
       title={section.title}
       backgroundColor={Colors.background.secondary}
-      showBack={true}
+      // showBack={true}
     >
       <QuestionnaireContent
         sectionIndex={screenNumber}

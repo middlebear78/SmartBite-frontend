@@ -29,12 +29,6 @@ const QuestionnaireScreen7: React.FC = () => {
 
   return (
     <Screen title={section.title} backgroundColor={Colors.background.secondary}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={require("../../assets/images/holdingGlass.png")}
-          style={styles.image}
-        />
-      </View>
       <QuestionnaireContent
         sectionIndex={screenNumber}
         topIcon={section.topIcon}

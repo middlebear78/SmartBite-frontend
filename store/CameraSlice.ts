@@ -9,10 +9,10 @@ const cameraSlice = createSlice({
   name: "camera",
   initialState: initialCameraState,
   reducers: {
-    setShowFlashIcon: (state, action: PayloadAction<boolean>) => {
+    setShowFlashIcon: (state: any, action: PayloadAction<boolean>) => {
       state.showFlashIcon = action.payload;
     },
-    setIsFlashOn: (state, action: PayloadAction<boolean>) => {
+    setIsFlashOn: (state: any, action: PayloadAction<boolean>) => {
       state.isFlashOn = action.payload;
     },
   },
